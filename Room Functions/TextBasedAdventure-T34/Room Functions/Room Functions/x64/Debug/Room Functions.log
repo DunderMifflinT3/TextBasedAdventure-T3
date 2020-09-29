@@ -1,0 +1,3 @@
+﻿  StartRoom.cpp
+c:\users\veloso\source\repos\textbasedadventure-t34\room functions\room functions\startroom.cpp(10): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+  Room Functions.vcxproj -> C:\Users\Veloso\Source\Repos\TextBasedAdventure-T34\Room Functions\x64\Debug\Room Functions.exe
