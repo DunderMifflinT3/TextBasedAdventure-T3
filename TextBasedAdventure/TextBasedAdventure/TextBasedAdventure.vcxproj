@@ -139,9 +139,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Question.h" />
     <ClInclude Include="Room.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Question.cpp" />
     <ClCompile Include="Room.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

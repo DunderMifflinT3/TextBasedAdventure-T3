@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <array>
+#include "Question.h"
 using namespace std;
 
 #ifndef Room_H
@@ -17,19 +18,21 @@ private:
 	bool isPlayerInRoom;	//Checks if player is in room. May be useful for future functions
 	int numOfAdjacentRooms;	//Amount of rooms connected to this room. Used to interate for loops involving adjacent room array.
 	int adjacentRooms[MAXADJACENTROOMS];	//A list of rooms connected to this room
+	int question;			//Question called from this room
 
 public:
+	
 	//Constructors
-
 	Room()
 	{
 	}
 
-	Room(int id, string name, int adj[MAXADJACENTROOMS], int numOfAdj)
+	Room(int id, string name, int adj[MAXADJACENTROOMS], int numOfAdj, int quest)
 	{
 		roomID = id;
 		roomName = name;
 		numOfAdjacentRooms = numOfAdj;
+		question = quest;
 		
 		for (int i = 0; i < MAXADJACENTROOMS; i++)
 		{
@@ -63,6 +66,10 @@ public:
 		return numOfAdjacentRooms;
 	}
 
+	int getRoomQuestion()
+	{
+		return question;
+	}
 };
 
 #endif
