@@ -13,8 +13,30 @@ string ans2[] = { "Mercury", "Venus", "Mars", "Saturn" };
 Question q2("Which planet has the most moons?", ans2, 'D');
 string ans3[] = { "320,543,121 km", "149,600,000 km", "405,800,000 km", "250,300,000 km" };
 Question q3("What is the distance between the Sun and Earth?", ans3, 'B');
+string ans4[] = { "10.2 billion years old", "25.4 billion years old", "13.8 billion years old", "9 billion years old" };
+Question q4("How old is the universe in years? (Plus or minus 1 billion years.)", ans4, 'C');
+string ans5[] = { "Mercury", "Venus", "Mars", "Saturn" };
+Question q5("What is the smallest planet in our solar system?", ans5, 'A');
+string ans6[] = { "Mercury", "Jupiter", "Venus", "Saturn" };
+Question q6("What is the largest planet in our solar system ?", ans6, 'B');
+string ans7[] = { "Sun", "Blue star", "Red dwarf stars", "Red supergiant stars" };
+Question q7("What is the largest type of star in the universe ?", ans7, 'D');
+string ans8[] = { "Black Hole", "My Ex", "Earth", "Supernova" };
+Question q8("What has a gravitational pull so strong that even light cannot escape it?", ans8, 'A');
+string ans9[] = { "Apache 19", "USSR Falcon", "Apollo 17", "Space-X" };
+Question q9("Which NASA space flight was the last manned mission to the moon?", ans9, 'C');
+string ans10[] = { "130 min", "45 min", "60 min", "15 min" };
+Question q10("How many minutes was the shortest space flight?", ans10, 'D');
+string ans11[] = { "80", "181", "56", "125" };
+Question q11("How many moons are in our Solar System?", ans11, 'B');
+string ans12[] = { "Sun", "Jupiter", "Venus", "Saturn" };
+Question q12("What is the hottest planet in our solar system ?", ans12, 'C');
+string ans13[] = { "Michael Collins", "Buzz Aldrin", "Freddy Mercury", "Neil Armstrong" };
+Question q13("Who was the first person to walk on the moon?", ans13, 'D');
+string ans14[] = { "Titan", "Mimas", "Rhea", "Phoebe" };
+Question q14("What is the name of Saturn’s largest moon?", ans14, 'A');
 
-Question questionArray[] = { q1,q2,q3 };	//Array of all questions
+Question questionArray[] = { q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12, q13, q14 };	//Array of all questions
 
 //Adjacent Room List. Must have 4 values in array in order for it to be initialized correctly. -1 means there is no room in that spot.
 int startAdj[] = { 1,2,3,4 };
@@ -62,57 +84,80 @@ void displayRoomMessage(int id) //Displays message when room is not complete
 		}
 	case(1):
 		{
-			cout << " It seems like someone has broken into the medical supplies" << endl;
+		cout << " It seems like someone has broken into the medical supplies" << endl;
 			break;
 		}
 	case(2):
 		{
+		cout << "Communication throughout the ship and any external communication seems to be down.";
+		cout << "You notice that the main transmitter is destroyed. Fixing communications could";			
+		cout << "allow you to get in touch with your team at home and tell them about the situation." << endl;
 			break;
 		}
 	case(3):
 		{
-			cout << "The kitchen knives are missing and the room is a mess. Food is all over the floor, " << endl;
-			cout << "cabinets have been left open. Seems like someone was really hungry." << endl;
+		cout << "The kitchen knives are missing and the room is a mess. Food is all over the floor, " << endl;
+		cout << "cabinets have been left open. Seems like someone was really hungry." << endl;
 			break;
 		}
 	case(4):
 		{
+		cout << "The ship’s fuel levels are low, you need to refill the ship’s fuel";
+		cout << "You see a fuel container next to the fuel tank." << endl;
 			break;
 		}
 	case(5):
 		{
+		cout << "You notice a leak in the engine and the fuel levels dropping." << endl;
 			break;
 		}
 	case(6):
 		{
+		cout << "The power is off throughout most of the ship, the only thing keeping the ";
+		cout << "systems online right now is the backup generator. The power box has the wires ripped out ";
+		cout <<	"you need to find some way to connect the wires again and get the power back online. " << endl;
 			break;
 		}
 	case(7):
 		{
+		cout << "You have entered the cell where you expect to find the alien you and your crew have ";
+		cout << "captured and are transporting back home. Unfortunately you notice that the cell has ";
+		cout <<	"been opened by force and the alien captive is missing." << endl;
 			break;
 		}
 	case(8):
 		{
+		cout << "The room has a few escape pods however, they all seem to be completely broken, ";
+		cout << "trying to fix these would be a waste of time." << endl;
 			break;
 		}
 	case(9):
 		{
+		cout << "There isn’t much in the lounge except some couches and playing cards from the day before." << endl;
 			break;
 		}
 	case(10):
 		{
+		cout << " ";
 			break;
 		}
 	case(11):
 		{
+		cout << "The shower is running and the mirror is broken. You see the word HELP written on the wall in what seems to be blood." << endl;
 			break;
 		}
 	case(12):
 		{
+		cout << "There is a container with one gun in it for emergencies. ";
+		cout << "(Power needs to be restored from the electrical room in order to open this container)" << endl;
 			break;
 		}
 	case(13):
 		{
+		cout << "You find the pilot murdered in their chair and the command console is flashing red with ";
+		cout << "the word “WARNING!” on the screen. Here you can check the console for progress on completed ";
+		cout << "repairs you have made to the ship.  “Check Console” to check progress of repaired systems. ";
+		cout << "x amount of systems are online out of x." << endl;
 			break;
 		}
 	default:
@@ -121,7 +166,6 @@ void displayRoomMessage(int id) //Displays message when room is not complete
 		}
 	}
 }
-
 
 int main()
 {
