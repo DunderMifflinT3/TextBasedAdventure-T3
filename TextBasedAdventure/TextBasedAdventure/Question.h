@@ -57,6 +57,7 @@ public:
 	}
 
 	void getQuestion();
+
 	void display()		//Display the question & answers
 	{
 		cout << text << endl;
@@ -66,7 +67,7 @@ public:
 		}
 		cout << endl;
 	}
-	bool correctAnswer(char choice)		//Checks if input answer is correct
+	bool isCorrectAnswer(char choice)		//Checks if input answer is correct
 	{
 		if (choice == correct)
 		{
@@ -81,4 +82,3 @@ public:
 	}
 
 };
-
