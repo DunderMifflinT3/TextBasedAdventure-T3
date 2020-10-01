@@ -1,9 +1,10 @@
-//Version 2.0
-
+//Version 3.0
+#include <cmath>
 #include "Room.h"
 
 void enterRoomMessage(Room);
 void changeRooms(Room);
+bool inputMap(int, double);
 
 //Adjacent Room List. Must have 4 values in array in order for it to be initialized correctly. -1 means there is no room in that spot.
 int startAdj[] = { 1,2,3,4 };
@@ -72,10 +73,35 @@ void changeRooms(Room oldRoom)		//Test for changing rooms
 	}
 
 	int choice;
-
-	cin >> choice;		//To Do: Input Validation
-
+	double choiceCopy;
+	cin >> choiceCopy;		//To Do: Input Validation
+	choice = choiceCopy;
+	while (inputMap(choice, choiceCopy) == false)
+	{
+		cin >> choiceCopy;
+		choice = choiceCopy;
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	}
 	currentRoom = mapRooms[adjacentIDArray[choice - 1]];	//Sets the new current room to the chosen value
 
 	enterRoomMessage(currentRoom);
 }
+bool inputMap(int choice, double choiceCopy)
+{
+	if (floor(choiceCopy) != choiceCopy)
+	{
+		cout << "Enter in valid value" << endl;
+
+		return false;
+	}
+	else if (choice > currentRoom.getNumOfAdjacentRooms() || choice <= 0)
+		{
+			cout << "Enter in valid value" << endl;
+			return false;
+		}
+	 
+		
+
+}
+
