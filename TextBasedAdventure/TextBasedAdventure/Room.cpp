@@ -1,4 +1,4 @@
-//Version 2.0
+//Version 3.0
 
 #include "Room.h"
 #include "Question.h"
@@ -7,6 +7,7 @@
 void enterRoomMessage(Room);
 void changeRooms(Room);
 
+//Initialize all questions
 string ans1[] = { "Eight", "Seven", "Ten", "Nine" };//possible answers
 Question q1("How many planets are in our Solar System?", ans1, 'A');//sets up the question & answer as q1
 string ans2[] = { "Mercury", "Venus", "Mars", "Saturn" };
@@ -36,7 +37,7 @@ Question q13("Who was the first person to walk on the moon?", ans13, 'D');
 string ans14[] = { "Titan", "Mimas", "Rhea", "Phoebe" };
 Question q14("What is the name of Saturn’s largest moon?", ans14, 'A');
 
-Question questionArray[] = { q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12, q13, q14 };	//Array of all questions
+Question questionArray[] = { q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12, q13, q14 };	//Array of all questions (Randomize this in order to get
 
 //Adjacent Room List. Must have 4 values in array in order for it to be initialized correctly. -1 means there is no room in that spot.
 int startAdj[] = { 1,2,3,4 };
@@ -74,7 +75,7 @@ Room Navigation(13, "Nagivation Room", navAdj, 3, 13);
 
 Room mapRooms[] = { Start, Medical, Communication, Kitchen, RightEngine, LeftEngine, Electrical,Jail,Hangar,Lounge,Storage,Bathroom,Weapons,Navigation };	//Array of all rooms
 
-void displayRoomMessage(int id) //Displays message when room is not complete
+void displayRoomMessage(int id) //Displays message when room is not complete. Cases correspond to room IDs.
 {
 	switch (id)
 	{
@@ -84,13 +85,13 @@ void displayRoomMessage(int id) //Displays message when room is not complete
 		}
 	case(1):
 		{
-		cout << " It seems like someone has broken into the medical supplies" << endl;
+		cout << "It seems like someone has broken into the medical supplies" << endl;
 			break;
 		}
 	case(2):
 		{
-		cout << "Communication throughout the ship and any external communication seems to be down.";
-		cout << "You notice that the main transmitter is destroyed. Fixing communications could";			
+		cout << "Communication throughout the ship and any external communication seems to be down." << endl;
+		cout << "You notice that the main transmitter is destroyed. Fixing communications could" << endl;
 		cout << "allow you to get in touch with your team at home and tell them about the situation." << endl;
 			break;
 		}
@@ -102,7 +103,7 @@ void displayRoomMessage(int id) //Displays message when room is not complete
 		}
 	case(4):
 		{
-		cout << "The ship’s fuel levels are low, you need to refill the ship’s fuel";
+		cout << "The ship’s fuel levels are low, you need to refill the ship’s fuel" << endl;
 		cout << "You see a fuel container next to the fuel tank." << endl;
 			break;
 		}
@@ -113,21 +114,21 @@ void displayRoomMessage(int id) //Displays message when room is not complete
 		}
 	case(6):
 		{
-		cout << "The power is off throughout most of the ship, the only thing keeping the ";
-		cout << "systems online right now is the backup generator. The power box has the wires ripped out ";
+		cout << "The power is off throughout most of the ship, the only thing keeping the " << endl;
+		cout << "systems online right now is the backup generator. The power box has the wires ripped out " << endl;
 		cout <<	"you need to find some way to connect the wires again and get the power back online. " << endl;
 			break;
 		}
 	case(7):
 		{
-		cout << "You have entered the cell where you expect to find the alien you and your crew have ";
-		cout << "captured and are transporting back home. Unfortunately you notice that the cell has ";
+		cout << "You have entered the cell where you expect to find the alien you and your crew have " << endl;
+		cout << "captured and are transporting back home. Unfortunately you notice that the cell has " << endl;
 		cout <<	"been opened by force and the alien captive is missing." << endl;
 			break;
 		}
 	case(8):
 		{
-		cout << "The room has a few escape pods however, they all seem to be completely broken, ";
+		cout << "The room has a few escape pods however, they all seem to be completely broken, " << endl;
 		cout << "trying to fix these would be a waste of time." << endl;
 			break;
 		}
@@ -148,15 +149,15 @@ void displayRoomMessage(int id) //Displays message when room is not complete
 		}
 	case(12):
 		{
-		cout << "There is a container with one gun in it for emergencies. ";
+		cout << "There is a container with one gun in it for emergencies. " << endl;
 		cout << "(Power needs to be restored from the electrical room in order to open this container)" << endl;
 			break;
 		}
 	case(13):
 		{
-		cout << "You find the pilot murdered in their chair and the command console is flashing red with ";
-		cout << "the word “WARNING!” on the screen. Here you can check the console for progress on completed ";
-		cout << "repairs you have made to the ship.  “Check Console” to check progress of repaired systems. ";
+		cout << "You find the pilot murdered in their chair and the command console is flashing red with " << endl;
+		cout << "the word “WARNING!” on the screen. Here you can check the console for progress on completed " << endl;
+		cout << "repairs you have made to the ship.  “Check Console” to check progress of repaired systems. " << endl;
 		cout << "x amount of systems are online out of x." << endl;
 			break;
 		}
@@ -169,7 +170,6 @@ void displayRoomMessage(int id) //Displays message when room is not complete
 
 int main()
 {
-
 	cout << "You have just woken up on a spaceship that is part of a space bounty expedition" << endl;
 	cout << "to capture a most wanted alien and the ship is quickly spiraling out of control towards Earth." << endl;
 	cout << "You realize your crewmates are missing, the power is out and the ships gadgets" << endl;
@@ -179,6 +179,7 @@ int main()
 	Sleep(3000); //Gives user time to read script
 
 	currentRoom = Start; //Sets the room that the player is in
+
 	enterRoomMessage(currentRoom);
 
 	return 0;
@@ -186,13 +187,31 @@ int main()
 
 void enterRoomMessage(Room newRoom)		//Message that plays when room is entered
 {
-	cout << "You have entered the " << newRoom.getRoomName() << "." << endl;
-	
-	//Displays room question based on questionArray
-	questionArray[currentRoom.getRoomQuestion()].display();
-	char choice;
-	cin >> choice;
-	questionArray[currentRoom.getRoomQuestion()].correctAnswer(choice);
+	cout << "-------------------------------------------------------------------------------------------------------------" << endl << endl;	//Separates screen when entering a new room.
+	cout << "You have entered the " << newRoom.getRoomName() << "." << endl << endl;
+
+	//Displays room message if room is not completed
+	if (currentRoom.getIsCompleted() == false)
+	{
+		displayRoomMessage(currentRoom.getRoomID());
+
+		//Displays room question based on questionArray
+		questionArray[currentRoom.getRoomQuestion()].display();
+		char choice;
+		cin >> choice;
+		cout << endl;
+
+		if (questionArray[currentRoom.getRoomQuestion()].isCorrectAnswer(choice))
+		{
+			mapRooms[currentRoom.getRoomID()].completeRoom();
+			cout << "You have completed everything in this room." << endl << endl;
+		}
+	}
+	else
+	{
+		cout << "There is nothing else for you to do in this room." << endl;
+		cout << endl;
+	}
 
 	//Asks to change rooms. Will be moved.
 	changeRooms(newRoom);
@@ -215,6 +234,7 @@ void changeRooms(Room oldRoom)		//Test for changing rooms
 	int choice;
 
 	cin >> choice;		//To Do: Input Validation
+	cout << endl;
 
 	currentRoom = mapRooms[adjacentIDArray[choice - 1]];	//Sets the new current room to the chosen value
 
