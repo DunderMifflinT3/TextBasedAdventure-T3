@@ -1,11 +1,12 @@
 //Version 3.0
-
+#include <cmath>
 #include "Room.h"
 #include "Question.h"
 #include <Windows.h>
 
 void enterRoomMessage(Room);
 void changeRooms(Room);
+void inputMaps(int, double);
 
 //Initialize all questions
 string ans1[] = { "Eight", "Seven", "Ten", "Nine" };//possible answers
@@ -234,9 +235,29 @@ void changeRooms(Room oldRoom)		//Test for changing rooms
 	int choice;
 
 	cin >> choice;		//To Do: Input Validation
-	cout << endl;
-
+	choice = choiceCopy;
+	while (inputMap(choice, choiceCopy) == false)
+	{
+		cin >> choiceCopy;
+		choice = choiceCopy;
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	}
 	currentRoom = mapRooms[adjacentIDArray[choice - 1]];	//Sets the new current room to the chosen value
 
 	enterRoomMessage(currentRoom);
+}
+bool inputMap(int choice, double choiceCopy)
+{
+	if (floor(choiceCopy) != choiceCopy)
+	{
+		cout << "Enter in valid value" << endl;
+
+		return false;
+	}
+	else if (choice > currentRoom.getNumOfAdjacentRooms() || choice <= 0)
+	{
+		cout << "Enter in valid value" << endl;
+		return false;
+	}
 }
