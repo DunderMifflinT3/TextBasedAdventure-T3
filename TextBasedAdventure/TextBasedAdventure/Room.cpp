@@ -6,7 +6,7 @@
 
 void enterRoomMessage(Room);
 void changeRooms(Room);
-void inputMaps(int, double);
+bool inputMap(int, double);
 
 //Initialize all questions
 string ans1[] = { "Eight", "Seven", "Ten", "Nine" };//possible answers
@@ -233,8 +233,8 @@ void changeRooms(Room oldRoom)		//Test for changing rooms
 	}
 
 	int choice;
-
-	cin >> choice;		//To Do: Input Validation
+	double choiceCopy;
+	cin >> choiceCopy;		//To Do: Input Validation
 	choice = choiceCopy;
 	while (inputMap(choice, choiceCopy) == false)
 	{
