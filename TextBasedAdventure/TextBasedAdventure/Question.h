@@ -10,7 +10,7 @@ private:
 	//string question;
 	string text;
 	string answers[4];
-	char correct;
+	double correct;
 	//include points for multiple questions
 public:
 	//include points tracker
@@ -20,7 +20,7 @@ public:
 	{
 		correct = 'X';
 	}
-	Question(string text, string ans[], char correct)
+	Question(string text, string ans[], double correct)
 	{
 		setText(text);
 		setAnswers(ans);
@@ -36,7 +36,7 @@ public:
 		for (int i = 0; i < 4; i++)
 			answers[i] = ans[i];
 	}
-	void setCorrect(char correct)
+	void setCorrect(double correct)
 	{
 		this->correct = correct;
 	}
@@ -51,7 +51,7 @@ public:
 		else
 			return " ";
 	}
-	char getCorrect()
+	double getCorrect()
 	{
 		return correct;
 	}
@@ -63,11 +63,11 @@ public:
 		cout << text << endl;
 		for (int i = 0; i < 4; i++)
 		{
-			cout << char('A' + i) << ". " << answers[i] << endl;
+			cout << int(1 + i) << ". " << answers[i] << endl;
 		}
 		cout << endl;
 	}
-	bool isCorrectAnswer(char choice)		//Checks if input answer is correct
+	bool isCorrectAnswer(double choice)		//Checks if input answer is correct
 	{
 		if (choice == correct)
 		{
