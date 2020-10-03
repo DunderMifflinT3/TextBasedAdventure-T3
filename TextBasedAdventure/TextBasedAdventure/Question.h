@@ -65,18 +65,17 @@ public:
 		{
 			cout << int(1 + i) << ". " << answers[i] << endl;
 		}
-		cout << endl;
 	}
 	bool isCorrectAnswer(double choice)		//Checks if input answer is correct
 	{
 		if (choice == correct)
 		{
-			cout << "Correct!" << endl;
+			cout << "Correct!" << endl << endl;
 			return true;
 		}
 		else
 		{
-			cout << "Wrong, correct answer is: " << correct << endl;
+			cout << "Wrong, correct answer is: " << correct << endl << endl;
 			return false;
 		}
 	}
