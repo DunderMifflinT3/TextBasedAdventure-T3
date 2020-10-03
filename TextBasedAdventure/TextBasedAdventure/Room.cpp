@@ -1,42 +1,47 @@
-//Version 3.0
+//Version 3.1
 #include <cmath>
+#include <math.h>
+#include <algorithm>
+#include <Windows.h>
 #include "Room.h"
 #include "Question.h"
-#include <Windows.h>
+#undef max
+
 
 void enterRoomMessage(Room);
 void changeRooms(Room);
 bool inputMap(int, double);
+bool inputQuestion(int, double); //input validation for questions
 
 //Initialize all questions
 string ans1[] = { "Eight", "Seven", "Ten", "Nine" };//possible answers
-Question q1("How many planets are in our Solar System?", ans1, 'A');//sets up the question & answer as q1
+Question q1("How many planets are in our Solar System?", ans1, 1);//sets up the question & answer as q1
 string ans2[] = { "Mercury", "Venus", "Mars", "Saturn" };
-Question q2("Which planet has the most moons?", ans2, 'D');
+Question q2("Which planet has the most moons?", ans2, 4);
 string ans3[] = { "320,543,121 km", "149,600,000 km", "405,800,000 km", "250,300,000 km" };
-Question q3("What is the distance between the Sun and Earth?", ans3, 'B');
+Question q3("What is the distance between the Sun and Earth?", ans3, 2);
 string ans4[] = { "10.2 billion years old", "25.4 billion years old", "13.8 billion years old", "9 billion years old" };
-Question q4("How old is the universe in years? (Plus or minus 1 billion years.)", ans4, 'C');
+Question q4("How old is the universe in years? (Plus or minus 1 billion years.)", ans4, 3);
 string ans5[] = { "Mercury", "Venus", "Mars", "Saturn" };
-Question q5("What is the smallest planet in our solar system?", ans5, 'A');
+Question q5("What is the smallest planet in our solar system?", ans5, 1);
 string ans6[] = { "Mercury", "Jupiter", "Venus", "Saturn" };
-Question q6("What is the largest planet in our solar system ?", ans6, 'B');
+Question q6("What is the largest planet in our solar system ?", ans6, 2);
 string ans7[] = { "Sun", "Blue star", "Red dwarf stars", "Red supergiant stars" };
-Question q7("What is the largest type of star in the universe ?", ans7, 'D');
+Question q7("What is the largest type of star in the universe ?", ans7, 4);
 string ans8[] = { "Black Hole", "My Ex", "Earth", "Supernova" };
-Question q8("What has a gravitational pull so strong that even light cannot escape it?", ans8, 'A');
+Question q8("What has a gravitational pull so strong that even light cannot escape it?", ans8, 1);
 string ans9[] = { "Apache 19", "USSR Falcon", "Apollo 17", "Space-X" };
-Question q9("Which NASA space flight was the last manned mission to the moon?", ans9, 'C');
+Question q9("Which NASA space flight was the last manned mission to the moon?", ans9, 3);
 string ans10[] = { "130 min", "45 min", "60 min", "15 min" };
-Question q10("How many minutes was the shortest space flight?", ans10, 'D');
+Question q10("How many minutes was the shortest space flight?", ans10, 4);
 string ans11[] = { "80", "181", "56", "125" };
-Question q11("How many moons are in our Solar System?", ans11, 'B');
+Question q11("How many moons are in our Solar System?", ans11, 2);
 string ans12[] = { "Sun", "Jupiter", "Venus", "Saturn" };
-Question q12("What is the hottest planet in our solar system ?", ans12, 'C');
+Question q12("What is the hottest planet in our solar system ?", ans12, 3);
 string ans13[] = { "Michael Collins", "Buzz Aldrin", "Freddy Mercury", "Neil Armstrong" };
-Question q13("Who was the first person to walk on the moon?", ans13, 'D');
+Question q13("Who was the first person to walk on the moon?", ans13, 4);
 string ans14[] = { "Titan", "Mimas", "Rhea", "Phoebe" };
-Question q14("What is the name of Saturn’s largest moon?", ans14, 'A');
+Question q14("What is the name of Saturn’s largest moon?", ans14, 1);
 
 Question questionArray[] = { q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12, q13, q14 };	//Array of all questions (Randomize this in order to get
 
@@ -198,10 +203,18 @@ void enterRoomMessage(Room newRoom)		//Message that plays when room is entered
 
 		//Displays room question based on questionArray
 		questionArray[currentRoom.getRoomQuestion()].display();
-		char choice;
-		cin >> choice;
-		cout << endl;
-
+		int ansChoice;
+		double ansChoiceCopy;
+		cin >> ansChoiceCopy; //send for input validation
+		ansChoice = ansChoiceCopy;
+		while (inputMap(ansChoice, ansChoiceCopy) == false)
+		{
+			cin >> ansChoiceCopy;
+			ansChoice = ansChoiceCopy;
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			cout << endl;
+		}
 		if (questionArray[currentRoom.getRoomQuestion()].isCorrectAnswer(choice))
 		{
 			mapRooms[currentRoom.getRoomID()].completeRoom();
@@ -256,6 +269,20 @@ bool inputMap(int choice, double choiceCopy)
 		return false;
 	}
 	else if (choice > currentRoom.getNumOfAdjacentRooms() || choice <= 0)
+	{
+		cout << "Enter in valid value" << endl;
+		return false;
+	}
+}
+bool inputQuestion(int ansChoice, double choiceCopy)
+{
+	if (floor(choiceCopy) != choiceCopy)
+	{
+		cout << "Enter in valid value" << endl;
+
+		return false;
+	}
+	else if (ansChoice > currentRoom.getNumOfAdjacentRooms() || ansChoice <= 0)
 	{
 		cout << "Enter in valid value" << endl;
 		return false;
