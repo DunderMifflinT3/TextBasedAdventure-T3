@@ -1,0 +1,6 @@
+﻿  Question.cpp
+C:\Users\munch\OneDrive\Desktop\TextBasedAdventure\TextBasedAdventure\Question.cpp(1,1): warning C4335: Mac file format detected: please convert the source file to either DOS or UNIX format
+C:\Users\munch\OneDrive\Desktop\TextBasedAdventure\TextBasedAdventure\Question.cpp(1,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  Room.cpp
+  Generating Code...
+  TextBasedAdventure.vcxproj -> C:\Users\munch\OneDrive\Desktop\TextBasedAdventure\x64\Debug\TextBasedAdventure.exe
