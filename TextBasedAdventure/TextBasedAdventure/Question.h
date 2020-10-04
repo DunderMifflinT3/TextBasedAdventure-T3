@@ -1,5 +1,4 @@
 #pragma once
-
 #include <iostream>
 #include <string>
 using namespace std;
@@ -7,14 +6,10 @@ using namespace std;
 class Question
 {
 private:
-	//string question;
 	string text;
 	string answers[4];
 	double correct;
-	//include points for multiple questions
 public:
-	//include points tracker
-
 	//Constructors
 	Question()
 	{
@@ -55,9 +50,6 @@ public:
 	{
 		return correct;
 	}
-
-	void getQuestion();
-
 	void display()		//Display the question & answers
 	{
 		cout << text << endl;
@@ -79,5 +71,4 @@ public:
 			return false;
 		}
 	}
-
 };
