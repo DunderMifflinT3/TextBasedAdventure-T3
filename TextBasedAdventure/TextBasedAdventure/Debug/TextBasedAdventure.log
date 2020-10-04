@@ -1,4 +1,0 @@
-﻿  Room.cpp
-C:\Users\munch\source\repos\TextBasedAdventure\TextBasedAdventure\Room.h(18,21): warning C4200: nonstandard extension used: zero-sized array in struct/union
-C:\Users\munch\source\repos\TextBasedAdventure\TextBasedAdventure\Room.h(18,21): message : This member will be ignored by a defaulted constructor or copy/move assignment operator
-  TextBasedAdventure.vcxproj -> C:\Users\munch\source\repos\TextBasedAdventure\Debug\TextBasedAdventure.exe
