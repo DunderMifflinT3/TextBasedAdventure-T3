@@ -1,4 +1,4 @@
-//Version 3.2
+//Version 3.3
 #include <cmath>
 #include <math.h>
 #include <algorithm>
@@ -6,7 +6,6 @@
 #include "Room.h"
 #include "Question.h"
 #undef max
-
 
 void enterRoomMessage(Room);
 void changeRooms(Room);
