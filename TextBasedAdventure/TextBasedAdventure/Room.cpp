@@ -1,10 +1,11 @@
-//Version 3.3
+//Version 4.0
 #include <cmath>
 #include <math.h>
 #include <algorithm>
 #include <Windows.h>
 #include "Room.h"
 #include "Question.h"
+#include "Player.h"
 #undef max
 
 void enterRoomMessage(Room);
@@ -79,6 +80,8 @@ Room Weapons(12, "Weapons Room", weaAdj, 2, 12);
 Room Navigation(13, "Nagivation Room", navAdj, 3, 13);
 
 Room mapRooms[] = { Start, Medical, Communication, Kitchen, RightEngine, LeftEngine, Electrical,Jail,Hangar,Lounge,Storage,Bathroom,Weapons,Navigation };	//Array of all rooms
+
+Player player1("Player", 100);	//Sets player 1. Name to Player and HP to 100
 
 void displayRoomMessage(int id) //Displays message when room is not complete. Cases correspond to room IDs.
 {
@@ -233,6 +236,11 @@ void enterRoomMessage(Room newRoom)		//Message that plays when room is entered
 		{
 			mapRooms[currentRoom.getRoomID()].completeRoom();
 			cout << "You have completed everything in this room." << endl << endl;
+		}
+		else
+		{
+			player1.takeDamage(10);		//Player Takes damage if answer is wrong
+			cout << "Current HP: " << player1.getCurrentHP() << endl;
 		}
 	}
 	else
