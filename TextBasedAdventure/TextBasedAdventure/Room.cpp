@@ -11,6 +11,9 @@ void enterRoomMessage(Room);
 void changeRooms(Room);
 bool inputMap(int, double);
 bool inputQuestion(int, double); //input validation for questions
+void getRoomActions(Room);
+
+
 
 //Initialize all questions
 string ans1[] = { "Eight", "Seven", "Ten", "Nine" };//possible answers
@@ -44,6 +47,8 @@ Question q14("What is the name of Saturn’s largest moon?", ans14, 1);
 
 Question questionArray[] = { q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12, q13, q14 };	//Array of all questions (Randomize this in order to get
 
+
+
 //Adjacent Room List. Must have 4 values in array in order for it to be initialized correctly. -1 means there is no room in that spot.
 int startAdj[] = { 1,2,3,4 };
 int medAdj[] = { 0,2,10,-1 };
@@ -59,6 +64,10 @@ int storAdj[] = { 1,5,13,-1 };
 int bathAdj[] = { 4,12,-1,-1 };
 int weaAdj[] = { 11,13,-1,-1 };
 int navAdj[] = { 2,10,12,-1 };
+
+int userChoice;
+int choice;
+double choiceCopy;
 
 Room currentRoom;	//Room that the player is in
 
@@ -210,39 +219,9 @@ void enterRoomMessage(Room newRoom)		//Message that plays when room is entered
 	cout << "-------------------------------------------------------------------------------------------------------------" << endl << endl;	//Separates screen when entering a new room.
 	cout << "You have entered the " << newRoom.getRoomName() << "." << endl << endl;
 
-	//Displays room message if room is not completed
-	if (currentRoom.getIsCompleted() == false)
-	{
-		displayRoomMessage(currentRoom.getRoomID());
 
-		//Displays room question based on questionArray
-		questionArray[currentRoom.getRoomQuestion()].display();
-		int ansChoice;
-		double ansChoiceCopy;
-		cin >> ansChoiceCopy; //send for input validation
-		ansChoice = ansChoiceCopy;
-		while (inputQuestion(ansChoice, ansChoiceCopy) == false)
-		{
-			cin >> ansChoiceCopy;
-			ansChoice = ansChoiceCopy;
-			cin.clear();
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-			cout << endl;
-		}
-		if (questionArray[currentRoom.getRoomQuestion()].isCorrectAnswer(ansChoice))
-		{
-			mapRooms[currentRoom.getRoomID()].completeRoom();
-			cout << "You have completed everything in this room." << endl << endl;
-		}
-	}
-	else
-	{
-		cout << "There is nothing else for you to do in this room." << endl;
-		cout << endl;
-	}
-
-	//Asks to change rooms. Will be moved.
-	changeRooms(newRoom);
+	getRoomActions(newRoom);
+	
 }
 
 void changeRooms(Room oldRoom)		//Test for changing rooms
@@ -303,4 +282,66 @@ bool inputQuestion(int ansChoice, double choiceCopy)
 		return false;
 	}
 	return true;
+}
+
+
+void getRoomActions(Room newRoom)
+{
+	cout << "What would you like to do in the " << newRoom.getRoomName() << "?" << endl << endl;
+
+	
+	cout << "1. Complete Task" << endl;
+	cout << "2. Investigate" << endl;
+	cout << "3. Leave" << endl << endl;
+	cin >> userChoice;
+
+	switch (userChoice)
+	{
+	case(1): 
+		{
+		//Displays room message if room is not completed
+		if (currentRoom.getIsCompleted() == false)
+		{
+			displayRoomMessage(currentRoom.getRoomID());
+
+			//Displays room question based on questionArray
+			questionArray[currentRoom.getRoomQuestion()].display();
+			int ansChoice;
+			double ansChoiceCopy;
+			cin >> ansChoiceCopy; //send for input validation
+			ansChoice = ansChoiceCopy;
+			while (inputQuestion(ansChoice, ansChoiceCopy) == false)
+			{
+				cin >> ansChoiceCopy;
+				ansChoice = ansChoiceCopy;
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				cout << endl;
+			}
+			if (questionArray[currentRoom.getRoomQuestion()].isCorrectAnswer(ansChoice))
+			{
+				mapRooms[currentRoom.getRoomID()].completeRoom();
+				cout << "You have completed everything in this room." << endl << endl;
+
+			}
+		}
+		else
+		{
+			cout << "There is nothing else for you to do in this room." << endl;
+			cout << endl;
+		}
+		currentRoom = mapRooms[newRoom.getRoomID()];
+		getRoomActions(currentRoom);
+		break;
+		}
+	case(2):
+		{
+		break;
+		}
+	case(3):
+		{
+		changeRooms(newRoom);
+		break;
+		}
+	}
 }
