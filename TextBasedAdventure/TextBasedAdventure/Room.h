@@ -19,6 +19,8 @@ private:
 	int numOfAdjacentRooms;	//Amount of rooms connected to this room. Used to interate for loops involving adjacent room array.
 	int adjacentRooms[MAXADJACENTROOMS];	//A list of rooms connected to this room
 	int question;			//Question called from this room
+	string item;
+
 	bool isCompleted = false;
 
 public:
@@ -28,12 +30,13 @@ public:
 	{
 	}
 
-	Room(int id, string name, int adj[MAXADJACENTROOMS], int numOfAdj, int quest)
+	Room(int id, string name, int adj[MAXADJACENTROOMS], int numOfAdj, int quest, string itm)
 	{
 		roomID = id;
 		roomName = name;
 		numOfAdjacentRooms = numOfAdj;
 		question = quest;
+		item = itm;
 		
 		for (int i = 0; i < MAXADJACENTROOMS; i++)
 		{
@@ -70,6 +73,11 @@ public:
 	int getRoomQuestion()
 	{
 		return question;
+	}
+
+	string getRoomItem()
+	{
+		return item;
 	}
 
 	bool getIsCompleted()
