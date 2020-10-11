@@ -20,6 +20,8 @@ private:
 	int adjacentRooms[MAXADJACENTROOMS];	//A list of rooms connected to this room
 	int question;			//Question called from this room
 	bool isCompleted = false;
+	bool power = false;
+	bool unlocked = false;
 
 public:
 	
@@ -76,11 +78,28 @@ public:
 	{
 		return isCompleted;
 	}
-
+	bool getPower()
+	{
+		return power;
+	}
+	bool getUnlocked()
+	{
+		if (power == true)
+		{
+			return unlocked == true;
+		}
+		else
+			return unlocked == false;
+	}
 	//Change Room to Completed
 	void completeRoom()
 	{
 		isCompleted = true;
+	}
+	//Gives power to room
+	void powerRoom()
+	{
+		power = true;
 	}
 };
 
