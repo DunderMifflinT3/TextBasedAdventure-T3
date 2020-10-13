@@ -1,4 +1,3 @@
-//Version 4.0
 #include <cmath>
 #include <math.h>
 #include <algorithm>
@@ -73,11 +72,11 @@ Room LeftEngine(5, "Left Engine Room", lEngAdj, 3, 5, "");
 Room Electrical(6, "Electrical Room", elecAdj, 2, 6, "");
 Room Jail(7, "Jail", jailAdj, 3, 7, "");
 Room Hangar(8, "Hangar", hanAdj, 2, 8, "");
-Room Lounge(9, "Lounge", louAdj, 2, 9, "");
-Room Storage(10, "Storage", storAdj, 3, 10, "");
+Room Lounge(9, "Lounge", louAdj, 2, 9, "Oxygen Tank");
+Room Storage(10, "Storage", storAdj, 3, 10, "Wrench");
 Room Bathroom(11, "Bathroom", bathAdj, 2, 11, "");
-Room Weapons(12, "Weapons Room", weaAdj, 2, 12, "");
-Room Navigation(13, "Nagivation Room", navAdj, 3, 13, "");
+Room Weapons(12, "Weapons Room", weaAdj, 2, 12, "Weapon");
+Room Navigation(13, "Nagivation Room", navAdj, 3, 13, "Key Card");
 
 Room mapRooms[] = { Start, Medical, Communication, Kitchen, RightEngine, LeftEngine, Electrical,Jail,Hangar,Lounge,Storage,Bathroom,Weapons,Navigation };	//Array of all rooms
 
