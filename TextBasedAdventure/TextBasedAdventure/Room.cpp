@@ -13,6 +13,10 @@ void changeRooms(Room);
 bool inputMap(int, double);
 bool inputQuestion(int, double); //input validation for questions
 bool roomPower(Room, bool); //Powers up rooms
+void getRoomActions(Room);
+void map();
+void Help();
+
 
 //Initialize all questions
 string ans1[] = { "Eight", "Seven", "Ten", "Nine" };//possible answers
@@ -61,6 +65,10 @@ int storAdj[] = { 1,5,13,-1 };
 int bathAdj[] = { 4,12,-1,-1 };
 int weaAdj[] = { 11,13,-1,-1 };
 int navAdj[] = { 2,10,12,-1 };
+
+int userChoice;
+int choice;
+double choiceCopy;
 
 Room currentRoom;	//Room that the player is in
 
@@ -292,6 +300,8 @@ void enterRoomMessage(Room newRoom)		//Message that plays when room is entered
 	cout << "-------------------------------------------------------------------------------------------------------------" << endl << endl;	//Separates screen when entering a new room.
 	cout << "You have entered the " << newRoom.getRoomName() << "." << endl << endl;
 	
+	getRoomActions(newRoom);
+	
 	//Displays room message if room is not completed
 	if (currentRoom.getIsCompleted() == false)
 	{
@@ -386,3 +396,105 @@ bool inputQuestion(int ansChoice, double choiceCopy)
 	}
 	return true;
 }
+void getRoomActions(Room newRoom)
+{
+	cout << "What would you like to do in the " << newRoom.getRoomName() << "?" << endl << endl;
+
+
+	cout << "1. Complete Task" << endl;
+	cout << "2. Investigate" << endl;
+	cout << "3. Leave" << endl;
+	cout << "4. Help" << endl;
+	cout << "5. Map" << endl << endl;
+	cin >> userChoice;
+
+	switch (userChoice)
+	{
+	case(1): 
+		{
+		//Displays room message if room is not completed
+		if (currentRoom.getIsCompleted() == false)
+		{
+			displayRoomMessage(currentRoom.getRoomID());
+
+			//Displays room question based on questionArray
+			questionArray[currentRoom.getRoomQuestion()].display();
+			int ansChoice;
+			double ansChoiceCopy;
+			cin >> ansChoiceCopy; //send for input validation
+			ansChoice = ansChoiceCopy;
+			while (inputQuestion(ansChoice, ansChoiceCopy) == false)
+			{
+				cin >> ansChoiceCopy;
+				ansChoice = ansChoiceCopy;
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				cout << endl;
+			}
+			if (questionArray[currentRoom.getRoomQuestion()].isCorrectAnswer(ansChoice))
+			{
+				mapRooms[currentRoom.getRoomID()].completeRoom();
+				cout << "You have completed everything in this room." << endl << endl;
+
+			}
+		}
+		else
+		{
+			cout << "There is nothing else for you to do in this room." << endl;
+			cout << endl;
+		}
+		currentRoom = mapRooms[newRoom.getRoomID()];
+		getRoomActions(currentRoom);
+		break;
+		}
+	case(2):
+		{
+		break;
+		}
+	case(3):
+		{
+		changeRooms(newRoom);
+		break;
+		}
+	case(4):
+		{
+		Help();
+		getRoomActions(currentRoom);
+		break;	
+		}	
+	case(5):
+		{
+		map();
+		getRoomActions(currentRoom);
+		break;
+		}
+	}
+}
+
+void Help()
+{
+	cout << "Choose a room to navigate to from the displayed map / room list" << endl;
+	cout << "Each room will have a description when you go into the room with a minigame to fix gadgets or objects you can pick up(Air tank, weapon, tools, paper with a code on it for another minigame they may have to remember.)" << endl;
+	cout << "To win the game, you must repair all gadgetsand get the weapon before the killer" << endl;
+	cout << "Failing at a minigame too many times, lowers total air supply which can kill you.You are able to replenish your air supply by picking up air tanks around the map." << endl;
+	cout << "Be careful because if the Killer gets to you or you run out of time trying to repair the ship, YOU WILL LOSE" << endl;
+}
+
+void map()
+{
+	cout << "  ----------Navigation-------------Weapons" << endl;
+	cout << "  |             |                    |" << endl;
+	cout << "  | MedBay------|                Bathroom" << endl;
+	cout << "  |  |          |---Communication    |" << endl;
+	cout << "Storage         |                    |" << endl;
+	cout << "  |             |                    |" << endl;
+	cout << "LEngine-------Bedroom-------------REngine" << endl;
+	cout << "  |            |              " << endl;
+	cout << "  |     -----Kitchen----------      " << endl;
+	cout << "  |     |                    |     " << endl;
+	cout << "  |  Electric              Lounge    " << endl;
+	cout << "  |     |                    |     " << endl;
+	cout << " Jail---|                  Hanger     " << endl;
+	cout << "  |__________________________|     " << endl;
+}
+
