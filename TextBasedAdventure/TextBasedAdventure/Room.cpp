@@ -12,7 +12,7 @@ void enterRoomMessage(Room);
 void changeRooms(Room);
 bool inputMap(int, double);
 bool inputQuestion(int, double); //input validation for questions
-bool roomPower(Room, bool); //Powers up rooms
+bool roomPower(Room); //Powers up rooms
 void getRoomActions(Room);
 void map();
 void Help();
@@ -90,7 +90,7 @@ Room Navigation(13, "Nagivation Room", navAdj, 3, 13);
 
 Room mapRooms[] = { Start, Medical, Communication, Kitchen, RightEngine, LeftEngine, Electrical, Jail, Hangar, Lounge, Storage, Bathroom, Weapons, Navigation };	//Array of all rooms
 
-bool roomPower(Room Electrical, bool power) 
+bool roomPower(Room Electrical) 
 {
 	if (mapRooms[6].getIsCompleted() == true) //Complete task in Electrical room to turn power on
 	{
@@ -99,12 +99,12 @@ bool roomPower(Room Electrical, bool power)
 			mapRooms[i].powerRoom();
 		}
 		cout << "Power is online." << endl << endl;
-		return power;
+		return true;
 	}
 	else
 	{
 		cout << "Power is still off, find correct room to turn online." << endl << endl;
-		return power = false;
+		return false;
 	}
 	
 }
@@ -122,12 +122,12 @@ void displayRoomMessage(int id, bool power) //Displays message when room is not 
 		}
 	case(1):
 		{
-		if (power == false)
+		if (roomPower(Electrical) == false)
 		{
 			cout << "Room is locked, turn on power to unlock room." << endl << endl;
 			changeRooms(Medical); //if locked change rooms
 		}
-		if (power == true)
+		if (roomPower(Electrical) == true)
 		{
 			cout << "It seems like someone has broken into the medical supplies" << endl;
 			cout << endl;
@@ -153,8 +153,7 @@ void displayRoomMessage(int id, bool power) //Displays message when room is not 
 		}
 	case(4):
 		{
-		//RightEngine.getUnlocked();
-		if (power == false)
+		if (roomPower(Electrical) == false)
 		{
 			cout << "Room is locked, turn on power to unlock room." << endl << endl;
 			changeRooms(RightEngine);
@@ -188,8 +187,7 @@ void displayRoomMessage(int id, bool power) //Displays message when room is not 
 		}
 	case(8):
 		{
-		//Hangar.getUnlocked();
-		if (power == false)
+		if (roomPower(Electrical) == false)
 		{
 			cout << "Room is locked, turn on power to unlock room." << endl << endl;
 			changeRooms(Hangar);
@@ -210,8 +208,7 @@ void displayRoomMessage(int id, bool power) //Displays message when room is not 
 		}
 	case(10):
 		{
-		//Storage.getUnlocked();
-		if (power == false)
+		if (roomPower(Electrical) == false)
 		{
 			cout << "Room is locked, turn on power to unlock room." << endl << endl;
 			changeRooms(Storage);
@@ -223,8 +220,7 @@ void displayRoomMessage(int id, bool power) //Displays message when room is not 
 		}
 	case(11):
 		{
-		//Bathroom.getUnlocked();
-		if (power == false)
+		if (roomPower(Electrical) == false)
 		{
 			cout << "Room is locked, turn on power to unlock room." << endl << endl;
 			changeRooms(Bathroom);
@@ -238,8 +234,7 @@ void displayRoomMessage(int id, bool power) //Displays message when room is not 
 		}
 	case(12):
 		{
-		//Weapons.getUnlocked();
-		if (power == false)
+		if (roomPower(Electrical) == false)
 		{
 			cout << "Room is locked, turn on power to unlock room." << endl << endl;
 			changeRooms(Weapons);
@@ -254,8 +249,7 @@ void displayRoomMessage(int id, bool power) //Displays message when room is not 
 		}
 	case(13):
 		{
-		//Navigation.getUnlocked();
-		if (power == false)
+		if (roomPower(Electrical) == false)
 		{
 			cout << "Room is locked, turn on power to unlock room." << endl << endl;
 			changeRooms(Navigation);
