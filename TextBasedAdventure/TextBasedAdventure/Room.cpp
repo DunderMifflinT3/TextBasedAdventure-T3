@@ -6,6 +6,7 @@
 #include <iostream>
 #include "Room.h"
 #include "Question.h"
+#include "Player.h"
 #undef max
 
 void enterRoomMessage(Room);
@@ -72,21 +73,21 @@ double choiceCopy;
 
 Room currentRoom;	//Room that the player is in
 
-//Initialize Rooms (ID, name, adjacent rooms, amount of adjacent rooms)
-Room Start(0, "Bedroom", startAdj, 4, 0);
-Room Medical(1, "Medical Room", medAdj, 3, 1);
-Room Communication(2, "Communications Room", comAdj, 3, 2);
-Room Kitchen(3, "Kitchen", kitAdj, 3, 3);
-Room RightEngine(4, "Right Engine Room", rEngAdj, 2, 4);
-Room LeftEngine(5, "Left Engine Room", lEngAdj, 3, 5);
-Room Electrical(6, "Electrical Room", elecAdj, 2, 6);
-Room Jail(7, "Jail", jailAdj, 3, 7);
-Room Hangar(8, "Hangar", hanAdj, 2, 8);
-Room Lounge(9, "Lounge", louAdj, 2, 9);
-Room Storage(10, "Storage", storAdj, 3, 10);
-Room Bathroom(11, "Bathroom", bathAdj, 2, 11);
-Room Weapons(12, "Weapons Room", weaAdj, 2, 12);
-Room Navigation(13, "Nagivation Room", navAdj, 3, 13);
+//Initialize Rooms (ID, name, adjacent rooms, amount of adjacent rooms, question ID, item)
+Room Start(0, "Bedroom", startAdj, 4, 0, "");
+Room Medical(1, "Medical Room", medAdj, 3, 1, "");
+Room Communication(2, "Communications Room", comAdj, 3, 2, "");
+Room Kitchen(3, "Kitchen", kitAdj, 3, 3, "");
+Room RightEngine(4, "Right Engine Room", rEngAdj, 2, 4, "");
+Room LeftEngine(5, "Left Engine Room", lEngAdj, 3, 5, "");
+Room Electrical(6, "Electrical Room", elecAdj, 2, 6, "");
+Room Jail(7, "Jail", jailAdj, 3, 7, "");
+Room Hangar(8, "Hangar", hanAdj, 2, 8, "");
+Room Lounge(9, "Lounge", louAdj, 2, 9, "Oxygen Tank");
+Room Storage(10, "Storage", storAdj, 3, 10, "Wrench");
+Room Bathroom(11, "Bathroom", bathAdj, 2, 11, "");
+Room Weapons(12, "Weapons Room", weaAdj, 2, 12, "Weapon");
+Room Navigation(13, "Nagivation Room", navAdj, 3, 13, "Key Card");
 
 Room mapRooms[] = { Start, Medical, Communication, Kitchen, RightEngine, LeftEngine, Electrical, Jail, Hangar, Lounge, Storage, Bathroom, Weapons, Navigation };	//Array of all rooms
 
@@ -319,6 +320,11 @@ void enterRoomMessage(Room newRoom)		//Message that plays when room is entered
 		{
 			mapRooms[currentRoom.getRoomID()].completeRoom();
 			cout << "You have completed everything in this room." << endl << endl;
+		}
+		else
+		{
+			player1.takeDamage(10);		//Player Takes damage if answer is wrong
+			cout << "Current HP: " << player1.getCurrentHP() << endl;
 		}
 	}
 	else
