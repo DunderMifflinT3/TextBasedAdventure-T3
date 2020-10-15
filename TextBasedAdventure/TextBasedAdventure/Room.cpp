@@ -3,6 +3,7 @@
 #include <math.h>
 #include <algorithm>
 #include <Windows.h>
+#include <iostream>
 #include "Room.h"
 #include "Question.h"
 #undef max
@@ -11,11 +12,7 @@ void enterRoomMessage(Room);
 void changeRooms(Room);
 bool inputMap(int, double);
 bool inputQuestion(int, double); //input validation for questions
-void getRoomActions(Room);
-void map();
-void Help();
-
-
+bool roomPower(Room, bool); //Powers up rooms
 
 //Initialize all questions
 string ans1[] = { "Eight", "Seven", "Ten", "Nine" };//possible answers
@@ -49,8 +46,6 @@ Question q14("What is the name of Saturn’s largest moon?", ans14, 1);
 
 Question questionArray[] = { q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12, q13, q14 };	//Array of all questions (Randomize this in order to get
 
-
-
 //Adjacent Room List. Must have 4 values in array in order for it to be initialized correctly. -1 means there is no room in that spot.
 int startAdj[] = { 1,2,3,4 };
 int medAdj[] = { 0,2,10,-1 };
@@ -66,10 +61,6 @@ int storAdj[] = { 1,5,13,-1 };
 int bathAdj[] = { 4,12,-1,-1 };
 int weaAdj[] = { 11,13,-1,-1 };
 int navAdj[] = { 2,10,12,-1 };
-
-int userChoice;
-int choice;
-double choiceCopy;
 
 Room currentRoom;	//Room that the player is in
 
@@ -89,107 +80,187 @@ Room Bathroom(11, "Bathroom", bathAdj, 2, 11);
 Room Weapons(12, "Weapons Room", weaAdj, 2, 12);
 Room Navigation(13, "Nagivation Room", navAdj, 3, 13);
 
-Room mapRooms[] = { Start, Medical, Communication, Kitchen, RightEngine, LeftEngine, Electrical,Jail,Hangar,Lounge,Storage,Bathroom,Weapons,Navigation };	//Array of all rooms
+Room mapRooms[] = { Start, Medical, Communication, Kitchen, RightEngine, LeftEngine, Electrical, Jail, Hangar, Lounge, Storage, Bathroom, Weapons, Navigation };	//Array of all rooms
 
-void displayRoomMessage(int id) //Displays message when room is not complete. Cases correspond to room IDs.
+bool roomPower(Room Electrical, bool power) 
+{
+	if (mapRooms[6].getIsCompleted() == true) //Complete task in Electrical room to turn power on
+	{
+		for (int i = 0; i < 14; i++)
+		{
+			mapRooms[i].powerRoom();
+		}
+		cout << "Power is online." << endl << endl;
+		return power;
+	}
+	else
+	{
+		cout << "Power is still off, find correct room to turn online." << endl << endl;
+		return power = false;
+	}
+	
+}
+void displayRoomMessage(int id, bool power) //Displays message when room is not complete. Cases correspond to room IDs.
 {
 	switch (id)
 	{
 	case(0):
 		{
-		cout << endl;
-			break;
+		if (power == false)
+			cout << "Room does not have power, find the correct room to turn on power." << endl << endl;
+		else
+			cout << endl;
+		break;
 		}
 	case(1):
 		{
-		cout << "It seems like someone has broken into the medical supplies" << endl;
-		cout << endl;
-			break;
+		if (power == false)
+		{
+			cout << "Room is locked, turn on power to unlock room." << endl << endl;
+			changeRooms(Medical); //if locked change rooms
+		}
+		if (power == true)
+		{
+			cout << "It seems like someone has broken into the medical supplies" << endl;
+			cout << endl;
+		}
+		else 
+		{
+			cout << "error" << endl;
+		}
+		break;
 		}
 	case(2):
 		{
-		cout << "Communication throughout the ship and any external communication seems to be down." << endl;
-		cout << "You notice that the main transmitter is destroyed. Fixing communications could" << endl;
-		cout << "allow you to get in touch with your team at home and tell them about the situation." << endl;
-		cout << endl;
-			break;
+			cout << "Communication throughout the ship and any external communication seems to be down." << endl;
+			cout << "You notice that the main transmitter is destroyed. Fixing communications could" << endl;
+			cout << "allow you to get in touch with your team at home and tell them about the situation." << endl << endl; 
+		break;
 		}
 	case(3):
 		{
-		cout << "The kitchen knives are missing and the room is a mess. Food is all over the floor, " << endl;
-		cout << "cabinets have been left open. Seems like someone was really hungry." << endl;
-		cout << endl;
-			break;
+			cout << "The kitchen knives are missing and the room is a mess. Food is all over the floor, " << endl;
+			cout << "cabinets have been left open. Seems like someone was really hungry." << endl << endl;
+		break;
 		}
 	case(4):
 		{
-		cout << "The ship’s fuel levels are low, you need to refill the ship’s fuel" << endl;
-		cout << "You see a fuel container next to the fuel tank." << endl;
-		cout << endl;
-			break;
+		//RightEngine.getUnlocked();
+		if (power == false)
+		{
+			cout << "Room is locked, turn on power to unlock room." << endl << endl;
+			changeRooms(RightEngine);
+		}
+		else
+		{
+			cout << "The ship’s fuel levels are low, you need to refill the ship’s fuel" << endl;
+			cout << "You see a fuel container next to the fuel tank." << endl << endl;
+		}
+		break;
 		}
 	case(5):
 		{
-		cout << "You notice a leak in the engine and the fuel levels dropping." << endl;
-		cout << endl;
-			break;
+			cout << "You notice a leak in the engine and the fuel levels dropping." << endl << endl;
+		break;
 		}
 	case(6):
 		{
-		cout << "The power is off throughout most of the ship, the only thing keeping the " << endl;
-		cout << "systems online right now is the backup generator. The power box has the wires ripped out " << endl;
-		cout <<	"you need to find some way to connect the wires again and get the power back online. " << endl;
-		cout << endl;
-			break;
+			cout << "The power is off throughout most of the ship, the only thing keeping the " << endl;
+			cout << "systems online right now is the backup generator. The power box has the wires ripped out " << endl;
+			cout <<	"you need to find some way to connect the wires again and get the power back online. " << endl << endl;
+			cout << "Complete the following task correctly to turn power online: " << endl;
+		break;
 		}
 	case(7):
 		{
-		cout << "You have entered the cell where you expect to find the alien you and your crew have " << endl;
-		cout << "captured and are transporting back home. Unfortunately you notice that the cell has " << endl;
-		cout <<	"been opened by force and the alien captive is missing." << endl;
-		cout << endl;
-			break;
+			cout << "You have entered the cell where you expect to find the alien you and your crew have " << endl;
+			cout << "captured and are transporting back home. Unfortunately you notice that the cell has " << endl;
+			cout << "been opened by force and the alien captive is missing." << endl << endl;
+		break;
 		}
 	case(8):
 		{
-		cout << "The room has a few escape pods however, they all seem to be completely broken, " << endl;
-		cout << "trying to fix these would be a waste of time." << endl;
-		cout << endl;
-			break;
+		//Hangar.getUnlocked();
+		if (power == false)
+		{
+			cout << "Room is locked, turn on power to unlock room." << endl << endl;
+			changeRooms(Hangar);
+		}
+		else
+		{
+			cout << "The room has a few escape pods however, they all seem to be completely broken, " << endl;
+			cout << "trying to fix these would be a waste of time." << endl;
+			cout << endl;
+		}
+		break;
 		}
 	case(9):
 		{
-		cout << "There isn’t much in the lounge except some couches and playing cards from the day before." << endl;
-		cout << endl;
-			break;
+			cout << "There isn’t much in the lounge except some couches and playing cards from the day before." << endl;
+			cout << endl;
+		break;
 		}
 	case(10):
 		{
+		//Storage.getUnlocked();
+		if (power == false)
+		{
+			cout << "Room is locked, turn on power to unlock room." << endl << endl;
+			changeRooms(Storage);
+		}
+		else
 		cout << " ";
 		cout << endl;
 			break;
 		}
 	case(11):
 		{
-		cout << "The shower is running and the mirror is broken. You see the word HELP written on the wall in what seems to be blood." << endl;
-		cout << endl;
-			break;
+		//Bathroom.getUnlocked();
+		if (power == false)
+		{
+			cout << "Room is locked, turn on power to unlock room." << endl << endl;
+			changeRooms(Bathroom);
+		}
+		else
+		{
+			cout << "The shower is running and the mirror is broken. You see the word HELP written on the wall in what seems to be blood." << endl;
+			cout << endl;
+		}
+		break;
 		}
 	case(12):
 		{
-		cout << "There is a container with one gun in it for emergencies. " << endl;
-		cout << "(Power needs to be restored from the electrical room in order to open this container)" << endl;
-		cout << endl;
-			break;
+		//Weapons.getUnlocked();
+		if (power == false)
+		{
+			cout << "Room is locked, turn on power to unlock room." << endl << endl;
+			changeRooms(Weapons);
+		}
+		else
+		{
+			cout << "There is a container with one gun in it for emergencies. " << endl;
+			cout << "(Power needs to be restored from the electrical room in order to open this container)" << endl;
+			cout << endl;
+		}
+		break;
 		}
 	case(13):
 		{
-		cout << "You find the pilot murdered in their chair and the command console is flashing red with " << endl;
-		cout << "the word “WARNING!” on the screen. Here you can check the console for progress on completed " << endl;
-		cout << "repairs you have made to the ship.  “Check Console” to check progress of repaired systems. " << endl;
-		cout << "x amount of systems are online out of x." << endl;
-		cout << endl;
-			break;
+		//Navigation.getUnlocked();
+		if (power == false)
+		{
+			cout << "Room is locked, turn on power to unlock room." << endl << endl;
+			changeRooms(Navigation);
+		}
+		else
+		{
+			cout << "You find the pilot murdered in their chair and the command console is flashing red with " << endl;
+			cout << "the word “WARNING!” on the screen. Here you can check the console for progress on completed " << endl;
+			cout << "repairs you have made to the ship.  “Check Console” to check progress of repaired systems. " << endl;
+			cout << "x amount of systems are online out of x." << endl;
+			cout << endl;
+		}
+		break;
 		}
 	default:
 		{
@@ -220,10 +291,40 @@ void enterRoomMessage(Room newRoom)		//Message that plays when room is entered
 {
 	cout << "-------------------------------------------------------------------------------------------------------------" << endl << endl;	//Separates screen when entering a new room.
 	cout << "You have entered the " << newRoom.getRoomName() << "." << endl << endl;
-
-
-	getRoomActions(newRoom);
 	
+	//Displays room message if room is not completed
+	if (currentRoom.getIsCompleted() == false)
+	{
+		displayRoomMessage(currentRoom.getRoomID(), currentRoom.getPower());
+
+		//Displays room question based on questionArray
+		questionArray[currentRoom.getRoomQuestion()].display();
+		int ansChoice;
+		double ansChoiceCopy;
+		cin >> ansChoiceCopy; //send for input validation
+		ansChoice = ansChoiceCopy;
+		while (inputQuestion(ansChoice, ansChoiceCopy) == false)
+		{
+			cin >> ansChoiceCopy;
+			ansChoice = ansChoiceCopy;
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			cout << endl;
+		}
+		if (questionArray[currentRoom.getRoomQuestion()].isCorrectAnswer(ansChoice))
+		{
+			mapRooms[currentRoom.getRoomID()].completeRoom();
+			cout << "You have completed everything in this room." << endl << endl;
+		}
+	}
+	else
+	{
+		cout << "There is nothing else for you to do in this room." << endl;
+		cout << endl;
+	}
+	roomPower(Electrical, false);
+	//Asks to change rooms. Will be moved.
+	changeRooms(newRoom);
 }
 
 void changeRooms(Room oldRoom)		//Test for changing rooms
@@ -239,7 +340,7 @@ void changeRooms(Room oldRoom)		//Test for changing rooms
 		cout << i + 1 << ": " << mapRooms[tempAdjacentID].getRoomName() << endl;
 		adjacentIDArray[i] = currentRoom.getAdjacentRooms(i);
 	}
-
+		
 	int choice;
 	double choiceCopy;
 	cin >> choiceCopy;		//To Do: Input Validation
@@ -285,107 +386,3 @@ bool inputQuestion(int ansChoice, double choiceCopy)
 	}
 	return true;
 }
-
-
-void getRoomActions(Room newRoom)
-{
-	cout << "What would you like to do in the " << newRoom.getRoomName() << "?" << endl << endl;
-
-	
-	cout << "1. Complete Task" << endl;
-	cout << "2. Investigate" << endl;
-	cout << "3. Leave" << endl;
-	cout << "4. Help" << endl;
-	cout << "5. Map" << endl << endl;
-	cin >> userChoice;
-
-	switch (userChoice)
-	{
-	case(1): 
-		{
-		//Displays room message if room is not completed
-		if (currentRoom.getIsCompleted() == false)
-		{
-			displayRoomMessage(currentRoom.getRoomID());
-
-			//Displays room question based on questionArray
-			questionArray[currentRoom.getRoomQuestion()].display();
-			int ansChoice;
-			double ansChoiceCopy;
-			cin >> ansChoiceCopy; //send for input validation
-			ansChoice = ansChoiceCopy;
-			while (inputQuestion(ansChoice, ansChoiceCopy) == false)
-			{
-				cin >> ansChoiceCopy;
-				ansChoice = ansChoiceCopy;
-				cin.clear();
-				cin.ignore(numeric_limits<streamsize>::max(), '\n');
-				cout << endl;
-			}
-			if (questionArray[currentRoom.getRoomQuestion()].isCorrectAnswer(ansChoice))
-			{
-				mapRooms[currentRoom.getRoomID()].completeRoom();
-				cout << "You have completed everything in this room." << endl << endl;
-
-			}
-		}
-		else
-		{
-			cout << "There is nothing else for you to do in this room." << endl;
-			cout << endl;
-		}
-		currentRoom = mapRooms[newRoom.getRoomID()];
-		getRoomActions(currentRoom);
-		break;
-		}
-	case(2):
-		{
-		break;
-		}
-	case(3):
-		{
-		changeRooms(newRoom);
-		break;
-		}
-	case(4):
-		{
-		Help();
-		getRoomActions(currentRoom);
-		break;	
-		}	
-	case(5):
-		{
-		map();
-		getRoomActions(currentRoom);
-		break;
-		}
-	}
-}
-
-void Help()
-{
-	cout << "Choose a room to navigate to from the displayed map / room list" << endl;
-	cout << "Each room will have a description when you go into the room with a minigame to fix gadgets or objects you can pick up(Air tank, weapon, tools, paper with a code on it for another minigame they may have to remember.)" << endl;
-	cout << "To win the game, you must repair all gadgetsand get the weapon before the killer" << endl;
-	cout << "Failing at a minigame too many times, lowers total air supply which can kill you.You are able to replenish your air supply by picking up air tanks around the map." << endl;
-	cout << "Be careful because if the Killer gets to you or you run out of time trying to repair the ship, YOU WILL LOSE" << endl;
-}
-
-void map()
-{
-	cout << "  ----------Navigation-------------Weapons" << endl;
-	cout << "  |             |                    |" << endl;
-	cout << "  | MedBay------|                Bathroom" << endl;
-	cout << "  |  |          |---Communication    |" << endl;
-	cout << "Storage         |                    |" << endl;
-	cout << "  |             |                    |" << endl;
-	cout << "LEngine-------Bedroom-------------REngine" << endl;
-	cout << "  |            |              " << endl;
-	cout << "  |     -----Kitchen----------      " << endl;
-	cout << "  |     |                    |     " << endl;
-	cout << "  |  Electric              Lounge    " << endl;
-	cout << "  |     |                    |     " << endl;
-	cout << " Jail---|                  Hanger     " << endl;
-	cout << "  |__________________________|     " << endl;
-}
-

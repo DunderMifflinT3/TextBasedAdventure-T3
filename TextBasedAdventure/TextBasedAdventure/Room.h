@@ -20,6 +20,7 @@ private:
 	int adjacentRooms[MAXADJACENTROOMS];	//A list of rooms connected to this room
 	int question;			//Question called from this room
 	bool isCompleted = false;
+	bool power = false;
 
 public:
 	
@@ -34,7 +35,7 @@ public:
 		roomName = name;
 		numOfAdjacentRooms = numOfAdj;
 		question = quest;
-		
+				
 		for (int i = 0; i < MAXADJACENTROOMS; i++)
 		{
 			adjacentRooms[i] = adj[i];
@@ -76,11 +77,19 @@ public:
 	{
 		return isCompleted;
 	}
-
+	bool getPower()
+	{
+		return power;
+	}
 	//Change Room to Completed
 	void completeRoom()
 	{
 		isCompleted = true;
+	}
+	//Gives power to room
+	void powerRoom()
+	{
+		power = true;
 	}
 };
 
