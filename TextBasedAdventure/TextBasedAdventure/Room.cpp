@@ -1,4 +1,4 @@
-//Version 3.4
+//Version 3.5
 #include <cmath>
 #include <math.h>
 #include <algorithm>
@@ -17,6 +17,8 @@ bool roomPower(Room); //Powers up rooms
 void getRoomActions(Room);
 void map();
 void Help();
+
+Player player1("Player 1", 100);
 
 
 //Initialize all questions
@@ -109,13 +111,13 @@ bool roomPower(Room Electrical)
 	}
 	
 }
-void displayRoomMessage(int id, bool power) //Displays message when room is not complete. Cases correspond to room IDs.
+void displayRoomMessage(int id) //Displays message when room is not complete. Cases correspond to room IDs.
 {
 	switch (id)
 	{
 	case(0):
 		{
-		if (power == false)
+		if (roomPower(Electrical) == false)
 			cout << "Room does not have power, find the correct room to turn on power." << endl << endl;
 		else
 			cout << endl;
@@ -296,45 +298,6 @@ void enterRoomMessage(Room newRoom)		//Message that plays when room is entered
 	cout << "You have entered the " << newRoom.getRoomName() << "." << endl << endl;
 	
 	getRoomActions(newRoom);
-	
-	//Displays room message if room is not completed
-	if (currentRoom.getIsCompleted() == false)
-	{
-		displayRoomMessage(currentRoom.getRoomID(), currentRoom.getPower());
-
-		//Displays room question based on questionArray
-		questionArray[currentRoom.getRoomQuestion()].display();
-		int ansChoice;
-		double ansChoiceCopy;
-		cin >> ansChoiceCopy; //send for input validation
-		ansChoice = ansChoiceCopy;
-		while (inputQuestion(ansChoice, ansChoiceCopy) == false)
-		{
-			cin >> ansChoiceCopy;
-			ansChoice = ansChoiceCopy;
-			cin.clear();
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-			cout << endl;
-		}
-		if (questionArray[currentRoom.getRoomQuestion()].isCorrectAnswer(ansChoice))
-		{
-			mapRooms[currentRoom.getRoomID()].completeRoom();
-			cout << "You have completed everything in this room." << endl << endl;
-		}
-		else
-		{
-			player1.takeDamage(10);		//Player Takes damage if answer is wrong
-			cout << "Current HP: " << player1.getCurrentHP() << endl;
-		}
-	}
-	else
-	{
-		cout << "There is nothing else for you to do in this room." << endl;
-		cout << endl;
-	}
-	roomPower(Electrical, false);
-	//Asks to change rooms. Will be moved.
-	changeRooms(newRoom);
 }
 
 void changeRooms(Room oldRoom)		//Test for changing rooms
@@ -353,7 +316,7 @@ void changeRooms(Room oldRoom)		//Test for changing rooms
 		
 	int choice;
 	double choiceCopy;
-	cin >> choiceCopy;		//To Do: Input Validation
+	cin >> choiceCopy;		
 	choice = choiceCopy;
 	while (inputMap(choice, choiceCopy) == false)
 	{
@@ -415,7 +378,7 @@ void getRoomActions(Room newRoom)
 		//Displays room message if room is not completed
 		if (currentRoom.getIsCompleted() == false)
 		{
-			displayRoomMessage(currentRoom.getRoomID(),currentRoom.getPower());
+			displayRoomMessage(currentRoom.getRoomID());
 
 			//Displays room question based on questionArray
 			questionArray[currentRoom.getRoomQuestion()].display();
@@ -436,6 +399,11 @@ void getRoomActions(Room newRoom)
 				mapRooms[currentRoom.getRoomID()].completeRoom();
 				cout << "You have completed everything in this room." << endl << endl;
 
+			}
+			else
+			{
+				player1.takeDamage(10);		//Player Takes damage if answer is wrong
+				cout << "Current HP: " << player1.getCurrentHP() << endl;
 			}
 		}
 		else
