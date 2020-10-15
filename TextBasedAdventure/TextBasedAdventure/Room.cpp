@@ -12,6 +12,8 @@ void changeRooms(Room);
 bool inputMap(int, double);
 bool inputQuestion(int, double); //input validation for questions
 void getRoomActions(Room);
+void map();
+void Help();
 
 
 
@@ -292,7 +294,9 @@ void getRoomActions(Room newRoom)
 	
 	cout << "1. Complete Task" << endl;
 	cout << "2. Investigate" << endl;
-	cout << "3. Leave" << endl << endl;
+	cout << "3. Leave" << endl;
+	cout << "4. Help" << endl;
+	cout << "5. Map" << endl << endl;
 	cin >> userChoice;
 
 	switch (userChoice)
@@ -343,5 +347,41 @@ void getRoomActions(Room newRoom)
 		changeRooms(newRoom);
 		break;
 		}
+	case(4):
+		{
+		void Help();
+		break;	
+		}	
+	case(5):
+		{
+		void map();
+		break;
+		}
 	}
 }
+void Help()
+{
+	cout << "Choose a room to navigate to from the displayed map / room list" << endl;
+	cout << "Each room will have a description when you go into the room with a minigame to fix gadgets or objects you can pick up(Air tank, weapon, tools, paper with a code on it for another minigame they may have to remember.)" << endl;
+	cout << "To win the game, you must repair all gadgetsand get the weapon before the killer" << endl;
+	cout << "Failing at a minigame too many times, lowers total air supply which can kill you.You are able to replenish your air supply by picking up air tanks around the map." << endl;
+	cout << "Be careful because if the Killer gets to you or you run out of time trying to repair the ship, YOU WILL LOSE" << endl;
+}
+void map()
+{
+	cout << "  ----------Navigation-------------Weapons" << endl;
+	cout << "  |             |                    |" << endl;
+	cout << "  | MedBay------|                Bathroom" << endl;
+	cout << "  |  |          |---Communication    |" << endl;
+	cout << "Storage         |                    |" << endl;
+	cout << "  |             |                    |" << endl;
+	cout << "LEngine-------Bedroom-------------REngine" << endl;
+	cout << "  |            |              " << endl;
+	cout << "  |     -----Kitchen----------      " << endl;
+	cout << "  |     |                    |     " << endl;
+	cout << "  |  Electric              Lounge    " << endl;
+	cout << "  |     |                    |     " << endl;
+	cout << " Jail---|                  Hanger     " << endl;
+	cout << "  |__________________________|     " << endl;
+}
+
