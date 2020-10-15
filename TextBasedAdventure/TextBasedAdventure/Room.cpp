@@ -1,4 +1,4 @@
-//Version 3.3
+//Version 3.4
 #include <cmath>
 #include <math.h>
 #include <algorithm>
@@ -415,7 +415,7 @@ void getRoomActions(Room newRoom)
 		//Displays room message if room is not completed
 		if (currentRoom.getIsCompleted() == false)
 		{
-			displayRoomMessage(currentRoom.getRoomID());
+			displayRoomMessage(currentRoom.getRoomID(),currentRoom.getPower());
 
 			//Displays room question based on questionArray
 			questionArray[currentRoom.getRoomQuestion()].display();
