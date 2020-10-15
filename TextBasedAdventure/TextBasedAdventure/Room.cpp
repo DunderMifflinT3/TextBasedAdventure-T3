@@ -349,16 +349,19 @@ void getRoomActions(Room newRoom)
 		}
 	case(4):
 		{
-		void Help();
+		Help();
+		getRoomActions(currentRoom);
 		break;	
 		}	
 	case(5):
 		{
-		void map();
+		map();
+		getRoomActions(currentRoom);
 		break;
 		}
 	}
 }
+
 void Help()
 {
 	cout << "Choose a room to navigate to from the displayed map / room list" << endl;
@@ -367,6 +370,7 @@ void Help()
 	cout << "Failing at a minigame too many times, lowers total air supply which can kill you.You are able to replenish your air supply by picking up air tanks around the map." << endl;
 	cout << "Be careful because if the Killer gets to you or you run out of time trying to repair the ship, YOU WILL LOSE" << endl;
 }
+
 void map()
 {
 	cout << "  ----------Navigation-------------Weapons" << endl;
