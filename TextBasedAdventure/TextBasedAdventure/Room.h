@@ -20,7 +20,7 @@ private:
 	int adjacentRooms[MAXADJACENTROOMS];	//A list of rooms connected to this room
 	int question;			//Question called from this room
 	string item;
-
+	int randomCode; //Code generator
 	bool isCompleted = false;
 	bool power = false;
 
@@ -98,6 +98,12 @@ public:
 	void powerRoom()
 	{
 		power = true;
+	}
+	int noteCode()
+	{
+		srand(time(NULL));
+		randomCode = rand() % 9000 + 1000; //Generates different code every game
+		return randomCode;
 	}
 };
 
