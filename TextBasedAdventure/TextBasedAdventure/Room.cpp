@@ -369,12 +369,13 @@ void getRoomActions(Room newRoom)
 	cout << "1. Complete Task" << endl;
 	cout << "2. Investigate" << endl;
 	cout << "3. Leave" << endl;
-	cout << "4. Help" << endl;
-	cout << "5. Map" << endl << endl;
+	cout << "4. Inventory" << endl;
+	cout << "5. Map" << endl;
+	cout << "6. Help" << endl;
 	cin >> userChoiceCopy;
 		
 	userChoice = userChoiceCopy;
-	while (userChoice > 5 || userChoice < 1)
+	while (userChoice > 6 || userChoice < 1)
 	{
 		cout << "Invalid input" << endl;
 		cin >> userChoice;
@@ -446,14 +447,29 @@ void getRoomActions(Room newRoom)
 		break;
 		}
 	case(4):
+	{
+		if (player1.inventory.empty())
 		{
-		Help();
+			cout << "There are no objects in your inventory." << endl << endl;
+		}
+		else
+		{
+			cout << "Inventory:" << endl;
+			player1.showInventory();
+			cout << endl;
+		}
 		getRoomActions(currentRoom);
-		break;	
-		}	
+		break;
+	}
 	case(5):
 		{
 		map();
+		getRoomActions(currentRoom);
+		break;	
+		}	
+	case(6):
+		{
+		Help();
 		getRoomActions(currentRoom);
 		break;
 		}
