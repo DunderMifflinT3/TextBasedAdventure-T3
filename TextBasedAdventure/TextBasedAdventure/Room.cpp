@@ -19,6 +19,7 @@ void getRoomActions(Room);
 void map();
 void Help();
 void escape();
+void investigate(int);
 
 Player player1("Player 1", 100);
 
@@ -435,27 +436,7 @@ void getRoomActions(Room newRoom)
 		}
 	case(2):
 		{
-		if (mapRooms[6].getIsCompleted() == false) //If power off
-		{
-			cout << "It is too dark to see anything please turn on power first." << endl << endl;
-		}
-		else
-		{
-			if (currentRoom.getRoomItem() == "Escape Plan") //Hanger
-			{
-				escape();
-			}
-			player1.addToInventory(currentRoom.getRoomItem());
-			cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a " << currentRoom.getRoomItem() << endl << endl;
-			if (currentRoom.getRoomItem() == "Note") //Kitchen
-			{
-				cout << "The note says IN CASE OF EMERGENCY " << randomCode << " ... the rest of the note is not legible." << endl;
-			}
-			else
-			{
-				cout << "There is nothing is this room to find." << endl;
-			}
-		}
+		investigate(currentRoom.getRoomID());
 		getRoomActions(currentRoom);
 		break;
 		}
@@ -530,4 +511,245 @@ void escape()
 		getRoomActions(currentRoom);
 	}
 }
-
+void investigate(int id)
+{
+	switch (id)
+	{
+	case(0)://Bedroom
+	{
+		cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a Flashlight" << endl << endl;
+		player1.addToInventory("Flashlight");
+		break;
+	}
+	case(1)://Medical
+	{
+		if (roomPower(Electrical) == false)
+		{
+			cout << "Room is locked, turn on power to unlock room." << endl << endl;
+		}
+		//if (roomPower(Electrical) == true)
+		else
+		{
+			cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a Oxygen Tank" << endl << endl;
+			player1.increaseMaxHP(20);
+			player1.healDamage(20);
+		}
+		break;
+	}
+	case(2)://Communications
+	{
+		if (roomPower(Electrical) == false)
+		{
+			if (player1.searchInventory("Flashlight"))
+			{
+				cout << "Room is too dark, you turned on your Flashlight" << endl;
+				cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
+			}
+			else
+			{
+				cout << "It is too dark to see anything please turn on power first." << endl << endl;
+			}
+		}
+		else
+		{
+			cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
+		}
+		break;
+	}
+	case(3)://Kitchen
+	{   if (roomPower(Electrical) == false)
+		{
+			if (player1.searchInventory("Flashlight"))
+			{
+				cout << "Room is too dark, you turned on your Flashlight" << endl;
+				cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a Note." << endl;
+				cout << "The note says IN CASE OF EMERGENCY " << randomCode << " ... the rest of the note is not legible." << endl << endl;
+				player1.addToInventory("Note");
+			}
+			else
+			{
+				cout << "It is too dark to see anything please turn on power first." << endl << endl;
+			}
+	}
+	else
+	{
+		cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a Note." << endl;
+		cout << "The note says IN CASE OF EMERGENCY " << randomCode << " ... the rest of the note is not legible." << endl << endl;
+		player1.addToInventory("Note");
+	}
+		break;
+	}
+	case(4)://R Engine
+	{
+		if (roomPower(Electrical) == false)
+		{
+			if (player1.searchInventory("Flashlight"))
+			{
+				cout << "Room is too dark, you turned on your Flashlight" << endl;
+				cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
+			}
+			else
+			{
+				cout << "It is too dark to see anything please turn on power first." << endl << endl;
+			}
+		}
+		else
+		{
+			cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
+		}
+		break;
+	}
+	case(5)://L Engine
+	{		
+		if (roomPower(Electrical) == false)
+		{
+			if (player1.searchInventory("Flashlight"))
+			{
+				cout << "Room is too dark, you turned on your Flashlight" << endl;
+				cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
+			}
+			else
+			{
+				cout << "It is too dark to see anything please turn on power first." << endl << endl;				
+			}
+		}
+		else
+		{
+			cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
+		}
+		break;	
+	}
+	case(6)://Electircal
+	{
+		if (roomPower(Electrical) == false)
+		{
+			if (player1.searchInventory("Flashlight"))
+			{
+				cout << "Room is too dark, you turned on your Flashlight" << endl;
+				cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
+			}
+			else
+			{
+				cout << "It is too dark to see anything please turn on power first." << endl << endl;
+			}
+		}
+		else
+		{
+			cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
+		}
+		break;
+	}
+	case(7)://Jail
+	{
+		if (roomPower(Electrical) == false)
+		{
+			if (player1.searchInventory("Flashlight"))
+			{
+				cout << "Room is too dark, you turned on your Flashlight" << endl;
+				cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
+			}
+			else
+			{
+				cout << "It is too dark to see anything please turn on power first." << endl << endl;
+			}
+		}
+		else
+		{
+			cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
+		}
+		break;
+	}
+	case(8)://Hanger
+	{
+		if (roomPower(Electrical) == false)
+		{
+			cout << "Room is locked, turn on power to unlock room." << endl << endl;
+		}
+		else
+		{
+			escape();
+		}
+		break;
+	}
+	case(9)://Lounge
+	{
+		if (roomPower(Electrical) == false)
+		{
+			if (player1.searchInventory("Flashlight"))
+			{
+				cout << "Room is too dark, you turned on your Flashlight" << endl;
+				cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a Oxygen Tank" << endl << endl;
+				player1.increaseMaxHP(20);
+				player1.healDamage(20);
+			}
+			else
+			{
+				cout << "It is too dark to see anything please turn on power first." << endl << endl;
+			}
+		}
+		else
+		{
+			cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a Oxygen Tank" << endl << endl;
+			player1.increaseMaxHP(20);
+			player1.healDamage(20);
+		}
+		break;
+	}
+	case(10)://Storage
+	{
+		if (roomPower(Electrical) == false)
+		{
+			cout << "Room is locked, turn on power to unlock room." << endl << endl;
+		}
+		else
+		{
+			cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a Wrench" << endl << endl;
+			player1.addToInventory("Wrench");
+		}
+		break;
+	}
+	case(11)://Bathroom
+	{
+		if (roomPower(Electrical) == false)
+		{
+			cout << "Room is locked, turn on power to unlock room." << endl << endl;
+		}
+		else
+		{
+			cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
+		}
+		break;
+	}
+	case(12)://Weapons
+	{
+		if (roomPower(Electrical) == false)
+		{
+			cout << "Room is locked, turn on power to unlock room." << endl << endl;
+		}
+		else
+		{
+			cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a Weapon" << endl << endl;
+			player1.addToInventory("Weapon");
+		}
+		break;
+	}
+	case(13)://Navigation
+	{
+		if (roomPower(Electrical) == false)
+		{
+			cout << "Room is locked, turn on power to unlock room." << endl << endl;
+		}
+		else
+		{
+			cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a Key-card" << endl << endl;
+			player1.addToInventory("Key");
+		}
+		break;
+	}
+	default:
+	{
+		cout << "Error 1" << endl;
+		cout << endl;
+	}
+	}
+}
