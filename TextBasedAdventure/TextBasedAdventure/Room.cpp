@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <Windows.h>
 #include <iostream>
+#include <time.h>
 #include "Room.h"
 #include "Question.h"
 #include "Player.h"
@@ -17,9 +18,9 @@ bool roomPower(Room); //Powers up rooms
 void getRoomActions(Room);
 void map();
 void Help();
+void escape();
 
 Player player1("Player 1", 100);
-
 
 //Initialize all questions
 string ans1[] = { "Eight", "Seven", "Ten", "Nine" };//possible answers
@@ -74,17 +75,16 @@ int choice;
 double choiceCopy;
 
 Room currentRoom;	//Room that the player is in
-
 //Initialize Rooms (ID, name, adjacent rooms, amount of adjacent rooms, question ID, item)
-Room Start(0, "Bedroom", startAdj, 4, 0, "");
+Room Start(0, "Bedroom", startAdj, 4, 0, "Flashlight");
 Room Medical(1, "Medical Room", medAdj, 3, 1, "");
 Room Communication(2, "Communications Room", comAdj, 3, 2, "");
-Room Kitchen(3, "Kitchen", kitAdj, 3, 3, "");
+Room Kitchen(3, "Kitchen", kitAdj, 3, 3, "Note");
 Room RightEngine(4, "Right Engine Room", rEngAdj, 2, 4, "");
 Room LeftEngine(5, "Left Engine Room", lEngAdj, 3, 5, "");
 Room Electrical(6, "Electrical Room", elecAdj, 2, 6, "");
 Room Jail(7, "Jail", jailAdj, 3, 7, "");
-Room Hangar(8, "Hangar", hanAdj, 2, 8, "");
+Room Hangar(8, "Hangar", hanAdj, 2, 8, "Escape Plan");
 Room Lounge(9, "Lounge", louAdj, 2, 9, "Oxygen Tank");
 Room Storage(10, "Storage", storAdj, 3, 10, "Wrench");
 Room Bathroom(11, "Bathroom", bathAdj, 2, 11, "");
@@ -92,6 +92,8 @@ Room Weapons(12, "Weapons Room", weaAdj, 2, 12, "Weapon");
 Room Navigation(13, "Nagivation Room", navAdj, 3, 13, "Key Card");
 
 Room mapRooms[] = { Start, Medical, Communication, Kitchen, RightEngine, LeftEngine, Electrical, Jail, Hangar, Lounge, Storage, Bathroom, Weapons, Navigation };	//Array of all rooms
+
+const int randomCode = currentRoom.noteCode(); //Generates Random Code Every Game For Hanger
 
 bool roomPower(Room Electrical) 
 {
@@ -197,9 +199,8 @@ void displayRoomMessage(int id) //Displays message when room is not complete. Ca
 		}
 		else
 		{
-			cout << "The room has a few escape pods however, they all seem to be completely broken, " << endl;
-			cout << "trying to fix these would be a waste of time." << endl;
-			cout << endl;
+			cout << "The room has a few escape pods however, it seems they are offline." << endl;
+			cout << "Complete the task to activate the pods." << endl;
 		}
 		break;
 		}
@@ -284,7 +285,7 @@ int main()
 	cout << "and your oxygen is dropping quickly. Your mission is to find your crew, " << endl;
 	cout << "repair the ship by fixing parts in each room so you can return home safely, and ultimately SURVIVE!" << endl << endl;
 	Sleep(3000); //Gives user time to read script
-
+	
 	currentRoom = Start; //Sets the room that the player is in
 
 	enterRoomMessage(currentRoom);
@@ -364,16 +365,13 @@ void getRoomActions(Room newRoom)
 	double userChoiceCopy;
 	
 	cout << "What would you like to do in the " << newRoom.getRoomName() << "?" << endl << endl;
-
-
 	cout << "1. Complete Task" << endl;
 	cout << "2. Investigate" << endl;
 	cout << "3. Leave" << endl;
 	cout << "4. Help" << endl;
 	cout << "5. Map" << endl << endl;
 	cin >> userChoiceCopy;
-	
-	
+		
 	userChoice = userChoiceCopy;
 	while (userChoice > 5 || userChoice < 1)
 	{
@@ -437,6 +435,28 @@ void getRoomActions(Room newRoom)
 		}
 	case(2):
 		{
+		if (mapRooms[6].getIsCompleted() == false) //If power off
+		{
+			cout << "It is too dark to see anything please turn on power first." << endl << endl;
+		}
+		else
+		{
+			if (currentRoom.getRoomItem() == "Escape Plan") //Hanger
+			{
+				escape();
+			}
+			player1.addToInventory(currentRoom.getRoomItem());
+			cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a " << currentRoom.getRoomItem() << endl << endl;
+			if (currentRoom.getRoomItem() == "Note") //Kitchen
+			{
+				cout << "The note says IN CASE OF EMERGENCY " << randomCode << " ... the rest of the note is not legible." << endl;
+			}
+			else
+			{
+				cout << "There is nothing is this room to find." << endl;
+			}
+		}
+		getRoomActions(currentRoom);
 		break;
 		}
 	case(3):
@@ -467,7 +487,6 @@ void Help()
 	cout << "Failing at a minigame too many times, lowers total air supply which can kill you.You are able to replenish your air supply by picking up air tanks around the map." << endl;
 	cout << "Be careful because if the Killer gets to you or you run out of time trying to repair the ship, YOU WILL LOSE" << endl;
 }
-
 void map()
 {
 	cout << "  ----------Navigation-------------Weapons" << endl;
@@ -484,5 +503,31 @@ void map()
 	cout << "  |     |                    |     " << endl;
 	cout << " Jail---|                  Hanger     " << endl;
 	cout << "  |__________________________|     " << endl;
+}
+void escape()
+{
+	if (mapRooms[8].getIsCompleted() == true)
+	{
+		int code;
+		cout << "The escape pod is online! Please enter 4 digit code to enter pod: " << endl;
+		cin >> code;
+
+		if (code == randomCode)
+		{
+			cout << "Access Granted!" << endl << endl;
+			cout << "Congradulations! You have succesfully escaped the ship and are safely headed back to Earth!" << endl;
+		}
+		else
+		{
+			cout << "Access Denied" << endl << endl;
+			cout << "Maybe the code can found in one of the rooms" << endl;
+			getRoomActions(currentRoom);
+		}
+	}
+	else
+	{
+		cout << "Please complete the task to activate the pod." << endl;
+		getRoomActions(currentRoom);
+	}
 }
 
