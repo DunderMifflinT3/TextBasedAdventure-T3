@@ -361,6 +361,8 @@ bool inputQuestion(int ansChoice, double choiceCopy)
 }
 void getRoomActions(Room newRoom)
 {
+	double userChoiceCopy;
+	
 	cout << "What would you like to do in the " << newRoom.getRoomName() << "?" << endl << endl;
 
 
@@ -369,8 +371,26 @@ void getRoomActions(Room newRoom)
 	cout << "3. Leave" << endl;
 	cout << "4. Help" << endl;
 	cout << "5. Map" << endl << endl;
-	cin >> userChoice;
-
+	cin >> userChoiceCopy;
+	
+	
+	userChoice = userChoiceCopy;
+	while (userChoice > 5 || userChoice < 1)
+	{
+		cout << "Invalid input" << endl;
+		cin >> userChoice;
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		
+		userChoiceCopy = userChoice;
+	}
+	while (userChoiceCopy != floor(userChoiceCopy))
+	{
+		cout << "Invalid input" << endl;
+		
+		cin >> userChoiceCopy;
+	}
+	userChoice = userChoiceCopy;
 	switch (userChoice)
 	{
 	case(1): 
