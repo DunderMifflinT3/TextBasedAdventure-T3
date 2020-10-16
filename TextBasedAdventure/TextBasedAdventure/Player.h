@@ -13,9 +13,10 @@ private:
 	string playerName;
 	int maxHP;
 	int currentHP;
-	vector<string> inventory;
 
 public:
+	vector<string> inventory;
+
 	//Constructor
 	Player()
 	{
@@ -64,6 +65,14 @@ public:
 			}
 		}
 		return false;
+	}
+
+	void showInventory()
+	{
+		for (int i = 0; i < inventory.size(); i++)
+		{
+			cout << i + 1 << ". " << inventory[i] << endl;
+		}
 	}
 
 	void takeDamage(int amount)	//Lowers current HP
