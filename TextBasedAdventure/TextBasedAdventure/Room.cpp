@@ -451,7 +451,7 @@ void Help()
 void map()
 {
 	cout << "  ----------Navigation-------------Weapons" << endl;
-	cout << "  |             |                    |" << endl;
+	cout << "  |                                 |" << endl;
 	cout << "  | MedBay------|                Bathroom" << endl;
 	cout << "  |  |          |---Communication    |" << endl;
 	cout << "Storage         |                    |" << endl;
