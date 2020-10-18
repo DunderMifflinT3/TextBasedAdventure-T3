@@ -1,4 +1,4 @@
-//Version 3.5
+//Version 4
 #include <cmath>
 #include <math.h>
 #include <algorithm>
@@ -8,6 +8,7 @@
 #include "Room.h"
 #include "Question.h"
 #include "Player.h"
+#include "Imposter.h"
 #undef max
 
 void enterRoomMessage(Room);
@@ -22,6 +23,7 @@ void escape();
 void investigate(int);
 
 Player player1("Player 1", 100);
+Imposter imposter(7);
 
 //Initialize all questions
 string ans1[] = { "Eight", "Seven", "Ten", "Nine" };//possible answers
@@ -298,6 +300,12 @@ void enterRoomMessage(Room newRoom)		//Message that plays when room is entered
 {
 	cout << "-------------------------------------------------------------------------------------------------------------" << endl << endl;	//Separates screen when entering a new room.
 	cout << "You have entered the " << newRoom.getRoomName() << "." << endl << endl;
+
+	if (imposter.getCurrentRoomID() == newRoom.getRoomID())	//Checks if imposter is in the same room
+	{
+		cout << "You feel another presence in this room..." << endl;
+		cout << "You're being attacked!" << endl;
+	}
 	
 	getRoomActions(newRoom);
 }
@@ -306,7 +314,7 @@ void changeRooms(Room oldRoom)		//Test for changing rooms
 {
 	int adjacentIDArray[MAXADJACENTROOMS];	//Array that holds the ids of adjacent rooms
 
-	cout << "You can enter the following rooms:" << endl;
+	cout << "You can enter the following rooms:" << endl << endl;
 
 	int roomCount = 1;
 	for (int i = 0; i < currentRoom.getNumOfAdjacentRooms(); i++)
@@ -328,6 +336,8 @@ void changeRooms(Room oldRoom)		//Test for changing rooms
 		cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	}
 	currentRoom = mapRooms[adjacentIDArray[choice - 1]];	//Sets the new current room to the chosen value
+
+	imposter.moveRooms(rand() % 13 + 1);	//Imposter changes rooms when player does (TO DO: Change formula for the rooms it picks)
 
 	enterRoomMessage(currentRoom);
 }
