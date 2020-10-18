@@ -423,7 +423,7 @@ void getRoomActions(Room newRoom)
 			else
 			{
 				player1.takeDamage(10);		//Player Takes damage if answer is wrong
-				cout << "Current HP: " << player1.getCurrentHP() << endl;
+				cout << "Current Oxygen: " << player1.getCurrentHP() << endl;
 			}
 		}
 		else
