@@ -341,6 +341,7 @@ void changeRooms(Room oldRoom)		//Test for changing rooms
 
 	enterRoomMessage(currentRoom);
 }
+
 bool inputMap(int choice, double choiceCopy)
 {
 	if (floor(choiceCopy) != choiceCopy)
@@ -356,6 +357,7 @@ bool inputMap(int choice, double choiceCopy)
 	}
 	return true;
 }
+
 bool inputQuestion(int ansChoice, double choiceCopy)
 {
 	if (floor(choiceCopy) != choiceCopy)
@@ -371,6 +373,7 @@ bool inputQuestion(int ansChoice, double choiceCopy)
 	}
 	return true;
 }
+
 void getRoomActions(Room newRoom)
 {
 	double userChoiceCopy;
@@ -433,7 +436,7 @@ void getRoomActions(Room newRoom)
 			else
 			{
 				player1.takeDamage(10);		//Player Takes damage if answer is wrong
-				cout << "Current Oxygen: " << player1.getCurrentHP() << endl;
+				cout << "Current Oxygen: " << player1.getCurrentHP() << " / " << player1.getMaxHP() << endl;
 			}
 		}
 		else
@@ -494,6 +497,7 @@ void Help()
 	cout << "Failing at a minigame too many times, lowers total air supply which can kill you.You are able to replenish your air supply by picking up air tanks around the map." << endl;
 	cout << "Be careful because if the Killer gets to you or you run out of time trying to repair the ship, YOU WILL LOSE" << endl;
 }
+
 void map()
 {
 	cout << "  ----------Navigation-------------Weapons" << endl;
@@ -511,6 +515,7 @@ void map()
 	cout << " Jail---|                  Hanger     " << endl;
 	cout << "  |__________________________|     " << endl;
 }
+
 void escape()
 {
 	if (mapRooms[8].getIsCompleted() == true)
@@ -537,14 +542,22 @@ void escape()
 		getRoomActions(currentRoom);
 	}
 }
+
 void investigate(int id)
 {
 	switch (id)
 	{
 	case(0)://Bedroom
 	{
-		cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a Flashlight" << endl << endl;
-		player1.addToInventory("Flashlight");
+		if (!player1.searchInventory("Flashlight"))	//If flashlight is not in inventory, adds it
+		{
+			cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a Flashlight" << endl << endl;
+			player1.addToInventory("Flashlight");
+		}
+		else
+		{
+			cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
+		}
 		break;
 	}
 	case(1)://Medical
@@ -556,9 +569,17 @@ void investigate(int id)
 		//if (roomPower(Electrical) == true)
 		else
 		{
-			cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a Oxygen Tank" << endl << endl;
-			player1.increaseMaxHP(20);
-			player1.healDamage(20);
+			if (!player1.getCollectedOxygenTank(id))
+			{
+				cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a Oxygen Tank" << endl;
+				player1.increaseMaxHP(20);
+				player1.healDamage(20);
+				player1.setCollectedOxygenTanks(id);
+			}
+			else
+			{
+				cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
+			}
 		}
 		break;
 	}
@@ -703,10 +724,17 @@ void investigate(int id)
 		{
 			if (player1.searchInventory("Flashlight"))
 			{
-				cout << "Room is too dark, you turned on your Flashlight" << endl;
-				cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a Oxygen Tank" << endl << endl;
-				player1.increaseMaxHP(20);
-				player1.healDamage(20);
+				if (!player1.getCollectedOxygenTank(id))
+				{
+					cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a Oxygen Tank" << endl;
+					player1.increaseMaxHP(20);
+					player1.healDamage(20);
+					player1.setCollectedOxygenTanks(id);
+				}
+				else
+				{
+					cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
+				}
 			}
 			else
 			{
@@ -715,9 +743,17 @@ void investigate(int id)
 		}
 		else
 		{
-			cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a Oxygen Tank" << endl << endl;
-			player1.increaseMaxHP(20);
-			player1.healDamage(20);
+			if (!player1.getCollectedOxygenTank(id))
+			{
+				cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a Oxygen Tank" << endl;
+				player1.increaseMaxHP(20);
+				player1.healDamage(20);
+				player1.setCollectedOxygenTanks(id);
+			}
+			else
+			{
+				cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
+			}
 		}
 		break;
 	}
@@ -729,8 +765,15 @@ void investigate(int id)
 		}
 		else
 		{
-			cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a Wrench" << endl << endl;
-			player1.addToInventory("Wrench");
+			if (!player1.searchInventory("Wrench"))
+			{
+				cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a Wrench" << endl << endl;
+				player1.addToInventory("Wrench");
+			}
+			else
+			{
+				cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
+			}
 		}
 		break;
 	}
@@ -754,8 +797,15 @@ void investigate(int id)
 		}
 		else
 		{
-			cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a Weapon" << endl << endl;
-			player1.addToInventory("Weapon");
+			if (!player1.searchInventory("Weapon"))
+			{
+				cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a Weapon" << endl << endl;
+				player1.addToInventory("Weapon");
+			}
+			else
+			{
+				cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
+			}
 		}
 		break;
 	}
@@ -767,8 +817,15 @@ void investigate(int id)
 		}
 		else
 		{
-			cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a Key-card" << endl << endl;
-			player1.addToInventory("Key");
+			if (!player1.searchInventory("Key Card"))
+			{
+				cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a Key-card" << endl << endl;
+				player1.addToInventory("Key Card");
+			}
+			else
+			{
+				cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
+			}
 		}
 		break;
 	}
