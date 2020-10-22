@@ -74,6 +74,7 @@ int navAdj[] = { 2,10,12,-1 };
 int userChoice;
 int choice;
 double choiceCopy;
+int turnCounter = 0;
 
 Room currentRoom;	//Room that the player is in
 //Initialize Rooms (ID, name, adjacent rooms, amount of adjacent rooms, question ID, item)
@@ -298,7 +299,7 @@ void enterRoomMessage(Room newRoom)		//Message that plays when room is entered
 {
 	cout << "-------------------------------------------------------------------------------------------------------------" << endl << endl;	//Separates screen when entering a new room.
 	cout << "You have entered the " << newRoom.getRoomName() << "." << endl << endl;
-	
+	cout << "You have used " << turnCount << " turns" << endl << endl;
 	getRoomActions(newRoom);
 }
 
@@ -329,6 +330,7 @@ void changeRooms(Room oldRoom)		//Test for changing rooms
 	}
 	currentRoom = mapRooms[adjacentIDArray[choice - 1]];	//Sets the new current room to the chosen value
 
+	turnCount++; //Every time player changes rooms increases turns used
 	enterRoomMessage(currentRoom);
 }
 bool inputMap(int choice, double choiceCopy)
