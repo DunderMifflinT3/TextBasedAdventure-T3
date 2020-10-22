@@ -58,7 +58,7 @@ Question q14("What is the name of Saturn’s largest moon?", ans14, 1);
 Question questionArray[] = { q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12, q13, q14 };	//Array of all questions (Randomize this in order to get
 
 //Adjacent Room List. Must have 4 values in array in order for it to be initialized correctly. -1 means there is no room in that spot.
-int startAdj[] = { 1,2,3,4 };
+int startAdj[] = { 1,2,3,4,5 };
 int medAdj[] = { 0,2,10,-1 };
 int comAdj[] = { 0,1,13,-1 };
 int kitAdj[] = { 0,6,9,-1 };
@@ -79,7 +79,7 @@ double choiceCopy;
 
 Room currentRoom;	//Room that the player is in
 //Initialize Rooms (ID, name, adjacent rooms, amount of adjacent rooms, question ID, item)
-Room Start(0, "Bedroom", startAdj, 4, 0, "Flashlight");
+Room Start(0, "Bedroom", startAdj, 5, 0, "Flashlight");
 Room Medical(1, "Medical Room", medAdj, 3, 1, "");
 Room Communication(2, "Communications Room", comAdj, 3, 2, "");
 Room Kitchen(3, "Kitchen", kitAdj, 3, 3, "Note");
