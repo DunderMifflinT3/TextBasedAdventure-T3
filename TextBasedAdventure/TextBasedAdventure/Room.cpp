@@ -74,7 +74,7 @@ int navAdj[] = { 2,10,12,-1 };
 int userChoice;
 int choice;
 double choiceCopy;
-int turnCounter = 0;
+int turnCount = 0;
 
 Room currentRoom;	//Room that the player is in
 //Initialize Rooms (ID, name, adjacent rooms, amount of adjacent rooms, question ID, item)
