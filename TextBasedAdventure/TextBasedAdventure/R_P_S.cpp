@@ -66,7 +66,7 @@ void test_win(double user_input)
 		{
 			if (random == 0)
 			{
-				winning_saying = "You lose.... He beats you vigorously with a rock you try to defend youself with a pair of safety scissors.;
+				winning_saying = "You lose.... He beats you vigorously with a rock you try to defend youself with a pair of safety scissors.";
 			}
 			else if (random == 1)
 			{
