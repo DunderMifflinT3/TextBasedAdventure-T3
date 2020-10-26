@@ -91,6 +91,7 @@ public:
 		else
 		{
 			currentHP -= amount;
+			cout << "You took " << amount << " damage!" << endl;
 		}
 	}
 
@@ -103,6 +104,7 @@ public:
 		else
 		{
 			currentHP += amount;
+			cout << "You healed " << amount << " damage!" << endl;
 		}
 	}
 
