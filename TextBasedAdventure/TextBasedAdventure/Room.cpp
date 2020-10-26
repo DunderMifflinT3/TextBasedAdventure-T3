@@ -9,6 +9,7 @@
 #include "Question.h"
 #include "Player.h"
 #include "Imposter.h"
+#include "R_P_S.cpp"
 #undef max
 
 void enterRoomMessage(Room);
@@ -304,7 +305,23 @@ void enterRoomMessage(Room newRoom)		//Message that plays when room is entered
 	if (imposter.getCurrentRoomID() == newRoom.getRoomID())	//Checks if imposter is in the same room
 	{
 		cout << "You feel another presence in this room..." << endl;
-		cout << "You're being attacked!" << endl;
+		cout << "You're being attacked!" << endl << endl;
+
+		while (win == false)	//Imposter keeps attacking until the player wins
+		{
+			startRPS();
+
+			if (win == false && tie == false)	//Takes damage when player loses, does nothing when player ties
+			{
+				player1.takeDamage(10);
+			}
+		}
+
+		win = false;
+		tie == false;
+		
+		cout << "Phew... The attacker fled. It looks like you made it out of there alive somehow." << endl;
+		cout << "Let's continue exploring." << endl << endl;;
 	}
 	
 	getRoomActions(newRoom);
@@ -337,7 +354,7 @@ void changeRooms(Room oldRoom)		//Test for changing rooms
 	}
 	currentRoom = mapRooms[adjacentIDArray[choice - 1]];	//Sets the new current room to the chosen value
 
-	imposter.moveRooms(rand() % 13 + 1);	//Imposter changes rooms when player does (TO DO: Change formula for the rooms it picks)
+	imposter.moveRooms(rand() % 3 + 1);	//Imposter changes rooms when player does (TO DO: Change formula for the rooms it picks)
 
 	enterRoomMessage(currentRoom);
 }
