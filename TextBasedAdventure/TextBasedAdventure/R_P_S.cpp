@@ -3,7 +3,7 @@
 #include <stdlib.h>   
 #include <stdio.h> 
 #include <string>
-#include "Room.h"
+#include "InputValidation.h"
 using namespace std;
 
 double tie_array[3][2] = { {0,1}, {1,2}, {2,3} };
@@ -11,7 +11,6 @@ double comp_win[3][2] = { {0,3}, {1,1}, {2,2} };
 double player_win[3][2] = { {0,2}, {1,3},{2,1} };
 string winning_saying;
 int random;
-double user_input;
 bool win;
 bool tie;
 
@@ -22,29 +21,13 @@ void set_random()
 	random = ran;
 }
 
-bool RPSinput_val()
-{
-	if (floor(user_input) != user_input)
-	{
-		cout << "Enter in valid value" << endl;
-
-		return false;
-	}
-	else if (user_input > 3 || user_input <= 0)
-	{
-		cout << "Enter in valid value" << endl;
-		return false;
-	}
-	return true;
-}
-
-void test_win(double user_input)
+void test_win(double choice)
 {
 	int y = 0;
 	for (int x = 0; x < 3; x++)
 	{
 
-		if (tie_array[x][y] == random && tie_array[x][y + 1] == user_input)	//Tie
+		if (tie_array[x][y] == random && tie_array[x][y + 1] == choice)	//Tie
 		{
 			if (random == 0)
 			{
@@ -62,7 +45,7 @@ void test_win(double user_input)
 			tie = true;
 		}
 
-		else if (comp_win[x][y] == random && comp_win[x][y + 1] == user_input)	//Loss
+		else if (comp_win[x][y] == random && comp_win[x][y + 1] == choice)	//Loss
 		{
 			if (random == 0)
 			{
@@ -80,7 +63,7 @@ void test_win(double user_input)
 			tie = false;
 		}
 
-		else if (player_win[x][y] == random && player_win[x][y + 1] == user_input)	//Win
+		else if (player_win[x][y] == random && player_win[x][y + 1] == choice)	//Win
 		{
 			if (random == 0)
 			{
@@ -108,17 +91,14 @@ void startRPS()
 
 	set_random();
 
-	cin >> user_input;
-	
-	while (RPSinput_val() == false)
-	{
-		cin >> user_input;
-		cin.clear();
-	}
 
-	test_win(user_input);
+	//Input Validation
+	input(3);
+
+	test_win(choice);
 
 	cout << winning_saying << endl << endl;
 
 	return;
 }
+
