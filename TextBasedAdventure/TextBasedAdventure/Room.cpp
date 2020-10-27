@@ -1,4 +1,4 @@
-//Version 3.5
+//Version 3.6
 #include <cmath>
 #include <math.h>
 #include <algorithm>
@@ -166,7 +166,7 @@ void displayRoomMessage(int id) //Displays message when room is not complete. Ca
 		}
 		else
 		{
-			cout << "The ship’s fuel levels are low, you need to refill the ship’s fuel" << endl;
+			cout << "The ship" << "\'" << "s fuel levels are low, you need to refill the ship" << "\'" << "s fuel" << endl;
 			cout << "You see a fuel container next to the fuel tank." << endl << endl;
 		}
 		break;
@@ -207,7 +207,7 @@ void displayRoomMessage(int id) //Displays message when room is not complete. Ca
 		}
 	case(9):
 		{
-			cout << "There isn’t much in the lounge except some couches and playing cards from the day before." << endl;
+			cout << "There isn" << "\'" << "t much in the lounge except some couches and playing cards from the day before." << endl;
 			cout << endl;
 		break;
 		}
@@ -262,8 +262,8 @@ void displayRoomMessage(int id) //Displays message when room is not complete. Ca
 		else
 		{
 			cout << "You find the pilot murdered in their chair and the command console is flashing red with " << endl;
-			cout << "the word “WARNING!” on the screen. Here you can check the console for progress on completed " << endl;
-			cout << "repairs you have made to the ship.  “Check Console” to check progress of repaired systems. " << endl;
+			cout << "the word " << "\"" << "WARNING!" << "\" " << "on the screen. Here you can check the console for progress on completed " << endl;
+			cout << "repairs you have made to the ship. " << "\"" << "Check Console" << "\"" << " to check progress of repaired systems. " << endl;
 			cout << "x amount of systems are online out of x." << endl;
 			cout << endl;
 		}
