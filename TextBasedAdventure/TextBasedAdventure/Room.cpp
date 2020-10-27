@@ -167,7 +167,7 @@ void displayRoomMessage(int id) //Displays message when room is not complete. Ca
 		else if (player1.searchInventory("Wrench") == false)
 		{
 			cout << "You need a specific tool to be able to complete this task." << endl << endl;
-			changeRooms(RightEngine);
+			getRoomActions(currentRoom);
 		}
 		else
 		{
@@ -178,8 +178,16 @@ void displayRoomMessage(int id) //Displays message when room is not complete. Ca
 		}
 	case(5):
 		{
-			cout << "You notice a leak in the engine and the fuel levels dropping." << endl << endl;
-		break;
+			if (player1.searchInventory("Wrench") == false)
+			{
+			cout << "You need a specific tool to be able to complete this task." << endl << endl;
+			getRoomActions(currentRoom);
+			}
+			else 
+			{
+				cout << "You notice a leak in the engine and the fuel levels dropping. Complete the task at hand to fix the leak." << endl << endl;
+			}
+			break;
 		}
 	case(6):
 		{
@@ -537,20 +545,36 @@ void escape()
 	}
 }
 
-void repairEngine()
+void repairRightEngine()
 {
-	if (mapRooms[4].getIsCompleted() == true && player1.searchInventory("Wrench") == true)
+	if (mapRooms[4].getIsCompleted() == true)
 	{
-		cout << "You have repaired the right engine and the fuel levels are stabilizing" << endl << endl;
+		cout << "You have repaired the Right engine and the fuel levels are stabilizing" << endl << endl;
 	}
 	else
 	{
-		cout << "You notice a leak in the engine and the fuel levels dropping." << endl;
+		cout << "You notice a leak in the Right engine and the fuel levels dropping." << endl;
 		cout << "You need to repair the engine." << endl << endl;
 		getRoomActions(currentRoom);
 	}
 
 }
+
+void repairLeftEngine()
+{
+	if (mapRooms[5].getIsCompleted() == true)
+	{
+		cout << "You have repaired the Left engine and the fuel levels are stabilizing" << endl << endl;
+	}
+	else
+	{
+		cout << "You notice a leak in the Left engine and the fuel levels dropping." << endl;
+		cout << "You need to repair the engine." << endl << endl;
+		getRoomActions(currentRoom);
+	}
+
+}
+
 void investigate(int id)
 {
 	switch (id)
@@ -627,8 +651,7 @@ void investigate(int id)
 		}
 		else 
 		{
-			repairEngine();
-			//cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
+			repairRightEngine();		
 		}
 		break;
 	}
@@ -648,7 +671,7 @@ void investigate(int id)
 		}
 		else
 		{
-			cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
+			repairLeftEngine();
 		}
 		break;	
 	}
