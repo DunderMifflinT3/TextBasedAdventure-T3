@@ -1,4 +1,4 @@
-//Version 3.6
+//Version 3.5
 #include <cmath>
 #include <math.h>
 #include <algorithm>
@@ -75,11 +75,10 @@ int bathAdj[] = { 4,12,-1,-1 };
 int weaAdj[] = { 11,13,-1,-1 };
 int navAdj[] = { 2,10,12,-1 };
 
-const int randomCode = currentRoom.noteCode(); //Generates Random Code Every Game For Hanger
 int userChoice;
 int choice;
 double choiceCopy;
-int turnCount = 0;
+int turnCount = -1;
 bool playAgain = true;
 int difficulty;
 
@@ -102,6 +101,7 @@ Room Navigation(13, "Nagivation Room", navAdj, 3, 13, "Key Card");
 
 Room mapRooms[] = { Start, Medical, Communication, Kitchen, RightEngine, LeftEngine, Electrical, Jail, Hangar, Lounge, Storage, Bathroom, Weapons, Navigation };	//Array of all rooms
 
+const int randomCode = currentRoom.noteCode(); //Generates Random Code Every Game For Hanger
 
 bool roomPower(Room Electrical) 
 {
@@ -349,6 +349,7 @@ int main()
 	return 0;
 
 }
+
 void enterRoomMessage(Room newRoom)		//Message that plays when room is entered
 {
 	cout << "-------------------------------------------------------------------------------------------------------------" << endl << endl;	//Separates screen when entering a new room.
@@ -856,7 +857,7 @@ void gameOver()
 	}
 	else if(input = "n" || "N")
 	{
-		playAgain = false;
+		exit(0);
 	}
 	else
 	{
