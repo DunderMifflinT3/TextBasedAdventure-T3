@@ -848,7 +848,7 @@ void gameOver()
 {
 	char input;
 	cout << "Game Over" << endl;
-	cout << "Would you like to play again? [y/n]" << endl;
+	cout << "Would you like to play again? [y/n]  (Still not complete, keep playing)" << endl; //Still not complete needs restart and end game function
 	cin >> input;
 
 	if (input = "y" || "Y")
