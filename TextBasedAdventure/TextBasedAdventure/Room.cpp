@@ -10,16 +10,14 @@
 #include "Player.h"
 #include "Imposter.h"
 #include "R_P_S.cpp"
-#undef max
+#include "InputValidation.h"
 
 void enterRoomMessage(Room);
 void changeRooms(Room);
-bool inputMap(int, double);
-bool inputQuestion(int, double); //input validation for questions
 bool roomPower(Room); //Powers up rooms
 void getRoomActions(Room);
 void map();
-void Help();
+void help();
 void escape();
 void investigate(int);
 
@@ -74,11 +72,8 @@ int bathAdj[] = { 4,12,-1,-1 };
 int weaAdj[] = { 11,13,-1,-1 };
 int navAdj[] = { 2,10,12,-1 };
 
-int userChoice;
-int choice;
-double choiceCopy;
-
 Room currentRoom;	//Room that the player is in
+
 //Initialize Rooms (ID, name, adjacent rooms, amount of adjacent rooms, question ID, item)
 Room Start(0, "Bedroom", startAdj, 5, 0, "Flashlight");
 Room Medical(1, "Medical Room", medAdj, 3, 1, "");
@@ -117,6 +112,7 @@ bool roomPower(Room Electrical)
 	}
 	
 }
+
 void displayRoomMessage(int id) //Displays message when room is not complete. Cases correspond to room IDs.
 {
 	switch (id)
@@ -340,18 +336,10 @@ void changeRooms(Room oldRoom)		//Test for changing rooms
 		cout << i + 1 << ": " << mapRooms[tempAdjacentID].getRoomName() << endl;
 		adjacentIDArray[i] = currentRoom.getAdjacentRooms(i);
 	}
-		
-	int choice;
-	double choiceCopy;
-	cin >> choiceCopy;		
-	choice = choiceCopy;
-	while (inputMap(choice, choiceCopy) == false)
-	{
-		cin >> choiceCopy;
-		choice = choiceCopy;
-		cin.clear();
-		cin.ignore(numeric_limits<streamsize>::max(), '\n');
-	}
+	
+	//Input Validation
+	input(currentRoom.getNumOfAdjacentRooms());
+
 	currentRoom = mapRooms[adjacentIDArray[choice - 1]];	//Sets the new current room to the chosen value
 
 	imposter.moveRooms(rand() % 3 + 1);	//Imposter changes rooms when player does (TO DO: Change formula for the rooms it picks)
@@ -359,42 +347,8 @@ void changeRooms(Room oldRoom)		//Test for changing rooms
 	enterRoomMessage(currentRoom);
 }
 
-bool inputMap(int choice, double choiceCopy)
-{
-	if (floor(choiceCopy) != choiceCopy)
-	{
-		cout << "Enter in valid value" << endl;
-
-		return false;
-	}
-	else if (choice > currentRoom.getNumOfAdjacentRooms() || choice <= 0)
-	{
-		cout << "Enter in valid value" << endl;
-		return false;
-	}
-	return true;
-}
-
-bool inputQuestion(int ansChoice, double choiceCopy)
-{
-	if (floor(choiceCopy) != choiceCopy)
-	{
-		cout << "Enter in valid value" << endl;
-
-		return false;
-	}
-	else if (ansChoice > 4 || ansChoice <= 0)
-	{
-		cout << "Enter in valid value" << endl;
-		return false;
-	}
-	return true;
-}
-
 void getRoomActions(Room newRoom)
-{
-	double userChoiceCopy;
-	
+{	
 	cout << "What would you like to do in the " << newRoom.getRoomName() << "?" << endl << endl;
 	cout << "1. Complete Task" << endl;
 	cout << "2. Investigate" << endl;
@@ -402,26 +356,11 @@ void getRoomActions(Room newRoom)
 	cout << "4. Inventory" << endl;
 	cout << "5. Map" << endl;
 	cout << "6. Help" << endl;
-	cin >> userChoiceCopy;
-		
-	userChoice = userChoiceCopy;
-	while (userChoice > 6 || userChoice < 1)
-	{
-		cout << "Invalid input" << endl;
-		cin >> userChoice;
-		cin.clear();
-		cin.ignore(numeric_limits<streamsize>::max(), '\n');
-		
-		userChoiceCopy = userChoice;
-	}
-	while (userChoiceCopy != floor(userChoiceCopy))
-	{
-		cout << "Invalid input" << endl;
-		
-		cin >> userChoiceCopy;
-	}
-	userChoice = userChoiceCopy;
-	switch (userChoice)
+	
+	//Input Validation
+	input(6);
+
+	switch (choice)
 	{
 	case(1): 
 		{
@@ -432,19 +371,20 @@ void getRoomActions(Room newRoom)
 
 			//Displays room question based on questionArray
 			questionArray[currentRoom.getRoomQuestion()].display();
-			int ansChoice;
-			double ansChoiceCopy;
-			cin >> ansChoiceCopy; //send for input validation
-			ansChoice = ansChoiceCopy;
-			while (inputQuestion(ansChoice, ansChoiceCopy) == false)
+
+			//Input Validation
+			cin >> choiceCopy;
+			choice = choiceCopy;
+			while (inputValidation(choice, choiceCopy, 4) == false)
 			{
-				cin >> ansChoiceCopy;
-				ansChoice = ansChoiceCopy;
+				cin >> choiceCopy;
+				choice = choiceCopy;
 				cin.clear();
 				cin.ignore(numeric_limits<streamsize>::max(), '\n');
 				cout << endl;
 			}
-			if (questionArray[currentRoom.getRoomQuestion()].isCorrectAnswer(ansChoice))
+
+			if (questionArray[currentRoom.getRoomQuestion()].isCorrectAnswer(choice))
 			{
 				mapRooms[currentRoom.getRoomID()].completeRoom();
 				cout << "You have completed everything in this room." << endl << endl;
@@ -499,14 +439,14 @@ void getRoomActions(Room newRoom)
 		}	
 	case(6):
 		{
-		Help();
+		help();
 		getRoomActions(currentRoom);
 		break;
 		}
 	}
 }
 
-void Help()
+void help()
 {
 	cout << "Choose a room to navigate to from the displayed map / room list" << endl;
 	cout << "Each room will have a description when you go into the room with a minigame to fix gadgets or objects you can pick up(Air tank, weapon, tools, paper with a code on it for another minigame they may have to remember.)" << endl;
