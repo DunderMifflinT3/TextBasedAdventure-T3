@@ -323,6 +323,7 @@ void enterRoomMessage(Room newRoom)		//Message that plays when room is entered
 			if (win == false && tie == false)	//Takes damage when player loses, does nothing when player ties
 			{
 				player1.takeDamage(10);
+				cout << "Current Oxygen: " << player1.getCurrentHP() << " / " << player1.getMaxHP() << endl << endl;
 			}
 		}
 
@@ -386,16 +387,7 @@ void getRoomActions(Room newRoom)
 			questionArray[currentRoom.getRoomQuestion()].display();
 
 			//Input Validation
-			cin >> choiceCopy;
-			choice = choiceCopy;
-			while (inputValidation(choice, choiceCopy, 4) == false)
-			{
-				cin >> choiceCopy;
-				choice = choiceCopy;
-				cin.clear();
-				cin.ignore(numeric_limits<streamsize>::max(), '\n');
-				cout << endl;
-			}
+			input(4);
 
 			if (questionArray[currentRoom.getRoomQuestion()].isCorrectAnswer(choice))
 			{
@@ -406,7 +398,7 @@ void getRoomActions(Room newRoom)
 			else
 			{
 				player1.takeDamage(10);		//Player Takes damage if answer is wrong
-				cout << "Current Oxygen: " << player1.getCurrentHP() << " / " << player1.getMaxHP() << endl;
+				cout << "Current Oxygen: " << player1.getCurrentHP() << " / " << player1.getMaxHP() << endl << endl;
 			}
 		}
 		else
