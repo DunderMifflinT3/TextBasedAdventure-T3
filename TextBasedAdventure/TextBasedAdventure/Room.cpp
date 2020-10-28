@@ -520,7 +520,7 @@ void map()
 }
 void escape()
 {
-	if (mapRooms[8].getIsCompleted() == true && player1.searchInventory("Key") == true)
+	if (mapRooms[8].getIsCompleted() == true && player1.searchInventory("Key Card") == true)
 	{
 		int code;
 		cout << "The escape pod is online! Please enter 4 digit code to enter pod: " << endl;
@@ -545,7 +545,7 @@ void escape()
 	}
 }
 
-void repairRightEngine()
+void RightEngineComplete()
 {
 	if (mapRooms[4].getIsCompleted() == true)
 	{
@@ -560,7 +560,7 @@ void repairRightEngine()
 
 }
 
-void repairLeftEngine()
+void leftEngineComplete()
 {
 	if (mapRooms[5].getIsCompleted() == true)
 	{
@@ -591,7 +591,6 @@ void investigate(int id)
 		{
 			cout << "Room is locked, turn on power to unlock room." << endl << endl;
 		}
-		//if (roomPower(Electrical) == true)
 		else
 		{
 			cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a Oxygen Tank" << endl << endl;
@@ -634,7 +633,7 @@ void investigate(int id)
 			{
 				cout << "It is too dark to see anything please turn on power first." << endl << endl;
 			}
-	}
+		}
 	else
 	{
 		cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a Note." << endl;
@@ -651,7 +650,7 @@ void investigate(int id)
 		}
 		else 
 		{
-			repairRightEngine();		
+			RightEngineComplete();
 		}
 		break;
 	}
@@ -661,8 +660,8 @@ void investigate(int id)
 		{
 			if (player1.searchInventory("Flashlight"))
 			{
-				cout << "Room is too dark, you turned on your Flashlight" << endl;
-				cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
+				cout << "Room is too dark, you turned on your Flashlight" << endl << endl;
+				leftEngineComplete();
 			}
 			else
 			{
@@ -671,7 +670,7 @@ void investigate(int id)
 		}
 		else
 		{
-			repairLeftEngine();
+			leftEngineComplete();
 		}
 		break;	
 	}
@@ -798,7 +797,7 @@ void investigate(int id)
 		else
 		{
 			cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a Key-card" << endl << endl;
-			player1.addToInventory("Key");
+			player1.addToInventory("Key Card");
 		}
 		break;
 	}
