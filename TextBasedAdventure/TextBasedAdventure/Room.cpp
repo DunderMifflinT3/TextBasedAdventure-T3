@@ -12,6 +12,7 @@
 #include "Imposter.h"
 #include "R_P_S.cpp"
 #include "InputValidation.h"
+#include <cstdlib>
 
 void enterRoomMessage(Room);
 void changeRooms(Room);
@@ -21,7 +22,7 @@ void map();
 void help();
 void escape();
 void investigate(int);
-void turnCounter(int);
+void turnCounter();
 void difficultLevel();
 void gameOver();
 
@@ -76,12 +77,10 @@ int bathAdj[] = { 4,12,-1,-1 };
 int weaAdj[] = { 11,13,-1,-1 };
 int navAdj[] = { 2,10,12,-1 };
 
-int userChoice;
-int choice;
-double choiceCopy;
-int turnCount = -1;
+int turnCount = 0;
 bool playAgain = true;
 int difficulty;
+int maxTurnCount;
 
 Room currentRoom;	//Room that the player is in
 
@@ -301,48 +300,29 @@ void displayRoomMessage(int id) //Displays message when room is not complete. Ca
 }
 void difficultLevel()
 {
-	double difficultychoice;
 	
 	cout << "Please choose 1-3 for difficulty level:" << endl << endl;
 	cout << "1. Amatuer Explorer (35 turns)" << endl;
 	cout << "2. Skilled Adventurer (20 turns)" << endl;
 	cout << "3. Veteran Pioneer (10 turns)" << endl;
 
-	cin >> difficultychoice;
-
-	difficulty = difficultychoice;
-	while (difficulty > 3 || difficulty < 1)
-	{
-		cout << "Invalid input" << endl;
-		cin >> difficultychoice;
-		cin.clear();
-		cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-		difficulty = difficultychoice;
-	}
-	while (difficultychoice != floor(difficultychoice))
-	{
-		cout << "Invalid input" << endl;
-
-		cin >> difficultychoice;
-	}
-	difficulty = difficultychoice;
+	input(3);
 	
-	switch (difficulty)
+	switch (choice)
 	{
 	case(1):
 	{
-		turnCounter(35);
+		maxTurnCount = 35;
 		break;
 	}
 	case(2):
 	{
-		turnCounter(20);
+		maxTurnCount = 20;
 		break;
 	}
 	case(3):
 	{
-		turnCounter(10);
+		maxTurnCount = 10;
 		break;
 	}
 	}
@@ -394,7 +374,7 @@ void enterRoomMessage(Room newRoom)		//Message that plays when room is entered
 		cout << "Let's continue exploring." << endl << endl;;
 	}
 	
-	cout << "You have used " << turnCount << " turns" << endl << endl;
+	cout << "Turns until nuclear meltdown: " << maxTurnCount - turnCount << endl << endl;
 	getRoomActions(newRoom);
 }
 void changeRooms(Room oldRoom)		//Test for changing rooms
@@ -416,18 +396,7 @@ void changeRooms(Room oldRoom)		//Test for changing rooms
 
 	currentRoom = mapRooms[adjacentIDArray[choice - 1]];	//Sets the new current room to the chosen value
 
-	if (difficulty == 1)//easy
-	{
-		turnCounter(35);//set how mant turns till game over 
-	}
-	if (difficulty == 2)//medium
-	{
-		turnCounter(20);
-	}
-	else if (difficulty == 3)//hard
-	{
-		turnCounter(10);
-	}
+	turnCounter();
 	
 	imposter.moveRooms(rand() % 3 + 1);	//Imposter changes rooms when player does (TO DO: Change formula for the rooms it picks)
 
@@ -892,10 +861,10 @@ void investigate(int id)
 	}
 	}
 }
-void turnCounter(int turnlimit)
+void turnCounter()
 {
 	turnCount++;
-	if (turnCount == turnlimit)
+	if (turnCount == maxTurnCount)
 	{
 		gameOver();
 	}
