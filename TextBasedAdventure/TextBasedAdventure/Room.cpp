@@ -5,6 +5,7 @@
 #include <Windows.h>
 #include <iostream>
 #include <time.h>
+#include <stdlib.h>
 #include "Room.h"
 #include "Question.h"
 #include "Player.h"
@@ -20,6 +21,9 @@ void map();
 void help();
 void escape();
 void investigate(int);
+void turnCounter(int);
+void difficultLevel();
+void gameOver();
 
 Player player1("Player 1", 100);
 Imposter imposter(7);
@@ -72,6 +76,13 @@ int bathAdj[] = { 4,12,-1,-1 };
 int weaAdj[] = { 11,13,-1,-1 };
 int navAdj[] = { 2,10,12,-1 };
 
+int userChoice;
+int choice;
+double choiceCopy;
+int turnCount = -1;
+bool playAgain = true;
+int difficulty;
+
 Room currentRoom;	//Room that the player is in
 
 //Initialize Rooms (ID, name, adjacent rooms, amount of adjacent rooms, question ID, item)
@@ -110,7 +121,7 @@ bool roomPower(Room Electrical)
 		cout << "Power is still off, find correct room to turn online." << endl << endl;
 		return false;
 	}
-
+	
 }
 
 void displayRoomMessage(int id) //Displays message when room is not complete. Cases correspond to room IDs.
@@ -288,9 +299,58 @@ void displayRoomMessage(int id) //Displays message when room is not complete. Ca
 		}
 	}
 }
+void difficultLevel()
+{
+	double difficultychoice;
+	
+	cout << "Please choose 1-3 for difficulty level:" << endl << endl;
+	cout << "1. Amatuer Explorer (35 turns)" << endl;
+	cout << "2. Skilled Adventurer (20 turns)" << endl;
+	cout << "3. Veteran Pioneer (10 turns)" << endl;
 
+	cin >> difficultychoice;
+
+	difficulty = difficultychoice;
+	while (difficulty > 3 || difficulty < 1)
+	{
+		cout << "Invalid input" << endl;
+		cin >> difficultychoice;
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+		difficulty = difficultychoice;
+	}
+	while (difficultychoice != floor(difficultychoice))
+	{
+		cout << "Invalid input" << endl;
+
+		cin >> difficultychoice;
+	}
+	difficulty = difficultychoice;
+	
+	switch (difficulty)
+	{
+	case(1):
+	{
+		turnCounter(35);
+		break;
+	}
+	case(2):
+	{
+		turnCounter(20);
+		break;
+	}
+	case(3):
+	{
+		turnCounter(10);
+		break;
+	}
+	}
+}
 int main()
 {
+	difficultLevel();
+
 	cout << "You have just woken up on a spaceship that is part of a space bounty expedition" << endl;
 	cout << "to capture a most wanted alien and the ship is quickly spiraling out of control towards Earth." << endl;
 	cout << "You realize your crewmates are missing, the power is out and the ships gadgets" << endl;
@@ -302,8 +362,8 @@ int main()
 	currentRoom = Start; //Sets the room that the player is in
 
 	enterRoomMessage(currentRoom);
-
 	return 0;
+
 }
 
 void enterRoomMessage(Room newRoom)		//Message that plays when room is entered
@@ -334,9 +394,9 @@ void enterRoomMessage(Room newRoom)		//Message that plays when room is entered
 		cout << "Let's continue exploring." << endl << endl;;
 	}
 	
+	cout << "You have used " << turnCount << " turns" << endl << endl;
 	getRoomActions(newRoom);
 }
-
 void changeRooms(Room oldRoom)		//Test for changing rooms
 {
 	int adjacentIDArray[MAXADJACENTROOMS];	//Array that holds the ids of adjacent rooms
@@ -356,6 +416,19 @@ void changeRooms(Room oldRoom)		//Test for changing rooms
 
 	currentRoom = mapRooms[adjacentIDArray[choice - 1]];	//Sets the new current room to the chosen value
 
+	if (difficulty == 1)//easy
+	{
+		turnCounter(35);//set how mant turns till game over 
+	}
+	if (difficulty == 2)//medium
+	{
+		turnCounter(20);
+	}
+	else if (difficulty == 3)//hard
+	{
+		turnCounter(10);
+	}
+	
 	imposter.moveRooms(rand() % 3 + 1);	//Imposter changes rooms when player does (TO DO: Change formula for the rooms it picks)
 
 	enterRoomMessage(currentRoom);
@@ -817,5 +890,34 @@ void investigate(int id)
 		cout << "Error 1" << endl;
 		cout << endl;
 	}
+	}
+}
+void turnCounter(int turnlimit)
+{
+	turnCount++;
+	if (turnCount == turnlimit)
+	{
+		gameOver();
+	}
+}
+void gameOver()
+{
+	char input;
+	cout << "Game Over" << endl;
+	cout << "Would you like to play again? [y/n]  (Still not complete, keep playing)" << endl; //Still not complete needs restart and end game function
+	cin >> input;
+
+	if (input = "y" || "Y")
+	{
+		//restart
+	}
+	else if(input = "n" || "N")
+	{
+		exit(0);
+	}
+	else
+	{
+		cout << "Invalid input" << endl;
+		gameOver();
 	}
 }
