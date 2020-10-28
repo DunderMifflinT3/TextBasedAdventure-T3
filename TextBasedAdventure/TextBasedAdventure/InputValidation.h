@@ -26,6 +26,7 @@ bool inputValidation(int choice, double choiceCopy, int numOfChoices)	//Checks i
 
 void input(int numOfChoices)	//Allows for an input to happen
 {
+	cout << endl;
 	cin >> choiceCopy;
 	choice = choiceCopy;
 	while (inputValidation(choice, choiceCopy, numOfChoices) == false)
