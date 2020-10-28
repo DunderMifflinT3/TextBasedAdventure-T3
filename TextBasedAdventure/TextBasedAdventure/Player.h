@@ -57,14 +57,16 @@ public:
 
 	bool searchInventory(string item)	//Goes through inventory to find an item. Called when needing an item to do something
 	{
-		for (int i = 0; i < inventory.size(); i++)
+		
+		
+		if (std::find(inventory.begin(),inventory.end(), item) != inventory.end())
 		{
-			if (inventory.at(i) == item);
-			{
-				return true;
-			}
+			return true;
 		}
-		return false;
+		else
+		{
+			return false;
+		}
 	}
 
 	void showInventory()
