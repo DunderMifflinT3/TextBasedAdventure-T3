@@ -8,7 +8,7 @@ using namespace std;
 #ifndef Room_H
 #define Room_H
 
-const int MAXADJACENTROOMS = 4;
+const int MAXADJACENTROOMS = 5;
 
 class Room
 {

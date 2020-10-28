@@ -13,6 +13,7 @@ private:
 	string playerName;
 	int maxHP;
 	int currentHP;
+	bool collectedOxygenTanks[14] = { 0,0,0,0,0,0,0,0,0,0,0,0,0,0 };
 
 public:
 	vector<string> inventory;
@@ -35,6 +36,11 @@ public:
 		return currentHP;
 	}
 
+	int getMaxHP()
+	{
+		return maxHP;
+	}
+
 	void setPlayerName(string name)
 	{
 		playerName = name;
@@ -48,6 +54,7 @@ public:
 	void increaseMaxHP(int amount)
 	{
 		maxHP += amount;
+		cout << "Your Maximum Oxygen increased to " << maxHP << "!" << endl << endl;
 	}
 
 	void addToInventory(string item)	//Adds new item into next spot in array
@@ -86,6 +93,7 @@ public:
 		else
 		{
 			currentHP -= amount;
+			cout << "You took " << amount << " damage!" << endl;
 		}
 	}
 
@@ -98,6 +106,7 @@ public:
 		else
 		{
 			currentHP += amount;
+			cout << "You healed " << amount << " damage!" << endl;
 		}
 	}
 
@@ -106,6 +115,16 @@ public:
 		cout << playerName << " has died!" << endl;	//Make more descriptive later
 		cout << "Play again?" << endl;
 		//Add input for yes or no
+	}
+
+	void setCollectedOxygenTanks(int room)	//Sets that the player obtained the oxygen tank if it is in the room
+	{
+		collectedOxygenTanks[room] = true;
+	}
+
+	bool getCollectedOxygenTank(int room)	//Checks if player already obtained oxygen tank in this room
+	{
+		return collectedOxygenTanks[room];
 	}
 };
 
