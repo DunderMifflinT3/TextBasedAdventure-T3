@@ -57,7 +57,7 @@ Question q12("What is the hottest planet in our solar system ?", ans12, 3);
 string ans13[] = { "Michael Collins", "Buzz Aldrin", "Freddy Mercury", "Neil Armstrong" };
 Question q13("Who was the first person to walk on the moon?", ans13, 4);
 string ans14[] = { "Titan", "Mimas", "Rhea", "Phoebe" };
-Question q14("What is the name of Saturn’s largest moon?", ans14, 1);
+Question q14("What is the name of Saturns largest moon?", ans14, 1);
 
 Question questionArray[] = { q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12, q13, q14 };	//Array of all questions (Randomize this in order to get
 
