@@ -27,6 +27,7 @@ void difficultLevel();
 void gameOver();
 void playGame();
 void playerDeath();
+void imposterEncounter();
 
 int playerHP = 100;
 Player player1("Player 1", playerHP);
@@ -81,9 +82,9 @@ int weaAdj[] = { 11,13,-1,-1 };
 int navAdj[] = { 2,10,12,-1 };
 
 int turnCount = 0;
-bool playAgain = true;
 int difficulty;
 int maxTurnCount;
+int imposterReleaseTurn;
 
 Room currentRoom;	//Room that the player is in
 
@@ -316,16 +317,19 @@ void difficultLevel()
 	case(1):
 	{
 		maxTurnCount = 40;
+		imposterReleaseTurn = 10;
 		break;
 	}
 	case(2):
 	{
 		maxTurnCount = 25;
+		imposterReleaseTurn = 5;
 		break;
 	}
 	case(3):
 	{
 		maxTurnCount = 15;
+		imposterReleaseTurn = 1;
 		break;
 	}
 	}
@@ -334,16 +338,17 @@ void playGame()
 {
 	
 	//system("Color 04");
+
+	//Resets everything before selecting difficulty
 	turnCount = 0;
 	randomCode = currentRoom.noteCode();
 	player1.resetPlayer(playerHP);
 
 	for (int i = 0; i < 14; i++)
 	{
-		//mapRooms[i].setPower(false);
 		mapRooms[i].resetRoom();
 	}
-	//Reset everything before select difficulty
+
 	difficultLevel();
 	
 	cout << "You have just woken up on a spaceship that is part of a space bounty expedition" << endl;
@@ -370,33 +375,15 @@ void enterRoomMessage(Room newRoom)		//Message that plays when room is entered
 	cout << "-------------------------------------------------------------------------------------------------------------" << endl << endl;	//Separates screen when entering a new room.
 	cout << "You have entered the " << newRoom.getRoomName() << "." << endl << endl;
 
-	if (imposter.getCurrentRoomID() == newRoom.getRoomID())	//Checks if imposter is in the same room
+	if (imposter.getCurrentRoomID() == newRoom.getRoomID() && turnCount > imposterReleaseTurn)	//Checks if imposter is in the same room
 	{
-		cout << "You feel another presence in this room..." << endl;
-		cout << "You're being attacked!" << endl << endl;
-		
-		while (win == false)	//Imposter keeps attacking until the player wins
-		{
-			startRPS();
-
-			if (win == false && tie == false)	//Takes damage when player loses, does nothing when player ties
-			{
-				player1.takeDamage(10);
-				playerDeath();
-				cout << "Current Oxygen: " << player1.getCurrentHP() << " / " << player1.getMaxHP() << endl << endl;
-			}
-		}
-
-		win = false;
-		tie == false;
-		
-		cout << "Phew... The attacker fled. It looks like you made it out of there alive somehow." << endl;
-		cout << "Let's continue exploring." << endl << endl;;
+		imposterEncounter();
 	}
 	
 	cout << "Turns until nuclear meltdown: " << maxTurnCount - turnCount << endl << endl;
 	getRoomActions(newRoom);
 }
+
 void changeRooms(Room oldRoom)		//Test for changing rooms
 {
 	int adjacentIDArray[MAXADJACENTROOMS];	//Array that holds the ids of adjacent rooms
@@ -416,15 +403,32 @@ void changeRooms(Room oldRoom)		//Test for changing rooms
 
 	currentRoom = mapRooms[adjacentIDArray[choice - 1]];	//Sets the new current room to the chosen value
 
+	if (turnCount > imposterReleaseTurn)	//Imposter starts moving after imposter release turn
+	{
+		imposter.moveRooms(rand() % 13 + 1);	//Imposter changes rooms when player does (TO DO: Change formula for the rooms it picks)
+	}
+
 	turnCounter();
-	
-	imposter.moveRooms(rand() % 3 + 1);	//Imposter changes rooms when player does (TO DO: Change formula for the rooms it picks)
 
 	enterRoomMessage(currentRoom);
 }
 
 void getRoomActions(Room newRoom)
 {	
+	if (turnCount == imposterReleaseTurn)	//Mentions imposter release. Make Red Text
+	{
+		if (currentRoom.getRoomID() == 7)	//If player is in the jail on the turn the imposter breaks out
+		{
+			cout << "You look around the room for a bit until you notice that one of the cells has been breached." << endl;
+			cout << "What happened here, and are you really safe ?" << endl << endl;
+			imposterEncounter();
+		}
+		else
+		{
+			cout << "You hear movement coming from the other side of the ship. Is someone else on board with you..." << endl << endl;
+		}
+	}
+
 	cout << "What would you like to do in the " << newRoom.getRoomName() << "?" << endl << endl;
 	cout << "1. Complete Task" << endl;
 	cout << "2. Investigate" << endl;
@@ -568,7 +572,7 @@ void escape()
 	}
 }
 
-void RightEngineComplete()
+void rightEngineComplete()
 {
 	if (mapRooms[4].getIsCompleted() == true)
 	{
@@ -688,7 +692,7 @@ void investigate(int id)
 		}
 		else 
 		{
-			RightEngineComplete();
+			rightEngineComplete();
 		}
 		break;
 	}
@@ -882,6 +886,7 @@ void investigate(int id)
 	}
 	}
 }
+
 void turnCounter()
 {
 	turnCount++;
@@ -892,6 +897,7 @@ void turnCounter()
 		gameOver();
 	}
 }
+
 void gameOver()
 {
 	cout << "Game Over" << endl << endl;
@@ -911,6 +917,7 @@ void gameOver()
 	}
 	}
 }
+
 void playerDeath()	//Plays a death message
 {
 	if (player1.getCurrentHP() <= 0)
@@ -922,4 +929,28 @@ void playerDeath()	//Plays a death message
 	else
 	{
 	}
+}
+
+void imposterEncounter()
+{
+	cout << "You feel another presence near you..." << endl;
+	cout << "You're being attacked!" << endl << endl;
+
+	while (win == false)	//Imposter keeps attacking until the player wins
+	{
+		startRPS();
+
+		if (win == false && tie == false)	//Takes damage when player loses, does nothing when player ties
+		{
+			player1.takeDamage(10);
+			playerDeath();
+			cout << "Current Oxygen: " << player1.getCurrentHP() << " / " << player1.getMaxHP() << endl << endl;
+		}
+	}
+
+	win = false;
+	tie == false;
+
+	cout << "Phew... The attacker fled. It looks like you made it out of there alive somehow." << endl;
+	cout << "Let's continue exploring." << endl << endl;;
 }
