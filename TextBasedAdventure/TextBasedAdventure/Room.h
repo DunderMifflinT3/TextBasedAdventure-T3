@@ -85,6 +85,10 @@ public:
 	{
 		return isCompleted;
 	}
+	/*void setPower(bool p)
+	{
+		power = p;
+	}*/
 	bool getPower()
 	{
 		return power;
@@ -104,6 +108,11 @@ public:
 		srand(time(NULL));
 		randomCode = rand() % 9000 + 1000; //Generates different code every game
 		return randomCode;
+	}
+	void resetRoom()
+	{	
+		isCompleted = false;
+		power = false;
 	}
 };
 

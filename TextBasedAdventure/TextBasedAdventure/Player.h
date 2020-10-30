@@ -126,6 +126,18 @@ public:
 	{
 		return collectedOxygenTanks[room];
 	}
+
+	void resetPlayer(int hp)
+	{
+		maxHP = hp;
+		currentHP = maxHP;
+		inventory.clear();
+		
+		for (int n = 0; n < 14; n++)
+		{
+			collectedOxygenTanks[n] = false;
+		}
+	}
 };
 
 #endif

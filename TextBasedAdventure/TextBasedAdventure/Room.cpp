@@ -25,8 +25,10 @@ void investigate(int);
 void turnCounter();
 void difficultLevel();
 void gameOver();
+void playGame();
 
-Player player1("Player 1", 100);
+int playerHP = 100;
+Player player1("Player 1", playerHP);
 Imposter imposter(7);
 
 //Initialize all questions
@@ -102,7 +104,7 @@ Room Navigation(13, "Nagivation Room", navAdj, 3, 13, "Key Card");
 
 Room mapRooms[] = { Start, Medical, Communication, Kitchen, RightEngine, LeftEngine, Electrical, Jail, Hangar, Lounge, Storage, Bathroom, Weapons, Navigation };	//Array of all rooms
 
-const int randomCode = currentRoom.noteCode(); //Generates Random Code Every Game For Hanger
+int randomCode; //Generates Random Code Every Game For Hanger
 
 bool roomPower(Room Electrical)
 {
@@ -302,9 +304,9 @@ void difficultLevel()
 {
 	
 	cout << "Please choose 1-3 for difficulty level:" << endl << endl;
-	cout << "1. Amatuer Explorer (35 turns)" << endl;
-	cout << "2. Skilled Adventurer (20 turns)" << endl;
-	cout << "3. Veteran Pioneer (10 turns)" << endl;
+	cout << "1. Amatuer Explorer (40 turns)" << endl;
+	cout << "2. Skilled Adventurer (25 turns)" << endl;
+	cout << "3. Veteran Pioneer (15 turns)" << endl;
 
 	input(3);
 	
@@ -312,25 +314,37 @@ void difficultLevel()
 	{
 	case(1):
 	{
-		maxTurnCount = 35;
+		maxTurnCount = 40;
 		break;
 	}
 	case(2):
 	{
-		maxTurnCount = 20;
+		maxTurnCount = 25;
 		break;
 	}
 	case(3):
 	{
-		maxTurnCount = 10;
+		maxTurnCount = 15;
 		break;
 	}
 	}
 }
-int main()
+void playGame()
 {
-	difficultLevel();
+	
+	//system("Color 04");
+	turnCount = 0;
+	randomCode = currentRoom.noteCode();
+	player1.resetPlayer(playerHP);
 
+	for (int i = 0; i < 14; i++)
+	{
+		//mapRooms[i].setPower(false);
+		mapRooms[i].resetRoom();
+	}
+	//Reset everything before select difficulty
+	difficultLevel();
+	
 	cout << "You have just woken up on a spaceship that is part of a space bounty expedition" << endl;
 	cout << "to capture a most wanted alien and the ship is quickly spiraling out of control towards Earth." << endl;
 	cout << "You realize your crewmates are missing, the power is out and the ships gadgets" << endl;
@@ -342,8 +356,12 @@ int main()
 	currentRoom = Start; //Sets the room that the player is in
 
 	enterRoomMessage(currentRoom);
-	return 0;
 
+}
+int main()
+{   
+	playGame();
+	return 0;
 }
 
 void enterRoomMessage(Room newRoom)		//Message that plays when room is entered
@@ -355,7 +373,7 @@ void enterRoomMessage(Room newRoom)		//Message that plays when room is entered
 	{
 		cout << "You feel another presence in this room..." << endl;
 		cout << "You're being attacked!" << endl << endl;
-
+		
 		while (win == false)	//Imposter keeps attacking until the player wins
 		{
 			startRPS();
@@ -871,22 +889,20 @@ void turnCounter()
 }
 void gameOver()
 {
-	char input;
 	cout << "Game Over" << endl;
-	cout << "Would you like to play again? [y/n]  (Still not complete, keep playing)" << endl; //Still not complete needs restart and end game function
-	cin >> input;
-
-	if (input = "y" || "Y")
+	cout << "Would you like to play again? Select 1 or 2" << endl; //Still not complete needs restart and end game function
+	cout << "1. Yes" << endl;
+	cout << "2. No" << endl;
+	input(2);
+	switch (choice)
 	{
-		//restart
+	case(1):
+	{	
+		playGame();
 	}
-	else if(input = "n" || "N")
+	case(2):
 	{
 		exit(0);
 	}
-	else
-	{
-		cout << "Invalid input" << endl;
-		gameOver();
 	}
 }
