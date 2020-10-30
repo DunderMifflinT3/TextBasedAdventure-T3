@@ -556,7 +556,8 @@ void escape()
 		if (code == randomCode)
 		{
 			cout << "Access Granted!" << endl << endl;
-			cout << "Congradulations! You have succesfully escaped the ship and are safely headed back to Earth!" << endl;
+			cout << "Congradulations! You have succesfully escaped the ship and are safely headed back to Earth!" << endl << endl;
+			gameOver();
 		}
 		else
 		{
