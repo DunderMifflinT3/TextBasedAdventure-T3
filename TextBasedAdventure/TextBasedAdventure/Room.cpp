@@ -1,4 +1,4 @@
-//Version 4
+//Version 4.1
 #include <cmath>
 #include <math.h>
 #include <algorithm>
@@ -26,6 +26,7 @@ void turnCounter();
 void difficultLevel();
 void gameOver();
 void playGame();
+void playerDeath();
 
 int playerHP = 100;
 Player player1("Player 1", playerHP);
@@ -381,6 +382,7 @@ void enterRoomMessage(Room newRoom)		//Message that plays when room is entered
 			if (win == false && tie == false)	//Takes damage when player loses, does nothing when player ties
 			{
 				player1.takeDamage(10);
+				playerDeath();
 				cout << "Current Oxygen: " << player1.getCurrentHP() << " / " << player1.getMaxHP() << endl << endl;
 			}
 		}
@@ -458,6 +460,7 @@ void getRoomActions(Room newRoom)
 			else
 			{
 				player1.takeDamage(10);		//Player Takes damage if answer is wrong
+				playerDeath();	//Plays a death message
 				cout << "Current Oxygen: " << player1.getCurrentHP() << " / " << player1.getMaxHP() << endl << endl;
 			}
 		}
@@ -884,12 +887,14 @@ void turnCounter()
 	turnCount++;
 	if (turnCount == maxTurnCount)
 	{
+		cout << endl;
+		cout << "You have run out of time, Nuclear Meltdown in progess!" << endl << endl;
 		gameOver();
 	}
 }
 void gameOver()
 {
-	cout << "Game Over" << endl;
+	cout << "Game Over" << endl << endl;
 	cout << "Would you like to play again? Select 1 or 2" << endl; //Still not complete needs restart and end game function
 	cout << "1. Yes" << endl;
 	cout << "2. No" << endl;
@@ -904,5 +909,17 @@ void gameOver()
 	{
 		exit(0);
 	}
+	}
+}
+void playerDeath()	//Plays a death message
+{
+	if (player1.getCurrentHP() <= 0)
+	{
+		cout << endl;
+		cout << "You have died!" << endl << endl;	//Make more descriptive later
+		gameOver();
+	}
+	else
+	{
 	}
 }

@@ -85,16 +85,9 @@ public:
 	}
 
 	void takeDamage(int amount)	//Lowers current HP
-	{
-		if (amount >= currentHP)
-		{
-			playerDeath();
-		}
-		else
-		{
-			currentHP -= amount;
-			cout << "You took " << amount << " damage!" << endl;
-		}
+	{		
+		currentHP -= amount;
+		cout << "You took " << amount << " damage!" << endl;	
 	}
 
 	void healDamage(int amount)	//Increases current HP
@@ -108,13 +101,6 @@ public:
 			currentHP += amount;
 			cout << "You healed " << amount << " damage!" << endl;
 		}
-	}
-
-	void playerDeath()	//Plays a death message
-	{
-		cout << playerName << " has died!" << endl;	//Make more descriptive later
-		cout << "Play again?" << endl;
-		//Add input for yes or no
 	}
 
 	void setCollectedOxygenTanks(int room)	//Sets that the player obtained the oxygen tank if it is in the room
