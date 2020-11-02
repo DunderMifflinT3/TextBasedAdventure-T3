@@ -1,0 +1,43 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+using namespace std;
+
+int main()
+{
+	int guess;
+	int randnumber;
+
+	//generate random number from 1-2
+	srand(time(NULL));
+	randnumber = rand() % 2;
+	cout << "This is heads or tails. Guess three in a row correctly to win." << endl;
+		
+		for (int i = 0; i < 3; i++)
+		{
+			cout << "Enter 0 for HEADS. Enter 1 for TAILS.";
+			cin >> guess;
+			if (i == 2)
+			{
+				if (guess == randnumber)
+				{
+					cout << "You got 3 in a row! You win!" << endl;
+					return true;
+				}
+				else
+				{
+					cout << "Wrong side." << endl;
+					return false;
+				}
+			}
+			else if (guess == randnumber) 
+			{
+				cout << "You got it right. You need " << 2-i << " more to win!" << endl;
+			}
+			else
+			{
+				cout << "Wrong side." << endl;
+				return false;
+			}
+		}
+}
