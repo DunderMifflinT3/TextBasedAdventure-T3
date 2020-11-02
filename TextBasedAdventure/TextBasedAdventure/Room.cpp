@@ -405,7 +405,7 @@ void changeRooms(Room oldRoom)		//Test for changing rooms
 
 	if (turnCount > imposterReleaseTurn)	//Imposter starts moving after imposter release turn
 	{
-		imposter.moveRooms(rand() % 13 + 1);	//Imposter changes rooms when player does (TO DO: Change formula for the rooms it picks)
+		imposter.moveRooms(rand() % 3 + 1);	//Imposter changes rooms when player does (TO DO: Change formula for the rooms it picks)
 	}
 
 	turnCounter();
