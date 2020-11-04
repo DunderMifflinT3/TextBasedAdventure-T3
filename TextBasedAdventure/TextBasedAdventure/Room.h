@@ -22,7 +22,6 @@ private:
 	string item;
 	int randomCode; //Code generator
 	bool isCompleted = false;
-	bool power = false;
 
 public:
 	
@@ -85,24 +84,13 @@ public:
 	{
 		return isCompleted;
 	}
-	/*void setPower(bool p)
+
+	//Change Room to Completed. Prevents task from being done again
+	void completeRoom(bool isRoomComplete)
 	{
-		power = p;
-	}*/
-	bool getPower()
-	{
-		return power;
+		isCompleted = isRoomComplete;
 	}
-	//Change Room to Completed
-	void completeRoom()
-	{
-		isCompleted = true;
-	}
-	//Gives power to room
-	void powerRoom()
-	{
-		power = true;
-	}
+
 	int noteCode()
 	{
 		srand(time(NULL));
@@ -112,7 +100,6 @@ public:
 	void resetRoom()
 	{	
 		isCompleted = false;
-		power = false;
 	}
 };
 
