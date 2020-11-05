@@ -85,10 +85,7 @@ public:
 	{
 		return isCompleted;
 	}
-	/*void setPower(bool p)
-	{
-		power = p;
-	}*/
+	
 	bool getPower()
 	{
 		return power;

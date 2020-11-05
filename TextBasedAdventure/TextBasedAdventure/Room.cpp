@@ -29,6 +29,7 @@ void gameOver();
 void playGame();
 void playerDeath();
 void imposterEncounter();
+int roomsCompleted();
 
 int playerHP = 100;
 Player player1("Player 1", playerHP);
@@ -86,6 +87,7 @@ int turnCount = 0;
 int difficulty;
 int maxTurnCount;
 int imposterReleaseTurn;
+//int completedRooms;
 
 Room currentRoom;	//Room that the player is in
 
@@ -107,8 +109,25 @@ Room Navigation(13, "Nagivation Room", navAdj, 3, 13, "Key Card");
 
 Room mapRooms[] = { Start, Medical, Communication, Kitchen, RightEngine, LeftEngine, Electrical, Jail, Hangar, Lounge, Storage, Bathroom, Weapons, Navigation };	//Array of all rooms
 
-int randomCode; //Generates Random Code Every Game For Hanger
+int randomCode; //Stores Generated Random Code Every Game For Hanger
 
+int roomsCompleted()//Counter for completed tasks
+{
+	int complete = 0;
+	for (int i = 0; i < 14; i++)
+	{
+		if (i == 8)
+		{
+			complete = complete; //Doesn't count Hangar, Hangar task for escape scenario
+		}
+		else if(mapRooms[i].getIsCompleted() == true)
+		{
+			complete++;
+		}
+	}
+	const int completedRooms = complete; //Made const so counter doesn't duplicate everytime user checks
+	return completedRooms;
+}
 bool roomPower(Room Electrical)
 {
 	if (mapRooms[6].getIsCompleted() == true) //Complete task in Electrical room to turn power on
@@ -129,7 +148,6 @@ bool roomPower(Room Electrical)
 	}
 	
 }
-
 void displayRoomMessage(int id) //Displays message when room is not complete. Cases correspond to room IDs.
 {
 	switch (id)
@@ -155,7 +173,7 @@ void displayRoomMessage(int id) //Displays message when room is not complete. Ca
 		}*/
 		else
 		{
-			cout << "error" << endl;
+		
 		}
 		break;
 	}
@@ -366,7 +384,6 @@ int main()
 	playGame();
 	return 0;
 }
-
 void enterRoomMessage(Room newRoom)		//Message that plays when room is entered
 {
 	cout << "-------------------------------------------------------------------------------------------------------------" << endl << endl;	//Separates screen when entering a new room.
@@ -383,7 +400,6 @@ void enterRoomMessage(Room newRoom)		//Message that plays when room is entered
 	settextcolor(yellow);
 	getRoomActions(newRoom);
 }
-
 void changeRooms(Room oldRoom)		//Test for changing rooms
 {
 	int adjacentIDArray[MAXADJACENTROOMS];	//Array that holds the ids of adjacent rooms
@@ -412,7 +428,6 @@ void changeRooms(Room oldRoom)		//Test for changing rooms
 
 	enterRoomMessage(currentRoom);
 }
-
 void getRoomActions(Room newRoom)
 {	
 	if (turnCount == imposterReleaseTurn)	//Mentions imposter release. Make Red Text
@@ -517,7 +532,6 @@ void getRoomActions(Room newRoom)
 		}
 	}
 }
-
 void help()
 {
 	cout << "Choose a room to navigate to from the displayed map / room list" << endl;
@@ -526,7 +540,6 @@ void help()
 	cout << "Failing at a minigame too many times, lowers total air supply which can kill you.You are able to replenish your air supply by picking up air tanks around the map." << endl;
 	cout << "Be careful because if the Killer gets to you or you run out of time trying to repair the ship, YOU WILL LOSE" << endl;
 }
-
 void map()
 {
 	cout << "  ----------Navigation-------------Weapons" << endl;
@@ -544,7 +557,6 @@ void map()
 	cout << " Jail---|                  Hanger     " << endl;
 	cout << "  |__________________________|     " << endl;
 }
-
 void escape()
 {
 	if (mapRooms[8].getIsCompleted() == true && player1.searchInventory("Key Card") == true)
@@ -573,7 +585,6 @@ void escape()
 		getRoomActions(currentRoom);
 	}
 }
-
 void rightEngineComplete()
 {
 	if (mapRooms[4].getIsCompleted() == true)
@@ -588,7 +599,6 @@ void rightEngineComplete()
 	}
 
 }
-
 void leftEngineComplete()
 {
 	if (mapRooms[5].getIsCompleted() == true)
@@ -603,7 +613,6 @@ void leftEngineComplete()
 	}
 
 }
-
 void investigate(int id)
 {
 	switch (id)
@@ -637,6 +646,7 @@ void investigate(int id)
 				cout << "It seems like someone has broken into the medical supplies" << endl << endl;
 				cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a ";
 				cout << green << "Oxygen Tank" << endl;
+				settextcolor(yellow);
 				player1.increaseMaxHP(20);
 				player1.healDamage(20);
 				player1.setCollectedOxygenTanks(id);
@@ -934,9 +944,9 @@ void investigate(int id)
 			if (!player1.searchInventory("Key Card"))
 			{
 				cout << "You find the pilot murdered in their chair and the command console is flashing red with " << endl;
-				cout << "the word " << "\"" << "WARNING!" << "\" " << "on the screen. Here you can check the console for progress on completed " << endl;
-				cout << "repairs you have made to the ship. " << "\"" << "Check Console" << "\"" << " to check progress of repaired systems. " << endl;
-				cout << "x amount of systems are online out of x." << endl << endl;
+				cout << "the word " << "\"" << red << "WARNING!" << yellow << "\" " << "on the screen. Here you can check the console for progress on completed " << endl;
+				cout << "repairs you have made to the ship. It appears you have made progress on repairing vital components of the ship." << endl;
+				cout << roomsCompleted() << " of the systems are online out of 13." << endl << endl;
 				cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a ";
 				cout << green << "Key-card" << endl << endl;
 				player1.addToInventory("Key Card");
@@ -944,9 +954,9 @@ void investigate(int id)
 			else
 			{
 				cout << "You find the pilot murdered in their chair and the command console is flashing red with " << endl;
-				cout << "the word " << "\"" << "WARNING!" << "\" " << "on the screen. Here you can check the console for progress on completed " << endl;
-				cout << "repairs you have made to the ship. " << "\"" << "Check Console" << "\"" << " to check progress of repaired systems. " << endl;
-				cout << "x amount of systems are online out of x." << endl << endl;
+				cout << "the word " << "\"" << red << "WARNING!" << yellow << "\" " << "on the screen. Here you can check the console for progress on completed " << endl;
+				cout << "repairs you have made to the ship. It appears you have made progress on repairing vital components of the ship." << endl;
+				cout << roomsCompleted() << " of the systems are online out of 13." << endl << endl;
 				cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
 			}
 		}
@@ -954,12 +964,11 @@ void investigate(int id)
 	}
 	default:
 	{
-		cout << "Error 1" << endl;
+		cout << "Error" << endl;
 		cout << endl;
 	}
 	}
 }
-
 void turnCounter()
 {
 	turnCount++;
@@ -971,7 +980,6 @@ void turnCounter()
 		gameOver();
 	}
 }
-
 void gameOver()
 {
 	cout << red << "Game Over" << endl << endl;
@@ -992,7 +1000,6 @@ void gameOver()
 	}
 	}
 }
-
 void playerDeath()	//Plays a death message
 {
 	if (player1.getCurrentHP() <= 0)
@@ -1006,7 +1013,6 @@ void playerDeath()	//Plays a death message
 	{
 	}
 }
-
 void imposterEncounter()
 {
 	cout << "You feel another presence near you..." << endl;
