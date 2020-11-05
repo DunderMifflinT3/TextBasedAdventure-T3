@@ -612,6 +612,7 @@ void investigate(int id)
 	{
 		if (!player1.searchInventory("Flashlight"))	//If flashlight is not in inventory, adds it
 		{
+			cout << "There are several empty beds with footlockers nearby." << endl;
 			cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a ";
 			cout << green << "Flashlight" << endl << endl;
 			settextcolor(yellow);
@@ -619,7 +620,7 @@ void investigate(int id)
 		}
 		else
 		{
-			cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
+			cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing left to be found here." << endl << endl;
 		}
 		break;
 	}
@@ -868,6 +869,7 @@ void investigate(int id)
 		{
 			if (!player1.searchInventory("Wrench"))
 			{
+				cout << "There appears to be cleaning supplies, and a toolbox." << endl;
 				cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a ";
 				cout << green << "Wrench" << endl << endl;
 				settextcolor(yellow);
@@ -875,7 +877,7 @@ void investigate(int id)
 			}
 			else
 			{
-				cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
+				cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing left to be found here." << endl << endl;
 			}
 		}
 		break;
