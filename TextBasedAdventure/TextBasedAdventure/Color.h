@@ -1,5 +1,4 @@
 #include<windows.h>
-//#include<iosfwd>
 using namespace std;
 
 #ifndef Color_H
