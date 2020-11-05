@@ -6,13 +6,14 @@
 #include <iostream>
 #include <time.h>
 #include <stdlib.h>
+#include <cstdlib>
 #include "Room.h"
 #include "Question.h"
 #include "Player.h"
 #include "Imposter.h"
 #include "R_P_S.cpp"
 #include "InputValidation.h"
-#include <cstdlib>
+#include "Color.h"
 
 void enterRoomMessage(Room);
 void changeRooms(Room);
@@ -116,7 +117,9 @@ bool roomPower(Room Electrical)
 		{
 			mapRooms[i].powerRoom();
 		}
-		cout << "Power is online." << endl << endl;
+		cout << "Power is ";
+		cout << green << "online." << endl << endl;
+		settextcolor(yellow);
 		return true;
 	}
 	else
@@ -302,14 +305,16 @@ void displayRoomMessage(int id) //Displays message when room is not complete. Ca
 		}
 	}
 }
-void difficultLevel()
+void difficultLevel() //User picks the difficulty level
 {
-	
+	consolecol();
+	settextcolor(yellow);
 	cout << "Please choose 1-3 for difficulty level:" << endl << endl;
 	cout << "1. Amatuer Explorer (40 turns)" << endl;
 	cout << "2. Skilled Adventurer (25 turns)" << endl;
-	cout << "3. Veteran Pioneer (15 turns)" << endl;
-
+	cout << "3. ";
+	cout << red << "Veteran Pioneer (15 turns)" << endl; // This line is red
+	settextcolor(yellow); // Turn color back
 	input(3);
 	
 	switch (choice)
@@ -336,9 +341,6 @@ void difficultLevel()
 }
 void playGame()
 {
-	
-	//system("Color 04");
-
 	//Resets everything before selecting difficulty
 	turnCount = 0;
 	randomCode = currentRoom.noteCode();
@@ -350,7 +352,7 @@ void playGame()
 	}
 
 	difficultLevel();
-	
+	settextcolor(yellow);
 	cout << "You have just woken up on a spaceship that is part of a space bounty expedition" << endl;
 	cout << "to capture a most wanted alien and the ship is quickly spiraling out of control towards Earth." << endl;
 	cout << "You realize your crewmates are missing, the power is out and the ships gadgets" << endl;
@@ -373,14 +375,17 @@ int main()
 void enterRoomMessage(Room newRoom)		//Message that plays when room is entered
 {
 	cout << "-------------------------------------------------------------------------------------------------------------" << endl << endl;	//Separates screen when entering a new room.
-	cout << "You have entered the " << newRoom.getRoomName() << "." << endl << endl;
+	cout << yellow << "You have entered the ";
+	cout << blue << newRoom.getRoomName() << "." << endl << endl; //Room names in blue
+	settextcolor(yellow);
 
 	if (imposter.getCurrentRoomID() == newRoom.getRoomID() && turnCount > imposterReleaseTurn)	//Checks if imposter is in the same room
 	{
 		imposterEncounter();
 	}
 	
-	cout << "Turns until nuclear meltdown: " << maxTurnCount - turnCount << endl << endl;
+	cout << red << "Turns until nuclear meltdown: " << maxTurnCount - turnCount << endl << endl;
+	settextcolor(yellow);
 	getRoomActions(newRoom);
 }
 
@@ -428,7 +433,7 @@ void getRoomActions(Room newRoom)
 			cout << "You hear movement coming from the other side of the ship. Is someone else on board with you..." << endl << endl;
 		}
 	}
-
+	settextcolor(yellow);
 	cout << "What would you like to do in the " << newRoom.getRoomName() << "?" << endl << endl;
 	cout << "1. Complete Task" << endl;
 	cout << "2. Investigate" << endl;
@@ -436,7 +441,7 @@ void getRoomActions(Room newRoom)
 	cout << "4. Inventory" << endl;
 	cout << "5. Map" << endl;
 	cout << "6. Help" << endl;
-	
+	settextcolor(yellow);
 	//Input Validation
 	input(6);
 
@@ -556,7 +561,8 @@ void escape()
 		if (code == randomCode)
 		{
 			cout << "Access Granted!" << endl << endl;
-			cout << "Congradulations! You have succesfully escaped the ship and are safely headed back to Earth!" << endl << endl;
+			cout << green << "Congratulations! You have succesfully escaped the ship and are safely headed back to Earth!" << endl << endl;
+			settextcolor(yellow);
 			gameOver();
 		}
 		else
@@ -611,7 +617,9 @@ void investigate(int id)
 	{
 		if (!player1.searchInventory("Flashlight"))	//If flashlight is not in inventory, adds it
 		{
-			cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a Flashlight" << endl << endl;
+			cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a ";
+			cout << green << "Flashlight" << endl << endl;
+			settextcolor(yellow);
 			player1.addToInventory("Flashlight");
 		}
 		else
@@ -630,7 +638,8 @@ void investigate(int id)
 		{
 			if (!player1.getCollectedOxygenTank(id))
 			{
-				cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a Oxygen Tank" << endl;
+				cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a ";
+				cout << green << "Oxygen Tank" << endl;
 				player1.increaseMaxHP(20);
 				player1.healDamage(20);
 				player1.setCollectedOxygenTanks(id);
@@ -668,8 +677,13 @@ void investigate(int id)
 			if (player1.searchInventory("Flashlight"))
 			{
 				cout << "Room is too dark, you turned on your Flashlight" << endl;
-				cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a Note." << endl;
-				cout << "The note says IN CASE OF EMERGENCY " << randomCode << " ... the rest of the note is not legible." << endl << endl;
+				cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a ";
+				cout << green << "Note." << endl;
+				settextcolor(yellow);
+				cout << "The note says IN CASE OF EMERGENCY ";
+				cout << green << randomCode;
+				settextcolor(yellow);
+				cout << " ... the rest of the note is not legible." << endl << endl;
 				player1.addToInventory("Note");
 			}
 			else
@@ -679,8 +693,13 @@ void investigate(int id)
 		}
 	else
 	{
-		cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a Note." << endl;
-		cout << "The note says IN CASE OF EMERGENCY " << randomCode << " ... the rest of the note is not legible." << endl << endl;
+		cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a ";
+		cout << green << "Note." << endl;
+		settextcolor(yellow);
+		cout << "The note says IN CASE OF EMERGENCY ";
+		cout << green << randomCode;
+		settextcolor(yellow);
+		cout << " ... the rest of the note is not legible." << endl << endl;
 		player1.addToInventory("Note");
 	}
 		break;
@@ -777,7 +796,9 @@ void investigate(int id)
 			{
 				if (!player1.getCollectedOxygenTank(id))
 				{
-					cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a Oxygen Tank" << endl;
+					cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a ";
+					cout << green << "Oxygen Tank" << endl;
+					settextcolor(yellow);
 					player1.increaseMaxHP(20);
 					player1.healDamage(20);
 					player1.setCollectedOxygenTanks(id);
@@ -796,7 +817,9 @@ void investigate(int id)
 		{
 			if (!player1.getCollectedOxygenTank(id))
 			{
-				cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a Oxygen Tank" << endl;
+				cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a ";
+				cout << green << "Oxygen Tank" << endl;
+				settextcolor(yellow);
 				player1.increaseMaxHP(20);
 				player1.healDamage(20);
 				player1.setCollectedOxygenTanks(id);
@@ -818,7 +841,9 @@ void investigate(int id)
 		{
 			if (!player1.searchInventory("Wrench"))
 			{
-				cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a Wrench" << endl << endl;
+				cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a ";
+				cout << green << "Wrench" << endl << endl;
+				settextcolor(yellow);
 				player1.addToInventory("Wrench");
 			}
 			else
@@ -870,7 +895,8 @@ void investigate(int id)
 		{
 			if (!player1.searchInventory("Key Card"))
 			{
-				cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a Key-card" << endl << endl;
+				cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a ";
+				cout << green << "Key-card" << endl << endl;
 				player1.addToInventory("Key Card");
 			}
 			else
@@ -894,14 +920,16 @@ void turnCounter()
 	if (turnCount == maxTurnCount)
 	{
 		cout << endl;
-		cout << "You have run out of time, Nuclear Meltdown in progess!" << endl << endl;
+		cout << red << "You have run out of time, Nuclear Meltdown in progess!" << endl << endl;
+		settextcolor(yellow);
 		gameOver();
 	}
 }
 
 void gameOver()
 {
-	cout << "Game Over" << endl << endl;
+	cout << red << "Game Over" << endl << endl;
+	settextcolor(yellow);
 	cout << "Would you like to play again? Select 1 or 2" << endl; //Still not complete needs restart and end game function
 	cout << "1. Yes" << endl;
 	cout << "2. No" << endl;
@@ -924,7 +952,8 @@ void playerDeath()	//Plays a death message
 	if (player1.getCurrentHP() <= 0)
 	{
 		cout << endl;
-		cout << "You have died!" << endl << endl;	//Make more descriptive later
+		cout << red << "You have died!" << endl << endl;	//Make more descriptive later
+		settextcolor(white);
 		gameOver();
 	}
 	else
@@ -935,8 +964,8 @@ void playerDeath()	//Plays a death message
 void imposterEncounter()
 {
 	cout << "You feel another presence near you..." << endl;
-	cout << "You're being attacked!" << endl << endl;
-
+	cout << red << "You're being attacked!" << endl << endl;
+	settextcolor(yellow);
 	while (win == false)	//Imposter keeps attacking until the player wins
 	{
 		startRPS();
