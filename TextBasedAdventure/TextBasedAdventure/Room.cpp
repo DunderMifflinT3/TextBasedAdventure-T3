@@ -374,6 +374,12 @@ void enterRoomMessage(Room newRoom)		//Message that plays when room is entered
 	{
 		imposterEncounter();
 	}
+
+	if (imposter.getCurrentRoomID() == 6 && mapRooms[6].getIsCompleted())	//Imposter turns off the power if he goes into the electrical room
+	{
+		cout << "It seems like the power tripped again. You may have to go back and fix it to proceed." << endl << endl;
+		mapRooms[6].completeRoom(false);
+	}
 	
 	cout << "Turns until nuclear meltdown: " << maxTurnCount - turnCount << endl << endl;
 	getRoomActions(newRoom);
@@ -400,7 +406,7 @@ void changeRooms(Room oldRoom)		//Test for changing rooms
 
 	if (turnCount > imposterReleaseTurn)	//Imposter starts moving after imposter release turn
 	{
-		imposter.moveRooms(rand() % 1 + 6);	//Imposter changes rooms when player does (TO DO: Change formula for the rooms it picks)
+		imposter.moveRooms(rand() % 13 + 1);	//Imposter changes rooms when player does (TO DO: Change formula for the rooms it picks)
 	}
 
 	turnCounter();
@@ -410,12 +416,6 @@ void changeRooms(Room oldRoom)		//Test for changing rooms
 
 void getRoomActions(Room newRoom)
 {	
-	if (imposter.getCurrentRoomID() == 6 && mapRooms[6].getIsCompleted())	//Imposter turns off the power if he goes into the electrical room
-	{
-		cout << "It seems like the power tripped again. You may have to go back and fix it to proceed." << endl << endl;
-		mapRooms[6].completeRoom(false);
-	}
-
 	if (turnCount == imposterReleaseTurn)	//Mentions imposter release. Make Red Text
 	{
 		if (currentRoom.getRoomID() == 7)	//If player is in the jail on the turn the imposter breaks out
