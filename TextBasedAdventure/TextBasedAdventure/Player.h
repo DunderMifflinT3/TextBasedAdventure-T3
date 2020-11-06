@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <vector>
+#include "Color.h"
 using namespace std;
 
 #ifndef Player_H
@@ -54,7 +55,8 @@ public:
 	void increaseMaxHP(int amount)
 	{
 		maxHP += amount;
-		cout << "Your Maximum Oxygen increased to " << maxHP << "!" << endl << endl;
+		cout << "Your Maximum Oxygen increased to ";
+		cout << green << maxHP << yellow << "!" << endl << endl;
 	}
 
 	void addToInventory(string item)	//Adds new item into next spot in array
@@ -78,6 +80,7 @@ public:
 
 	void showInventory()
 	{
+		settextcolor(green);
 		for (int i = 0; i < inventory.size(); i++)
 		{
 			cout << i + 1 << ". " << inventory[i] << endl;
@@ -87,7 +90,8 @@ public:
 	void takeDamage(int amount)	//Lowers current HP
 	{		
 		currentHP -= amount;
-		cout << "You took " << amount << " damage!" << endl;	
+		cout << red << "You took " << amount << " damage!" << endl;	//Damage red
+		settextcolor(yellow);
 	}
 
 	void healDamage(int amount)	//Increases current HP
@@ -99,7 +103,8 @@ public:
 		else
 		{
 			currentHP += amount;
-			cout << "You healed " << amount << " damage!" << endl;
+			cout << green << "You healed " << amount << " damage!" << endl; //Healing green
+			settextcolor(yellow);
 		}
 	}
 

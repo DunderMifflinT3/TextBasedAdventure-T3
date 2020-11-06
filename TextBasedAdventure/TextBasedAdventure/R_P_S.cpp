@@ -4,6 +4,7 @@
 #include <stdio.h> 
 #include <string>
 #include "InputValidation.h"
+#include  "Color.h"
 using namespace std;
 
 double tie_array[3][2] = { {0,1}, {1,2}, {2,3} };
@@ -43,6 +44,7 @@ void test_win(double choice)
 			}
 			win = false;
 			tie = true;
+			settextcolor(purple);
 		}
 
 		else if (comp_win[x][y] == random && comp_win[x][y + 1] == choice)	//Loss
@@ -61,6 +63,7 @@ void test_win(double choice)
 			}
 			win = false;
 			tie = false;
+			settextcolor(dark_red);
 		}
 
 		else if (player_win[x][y] == random && player_win[x][y + 1] == choice)	//Win
@@ -79,13 +82,14 @@ void test_win(double choice)
 			}
 			win = true;
 			tie = false;
+			settextcolor(dark_green);
 		}
 	}
 }
 
 void startRPS()
-
 {
+	settextcolor(yellow);
 	cout << "In order to pass this challange you have to win this game off Rock Paper Scissors" << endl;
 	cout << "Enter in (1 for Rock) (2 for Paper) (3 for Scissors)" << endl;
 

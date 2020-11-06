@@ -480,7 +480,7 @@ void getRoomActions(Room newRoom)
 			{
 				player1.takeDamage(10);		//Player Takes damage if answer is wrong
 				playerDeath();	//Plays a death message
-				cout << "Current Oxygen: " << player1.getCurrentHP() << " / " << player1.getMaxHP() << endl << endl;
+				cout << "Current Oxygen: " << green << player1.getCurrentHP() << yellow << " / " <<player1.getMaxHP() << endl << endl;
 			}
 		}
 		else
@@ -535,47 +535,49 @@ void getRoomActions(Room newRoom)
 void help()
 {
 	cout << "Choose a room to navigate to from the displayed map / room list" << endl;
-	cout << "Each room will have a description when you go into the room with a minigame to fix gadgets or objects you can pick up(Air tank, weapon, tools, paper with a code on it for another minigame they may have to remember.)" << endl;
+	cout << "Each room will have a description when you go into the room with a minigame to fix gadgets or objects you can pick up (Air tank, weapon, tools, paper with a code on it for another minigame they may have to remember.)" << endl;
 	cout << "To win the game, you must repair all gadgetsand get the weapon before the killer" << endl;
 	cout << "Failing at a minigame too many times, lowers total air supply which can kill you.You are able to replenish your air supply by picking up air tanks around the map." << endl;
 	cout << "Be careful because if the Killer gets to you or you run out of time trying to repair the ship, YOU WILL LOSE" << endl;
 }
 void map()
 {
-	cout << "  ----------Navigation-------------Weapons" << endl;
+	settextcolor(dark_purple);
+	cout << "  ----------" << blue <<"Navigation" << dark_purple << "-------------"<< blue <<"Weapons" << dark_purple << endl;
 	cout << "  |                                 |" << endl;
-	cout << "  | MedBay------|                Bathroom" << endl;
-	cout << "  |  |          |---Communication    |" << endl;
-	cout << "Storage         |                    |" << endl;
+	cout << "  | "<< blue <<"MedBay"<< dark_purple <<"------|                "<< blue << "Bathroom" << dark_purple <<endl;
+	cout << "  |  |          |---"<< blue <<"Communication" << dark_purple <<"    |" << endl;
+	cout << blue <<"Storage" << dark_purple <<"         |                    |" << endl;
 	cout << "  |             |                    |" << endl;
-	cout << "LEngine-------Bedroom-------------REngine" << endl;
+	cout << blue <<"LEngine"<< dark_purple <<"-------"<< blue <<"Bedroom"<< dark_purple <<"-------------"<< blue <<"REngine" << dark_purple << endl;
 	cout << "  |            |              " << endl;
-	cout << "  |     -----Kitchen----------      " << endl;
+	cout << "  |     -----"<< blue <<"Kitchen"<< dark_purple <<"----------      " << endl;
 	cout << "  |     |                    |     " << endl;
-	cout << "  |  Electric              Lounge    " << endl;
+	cout << "  |  "<< blue <<"Electric              Lounge    " << dark_purple << endl;
 	cout << "  |     |                    |     " << endl;
-	cout << " Jail---|                  Hanger     " << endl;
+	cout << blue <<" Jail"<< dark_purple <<"---|                  "<< blue <<"Hanger     " << dark_purple <<endl;
 	cout << "  |__________________________|     " << endl;
+	settextcolor(yellow);
 }
 void escape()
 {
 	if (mapRooms[8].getIsCompleted() == true && player1.searchInventory("Key Card") == true)
 	{
 		int code;
-		cout << "The escape pod is online! Please enter 4 digit code to enter pod: " << endl;
+		cout << "The escape pod is "<< green <<"online!"<< yellow <<" Please enter 4 digit code to enter pod: " << endl;
 		cin >> code;
 
 		if (code == randomCode)
 		{
-			cout << "Access Granted!" << endl << endl;
-			cout << green << "Congratulations! You have succesfully escaped the ship and are safely headed back to Earth!" << endl << endl;
+			cout << green <<"Access Granted!" << endl << endl;
+			cout << "Congratulations! You have succesfully escaped the ship and are safely headed back to Earth!" << endl << endl;
 			settextcolor(yellow);
 			gameOver();
 		}
 		else
 		{
-			cout << "Access Denied" << endl << endl;
-			cout << "Maybe the code can found in one of the rooms" << endl;
+			cout << red << "Access Denied!" << endl << endl;
+			cout << yellow <<"Maybe the code can found in one of the rooms" << endl;
 			getRoomActions(currentRoom);
 		}
 	}
@@ -1026,13 +1028,13 @@ void imposterEncounter()
 		{
 			player1.takeDamage(10);
 			playerDeath();
-			cout << "Current Oxygen: " << player1.getCurrentHP() << " / " << player1.getMaxHP() << endl << endl;
+			cout << "Current Oxygen: " << green << player1.getCurrentHP() << yellow << " / " << player1.getMaxHP() << endl << endl;
 		}
 	}
 
 	win = false;
 	tie == false;
-
+	settextcolor(yellow);
 	cout << "Phew... The attacker fled. It looks like you made it out of there alive somehow." << endl;
 	cout << "Let's continue exploring." << endl << endl;;
 }
