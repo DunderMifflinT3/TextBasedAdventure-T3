@@ -444,7 +444,7 @@ void getRoomActions(Room newRoom)
 		}
 	}
 	settextcolor(yellow);
-	cout << "What would you like to do in the " << newRoom.getRoomName() << "?" << endl << endl;
+	cout << "What would you like to do in the " << blue << newRoom.getRoomName() << yellow << "?" << endl << endl;
 	cout << "1. Complete Task" << endl;
 	cout << "2. Investigate" << endl;
 	cout << "3. Leave" << endl;
