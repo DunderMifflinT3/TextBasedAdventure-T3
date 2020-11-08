@@ -14,6 +14,7 @@
 #include "R_P_S.cpp"
 #include "InputValidation.h"
 #include "Color.h"
+#include <string>
 
 void enterRoomMessage(Room);
 void changeRooms(Room);
@@ -110,6 +111,7 @@ Room Navigation(13, "Nagivation Room", navAdj, 3, 13, "Key Card");
 Room mapRooms[] = { Start, Medical, Communication, Kitchen, RightEngine, LeftEngine, Electrical, Jail, Hangar, Lounge, Storage, Bathroom, Weapons, Navigation };	//Array of all rooms
 
 int randomCode; //Stores Generated Random Code Every Game For Hanger
+string randomCodeString;
 
 int roomsCompleted()//Counter for completed tasks
 {
@@ -128,14 +130,10 @@ int roomsCompleted()//Counter for completed tasks
 	const int completedRooms = complete; //Made const so counter doesn't duplicate everytime user checks
 	return completedRooms;
 }
-bool roomPower(Room Electrical)
+bool isShipPowered()
 {
 	if (mapRooms[6].getIsCompleted() == true) //Complete task in Electrical room to turn power on
 	{
-		for (int i = 0; i < 14; i++)
-		{
-			mapRooms[i].powerRoom();
-		}
 		cout << "Power is ";
 		cout << green << "online." << endl << endl;
 		settextcolor(yellow);
@@ -169,7 +167,7 @@ void displayRoomMessage(int id) //Displays message when room is not complete. Ca
 		if (isShipPowered() == true)
 		{
 			cout << "It seems like someone has broken into the medical supplies" << endl << endl;
-		}*/
+		}
 		else
 		{
 		
@@ -356,6 +354,8 @@ void playGame()
 	//Resets everything before selecting difficulty
 	turnCount = 0;
 	randomCode = Start.noteCode();
+	randomCodeString = to_string(randomCode);
+
 	player1.resetPlayer(playerHP, 0);
 
 	for (int i = 0; i < 14; i++)
@@ -476,7 +476,7 @@ void getRoomActions(Room newRoom)
 
 			if (questionArray[mapRooms[player1.getcurrentRoom()].getRoomQuestion()].isCorrectAnswer(questionChoice))
 			{
-				mapRooms[player1.getcurrentRoom()].completeRoom();
+				mapRooms[player1.getcurrentRoom()].completeRoom(true);
 				cout << "You have completed everything in this room." << endl << endl;
 
 			}
@@ -630,10 +630,9 @@ void investigate(int id)
 		if (!player1.searchInventory("Flashlight"))	//If flashlight is not in inventory, adds it
 		{
 			cout << "There are several empty beds with footlockers nearby." << endl;
-			cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a ";
+			cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", you have found a ";
 			cout << green << "Flashlight" << endl << endl;
 			settextcolor(yellow);
-			cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", you have found a Flashlight" << endl << endl;
 			player1.addToInventory("Flashlight");
 		}
 		else
@@ -653,10 +652,9 @@ void investigate(int id)
 			if (!player1.getCollectedOxygenTank(id))
 			{
 				cout << "It seems like someone has broken into the medical supplies" << endl << endl;
-				cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a ";
+				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", you have found a ";
 				cout << green << "Oxygen Tank" << endl;
 				settextcolor(yellow);
-				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", you have found a Oxygen Tank" << endl;
 				player1.increaseMaxHP(20);
 				player1.healDamage(20);
 				player1.setCollectedOxygenTanks(id);
@@ -678,9 +676,8 @@ void investigate(int id)
 				cout << "Communication throughout the ship and any external communication seems to be down." << endl;
 				cout << "You notice that the main transmitter is destroyed. Fixing communications could" << endl;
 				cout << "allow you to get in touch with your team at home and tell them about the situation." << endl << endl;
-				cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
-				cout << "Room is too dark, you turned on your Flashlight" << endl;
 				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", there is nothing to be found here." << endl << endl;
+				cout << "Room is too dark, you turned on your Flashlight" << endl;
 			}
 			else
 			{
@@ -692,7 +689,6 @@ void investigate(int id)
 			cout << "Communication throughout the ship and any external communication seems to be down." << endl;
 			cout << "You notice that the main transmitter is destroyed. Fixing communications could" << endl;
 			cout << "allow you to get in touch with your team at home and tell them about the situation." << endl << endl;
-			cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
 			cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", there is nothing to be found here." << endl << endl;
 		}
 		break;
@@ -702,19 +698,24 @@ void investigate(int id)
 		{
 			if (player1.searchInventory("Flashlight"))
 			{
-				cout << "Room is too dark, you turned on your Flashlight" << endl;
-				cout << "The kitchen knives are missing and the room is a mess. Food is all over the floor, " << endl;
-				cout << "cabinets have been left open. Seems like someone was really hungry." << endl << endl;
-				cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a ";
-				cout << green << "Note." << endl;
-				settextcolor(yellow);
-				cout << "The note says IN CASE OF EMERGENCY ";
-				cout << green << randomCode;
-				settextcolor(yellow);
-				cout << " ... the rest of the note is not legible." << endl << endl;
-				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", you have found a Note." << endl;
-				cout << "The note says IN CASE OF EMERGENCY " << randomCode << " ... the rest of the note is not legible." << endl << endl;
-				player1.addToInventory("Note");
+				if (!player1.searchInventory("Note: " + randomCodeString))
+				{
+					cout << "Room is too dark, you turned on your Flashlight" << endl;
+					cout << "The kitchen knives are missing and the room is a mess. Food is all over the floor, " << endl;
+					cout << "cabinets have been left open. Seems like someone was really hungry." << endl << endl;
+					cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", you have found a ";
+					cout << green << "Note." << endl;
+					settextcolor(yellow);
+					cout << "The note says IN CASE OF EMERGENCY ";
+					cout << green << randomCode;
+					settextcolor(yellow);
+					cout << " ... the rest of the note is not legible." << endl << endl;
+					player1.addToInventory("Note: " + randomCodeString);
+				}
+				else
+				{
+					cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", there is nothing to be found here." << endl << endl;
+				}
 			}
 			else
 			{
@@ -723,18 +724,24 @@ void investigate(int id)
 		}
 	else
 	{
-		cout << "The kitchen knives are missing and the room is a mess. Food is all over the floor, " << endl;
-		cout << "cabinets have been left open. Seems like someone was really hungry." << endl << endl;
-		cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a ";
-		cout << green << "Note." << endl;
-		settextcolor(yellow);
-		cout << "The note says IN CASE OF EMERGENCY ";
-		cout << green << randomCode;
-		settextcolor(yellow);
-		cout << " ... the rest of the note is not legible." << endl << endl;
-		cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", you have found a Note." << endl;
-		cout << "The note says IN CASE OF EMERGENCY " << randomCode << " ... the rest of the note is not legible." << endl << endl;
-		player1.addToInventory("Note");
+		if (!player1.searchInventory("Note: " + randomCodeString))
+		{
+			cout << "The kitchen knives are missing and the room is a mess. Food is all over the floor, " << endl;
+			cout << "cabinets have been left open. Seems like someone was really hungry." << endl << endl;
+			cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", you have found a ";
+			cout << green << "Note." << endl;
+			settextcolor(yellow);
+			cout << "The note says IN CASE OF EMERGENCY ";
+			cout << green << randomCode;
+			settextcolor(yellow);
+			cout << " ... the rest of the note is not legible." << endl << endl;
+			cout << "The note says IN CASE OF EMERGENCY " << randomCode << " ... the rest of the note is not legible." << endl << endl;
+			player1.addToInventory("Note");
+		}
+		else
+		{
+			cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", there is nothing to be found here." << endl << endl;
+		}
 	}
 		break;
 	}
@@ -784,7 +791,6 @@ void investigate(int id)
 				cout << "The power is off throughout most of the ship, the only thing keeping the " << endl;
 				cout << "systems online right now is the backup generator. The power box has the wires ripped out " << endl;
 				cout << "you need to find some way to connect the wires again and get the power back online. " << endl << endl;
-				cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
 				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", there is nothing to be found here." << endl << endl;
 			}
 			else
@@ -798,7 +804,6 @@ void investigate(int id)
 			cout << "It appears that the wires were ripped out intentionally, ";
 			cout << red << "BE CAREFUL!" << endl;
 			settextcolor(yellow);
-			cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
 			cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", there is nothing to be found here." << endl << endl;
 		}
 		break;
@@ -813,7 +818,6 @@ void investigate(int id)
 				cout << "You have entered the cell where you expect to find the alien you and your crew have " << endl;
 				cout << "captured and are transporting back home. Unfortunately you notice that the cell has " << endl;
 				cout << "been opened by force and the alien captive is missing." << endl << endl;
-				cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
 				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", there is nothing to be found here." << endl << endl;
 			}
 			else
@@ -826,7 +830,6 @@ void investigate(int id)
 			cout << "You have entered the cell where you expect to find the alien you and your crew have " << endl;
 			cout << "captured and are transporting back home. Unfortunately you notice that the cell has " << endl;
 			cout << "been opened by force and the alien captive is missing." << endl << endl;
-			cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
 			cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", there is nothing to be found here." << endl << endl;
 		}
 		break;
@@ -852,10 +855,9 @@ void investigate(int id)
 				if (!player1.getCollectedOxygenTank(id))
 				{
 					cout << "There isn" << "\'" << "t much in the lounge except some couches and playing cards from the day before." << endl << endl;
-					cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a ";
+					cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", you have found a ";
 					cout << green << "Oxygen Tank" << endl;
 					settextcolor(yellow);
-					cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", you have found a Oxygen Tank" << endl;
 					player1.increaseMaxHP(20);
 					player1.healDamage(20);
 					player1.setCollectedOxygenTanks(id);
@@ -863,7 +865,6 @@ void investigate(int id)
 				else
 				{
 					cout << "There isn" << "\'" << "t much in the lounge except some couches and playing cards from the day before." << endl << endl;
-					cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
 					cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", there is nothing to be found here." << endl << endl;
 				}
 			}
@@ -877,10 +878,9 @@ void investigate(int id)
 			if (!player1.getCollectedOxygenTank(id))
 			{
 				cout << "There isn" << "\'" << "t much in the lounge except some couches and playing cards from the day before." << endl << endl;
-				cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a ";
+				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", you have found a ";
 				cout << green << "Oxygen Tank" << endl;
 				settextcolor(yellow);
-				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", you have found a Oxygen Tank" << endl;
 				player1.increaseMaxHP(20);
 				player1.healDamage(20);
 				player1.setCollectedOxygenTanks(id);
@@ -888,7 +888,6 @@ void investigate(int id)
 			else
 			{
 				cout << "There isn" << "\'" << "t much in the lounge except some couches and playing cards from the day before." << endl << endl;
-				cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
 				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", there is nothing to be found here." << endl << endl;
 			}
 		}
@@ -905,10 +904,9 @@ void investigate(int id)
 			if (!player1.searchInventory("Wrench"))
 			{
 				cout << "There appears to be cleaning supplies, and a toolbox." << endl;
-				cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a ";
+				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", you have found a ";
 				cout << green << "Wrench" << endl << endl;
 				settextcolor(yellow);
-				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", you have found a Wrench" << endl << endl;
 				player1.addToInventory("Wrench");
 			}
 			else
@@ -930,7 +928,6 @@ void investigate(int id)
 			cout << red << "HELP ";
 			settextcolor(yellow);
 			cout << "written on the wall in what seems to be blood." << endl << endl;
-			cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
 			cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", there is nothing to be found here." << endl << endl;
 		}
 		break;
@@ -947,16 +944,14 @@ void investigate(int id)
 			{
 				cout << "There is a container with a gun in it for emergencies. " << endl;
 				//cout << "(Power needs to be restored from the electrical room in order to open this container)" << endl << endl;
-				cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a ";
+				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", you have found a ";
 				cout << green << "Weapon" << endl << endl;
 				settextcolor(yellow);
-				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", you have found a Weapon" << endl << endl;
 				player1.addToInventory("Weapon");
 			}
 			else
 			{
 				cout << "There is an empty container from where you retrieved your gun." << endl;
-				cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
 				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", there is nothing to be found here." << endl << endl;
 			}
 		}
@@ -976,9 +971,8 @@ void investigate(int id)
 				cout << "the word " << "\"" << red << "WARNING!" << yellow << "\" " << "on the screen. Here you can check the console for progress on completed " << endl;
 				cout << "repairs you have made to the ship. It appears you have made progress on repairing vital components of the ship." << endl;
 				cout << roomsCompleted() << " of the systems are online out of 13." << endl << endl;
-				cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a ";
+				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", you have found a ";
 				cout << green << "Key-card" << endl << endl;
-				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", you have found a Key-card" << endl << endl;
 				player1.addToInventory("Key Card");
 			}
 			else
@@ -987,7 +981,6 @@ void investigate(int id)
 				cout << "the word " << "\"" << red << "WARNING!" << yellow << "\" " << "on the screen. Here you can check the console for progress on completed " << endl;
 				cout << "repairs you have made to the ship. It appears you have made progress on repairing vital components of the ship." << endl;
 				cout << roomsCompleted() << " of the systems are online out of 13." << endl << endl;
-				cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
 				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", there is nothing to be found here." << endl << endl;
 			}
 		}
