@@ -1,4 +1,4 @@
-//Version 4.2
+//Version 4.5
 #include <cmath>
 #include <math.h>
 #include <algorithm>
@@ -421,6 +421,8 @@ void changeRooms(Room oldRoom)		//Test for changing rooms
 	//Input Validation
 	choice = input(mapRooms[player1.getcurrentRoom()].getNumOfAdjacentRooms());
 
+	system("CLS"); //Clears the console
+
 	player1.setCurrentRoom(mapRooms[adjacentIDArray[choice - 1]].getRoomID());	//Sets the new current room to the chosen value
 
 	if (turnCount > imposterReleaseTurn)	//Imposter starts moving after imposter release turn
@@ -458,6 +460,7 @@ void getRoomActions(Room newRoom)
 	settextcolor(yellow);
 	//Input Validation
 	int actionChoice = input(6);
+	system("CLS"); //Clears the console
 
 	switch (actionChoice)
 	{
@@ -473,6 +476,7 @@ void getRoomActions(Room newRoom)
 
 			//Input Validation
 			int questionChoice = input(4);
+			system("CLS"); //Clears the console
 
 			if (questionArray[mapRooms[player1.getcurrentRoom()].getRoomQuestion()].isCorrectAnswer(questionChoice))
 			{
@@ -998,7 +1002,6 @@ void turnCounter()
 	turnCount++;
 	if (turnCount == maxTurnCount)
 	{
-		cout << endl;
 		cout << red << "You have run out of time, Nuclear Meltdown in progess!" << endl << endl;
 		settextcolor(yellow);
 		gameOver();
@@ -1012,6 +1015,7 @@ void gameOver()
 	cout << "1. Yes" << endl;
 	cout << "2. No" << endl;
 	int playAgainChoice = input(2);
+	system("CLS"); //Clears the console
 	switch (playAgainChoice)
 	{
 	case(1):
@@ -1042,7 +1046,8 @@ void imposterEncounter()
 	cout << "You feel another presence near you..." << endl;
 	cout << "You're being attacked!" << endl << endl;
 
-	int RPSResult = startRPS();		//0=tie, 1=loss, 2=win
+	int RPSResult = startRPS();	//0=tie, 1=loss, 2=win
+
 
 	while (RPSResult != 2)	//Checks if player has not won RPS. Imposter keeps attacking until the player wins
 	{
@@ -1055,7 +1060,6 @@ void imposterEncounter()
 
 		RPSResult = startRPS();
 	}
-
 	cout << "Phew... The attacker fled. It looks like you made it out of there alive somehow." << endl;
 	cout << "Let's continue exploring." << endl << endl;;
 }

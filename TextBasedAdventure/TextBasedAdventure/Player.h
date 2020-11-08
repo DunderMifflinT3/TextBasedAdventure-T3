@@ -106,8 +106,7 @@ public:
 	void takeDamage(int amount)	//Lowers current HP
 	{		
 		currentHP -= amount;
-		cout << "You took " << amount << " damage!" << endl;	
-
+		cout << red << "You took " << amount << " damage!" << endl;
 		if (currentHP <= 0)
 		{
 			isAlive = false;

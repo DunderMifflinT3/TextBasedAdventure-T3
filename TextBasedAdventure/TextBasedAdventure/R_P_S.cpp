@@ -28,6 +28,8 @@ int testWin(int choice)
 	{
 		if (tie_array[x][y] == random && tie_array[x][y + 1] == choice)	//Tie
 		{
+			system("CLS"); //Clears the console
+			settextcolor(purple);
 			if (random == 0)
 			{
 				cout << "Tie! Y'all throw Rocks at Each other Nothing Happens." << endl;
@@ -41,11 +43,14 @@ int testWin(int choice)
 				cout << "Tie! You both ran with scissors and got in trouble." << endl;
 			}
 			cout << endl;
+			settextcolor(yellow);
 			return 0;
 		}
 
 		else if (comp_win[x][y] == random && comp_win[x][y + 1] == choice)	//Loss
 		{
+			system("CLS"); //Clears the console
+			settextcolor(dark_red);
 			if (random == 0)
 			{
 				cout << "You lose.... He beats you vigorously with a rock you try to defend youself with a pair of safety scissors." << endl;
@@ -59,11 +64,14 @@ int testWin(int choice)
 				cout << "You lose.... He tries sticking the scissors where the sun don't shine." << endl;
 			}
 			cout << endl;
+			settextcolor(yellow);
 			return 1;
 		}
 
 		else if (player_win[x][y] == random && player_win[x][y + 1] == choice)	//Win
 		{
+			system("CLS"); //Clears the console
+			settextcolor(dark_green);
 			if (random == 0)
 			{
 				cout << "You win! You give him a peice of paper with your artwork he laughs so hard he has a heart attack." << endl;
@@ -77,6 +85,7 @@ int testWin(int choice)
 				cout << "You win! You yell Kobe and peg a rock at the dudes head." << endl;
 			}
 			cout << endl;
+			settextcolor(yellow);
 			return 2;
 		}
 	}
@@ -91,5 +100,6 @@ int startRPS()
 	setRandom();
 
 	return testWin(input(3));	//Returns if the player wins, loses, or ties. Also tests input validation.
+
 }
 
