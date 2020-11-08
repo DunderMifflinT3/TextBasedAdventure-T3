@@ -17,7 +17,7 @@
 
 void enterRoomMessage(Room);
 void changeRooms(Room);
-bool roomPower(Room); //Powers up rooms
+bool isShipPowered(); //Checks if task in Electrical is complete to power rooms
 void getRoomActions(Room);
 void map();
 void help();
@@ -143,10 +143,9 @@ bool roomPower(Room Electrical)
 	}
 	else
 	{
-		cout << "Power is still off, find correct room to turn online." << endl << endl;
+		cout << "Power is off, find correct room to turn online." << endl << endl;
 		return false;
 	}
-	
 }
 void displayRoomMessage(int id) //Displays message when room is not complete. Cases correspond to room IDs.
 {
@@ -154,7 +153,7 @@ void displayRoomMessage(int id) //Displays message when room is not complete. Ca
 	{
 	case(0):
 	{
-		if (roomPower(Electrical) == false)
+		if (isShipPowered() == false)
 			cout << "Room does not have power, find the correct room to turn on power." << endl << endl;
 		else
 			cout << endl;
@@ -162,12 +161,12 @@ void displayRoomMessage(int id) //Displays message when room is not complete. Ca
 	}
 	case(1):
 	{
-		if (roomPower(Electrical) == false)
+		if (isShipPowered() == false)
 		{
 			cout << "Room is locked, turn on power to unlock room." << endl << endl;
 			changeRooms(Medical); //if locked change rooms
 		}
-		/*if (roomPower(Electrical) == true)
+		if (isShipPowered() == true)
 		{
 			cout << "It seems like someone has broken into the medical supplies" << endl << endl;
 		}*/
@@ -192,7 +191,7 @@ void displayRoomMessage(int id) //Displays message when room is not complete. Ca
 	}
 	case(4):
 	{
-		if (roomPower(Electrical) == false)
+		if (isShipPowered() == false)
 		{
 			cout << "Room is locked, turn on power to unlock room." << endl << endl;
 			changeRooms(RightEngine);
@@ -239,7 +238,7 @@ void displayRoomMessage(int id) //Displays message when room is not complete. Ca
 		}
 	case(8):
 		{
-		if (roomPower(Electrical) == false)
+		if (isShipPowered() == false)
 		{
 			cout << "Room is locked, turn on power to unlock room." << endl << endl;
 			changeRooms(Hangar);
@@ -258,7 +257,7 @@ void displayRoomMessage(int id) //Displays message when room is not complete. Ca
 		}
 	case(10):
 		{
-		if (roomPower(Electrical) == false)
+		if (isShipPowered() == false)
 		{
 			cout << "Room is locked, turn on power to unlock room." << endl << endl;
 			changeRooms(Storage);
@@ -270,7 +269,7 @@ void displayRoomMessage(int id) //Displays message when room is not complete. Ca
 		}
 	case(11):
 		{
-		if (roomPower(Electrical) == false)
+		if (isShipPowered() == false)
 		{
 			cout << "Room is locked, turn on power to unlock room." << endl << endl;
 			changeRooms(Bathroom);
@@ -283,7 +282,7 @@ void displayRoomMessage(int id) //Displays message when room is not complete. Ca
 		}
 	case(12):
 		{
-		if (roomPower(Electrical) == false)
+		if (isShipPowered() == false)
 		{
 			cout << "Room is locked, turn on power to unlock room." << endl << endl;
 			changeRooms(Weapons);
@@ -297,7 +296,7 @@ void displayRoomMessage(int id) //Displays message when room is not complete. Ca
 		}
 	case(13):
 		{
-		if (roomPower(Electrical) == false)
+		if (isShipPowered() == false)
 		{
 			cout << "Room is locked, turn on power to unlock room." << endl << endl;
 			changeRooms(Navigation);
@@ -397,9 +396,14 @@ void enterRoomMessage(Room newRoom)		//Message that plays when room is entered
 	{
 		imposterEncounter();
 	}
+
+	if (imposter.getCurrentRoomID() == 6 && mapRooms[6].getIsCompleted())	//Imposter turns off the power if he goes into the electrical room
+	{
+		cout << "It seems like the power tripped again. You may have to go back and fix it to proceed." << endl << endl;
+		mapRooms[6].completeRoom(false);
+	}
 	
-	cout << red << "Turns until nuclear meltdown: " << maxTurnCount - turnCount << endl << endl;
-	settextcolor(yellow);
+	cout << "Turns until nuclear meltdown: " << maxTurnCount - turnCount << endl << endl;
 	getRoomActions(newRoom);
 }
 void changeRooms(Room oldRoom)		//Test for changing rooms
@@ -425,7 +429,7 @@ void changeRooms(Room oldRoom)		//Test for changing rooms
 
 	if (turnCount > imposterReleaseTurn)	//Imposter starts moving after imposter release turn
 	{
-		imposter.moveRooms(rand() % 3 + 1);	//Imposter changes rooms when player does (TO DO: Change formula for the rooms it picks)
+		imposter.moveRooms(rand() % 13 + 1);	//Imposter changes rooms when player does (TO DO: Change formula for the rooms it picks)
 	}
 
 	turnCounter();
@@ -480,7 +484,7 @@ void getRoomActions(Room newRoom)
 
 			if (questionArray[currentRoom.getRoomQuestion()].isCorrectAnswer(choice))
 			{
-				mapRooms[currentRoom.getRoomID()].completeRoom();
+				mapRooms[currentRoom.getRoomID()].completeRoom(true);
 				cout << "You have completed everything in this room." << endl << endl;
 
 			}
@@ -647,7 +651,7 @@ void investigate(int id)
 	}
 	case(1)://Medical
 	{
-		if (roomPower(Electrical) == false)
+		if (isShipPowered() == false)
 		{
 			cout << "Room is locked, turn on power to unlock room." << endl << endl;
 		}
@@ -672,7 +676,7 @@ void investigate(int id)
 	}
 	case(2)://Communications
 	{
-		if (roomPower(Electrical) == false)
+		if (isShipPowered() == false)
 		{
 			if (player1.searchInventory("Flashlight"))
 			{
@@ -697,7 +701,7 @@ void investigate(int id)
 		break;
 	}
 	case(3)://Kitchen
-	{   if (roomPower(Electrical) == false)
+	{   if (isShipPowered() == false)
 		{
 			if (player1.searchInventory("Flashlight"))
 			{
@@ -735,7 +739,7 @@ void investigate(int id)
 	}
 	case(4)://R Engine
 	{
-		if (roomPower(Electrical) == false)
+		if (isShipPowered() == false)
 		{
 			cout << "Room is locked, turn on power to unlock room." << endl << endl;
 		}
@@ -749,7 +753,7 @@ void investigate(int id)
 	}
 	case(5)://L Engine
 	{		
-		if (roomPower(Electrical) == false)
+		if (isShipPowered() == false)
 		{
 			if (player1.searchInventory("Flashlight"))
 			{
@@ -771,7 +775,7 @@ void investigate(int id)
 	}
 	case(6)://Electircal
 	{
-		if (roomPower(Electrical) == false)
+		if (isShipPowered() == false)
 		{
 			if (player1.searchInventory("Flashlight"))
 			{
@@ -798,7 +802,7 @@ void investigate(int id)
 	}
 	case(7)://Jail
 	{
-		if (roomPower(Electrical) == false)
+		if (isShipPowered() == false)
 		{
 			if (player1.searchInventory("Flashlight"))
 			{
@@ -824,7 +828,7 @@ void investigate(int id)
 	}
 	case(8)://Hanger
 	{
-		if (roomPower(Electrical) == false)
+		if (isShipPowered() == false)
 		{
 			cout << "Room is locked, turn on power to unlock room." << endl << endl;
 		}
@@ -836,7 +840,7 @@ void investigate(int id)
 	}
 	case(9)://Lounge
 	{
-		if (roomPower(Electrical) == false)
+		if (isShipPowered() == false)
 		{
 			if (player1.searchInventory("Flashlight"))
 			{
@@ -883,7 +887,7 @@ void investigate(int id)
 	}
 	case(10)://Storage
 	{
-		if (roomPower(Electrical) == false)
+		if (isShipPowered() == false)
 		{
 			cout << "Room is locked, turn on power to unlock room." << endl << endl;
 		}
@@ -906,7 +910,7 @@ void investigate(int id)
 	}
 	case(11)://Bathroom
 	{
-		if (roomPower(Electrical) == false)
+		if (isShipPowered() == false)
 		{
 			cout << "Room is locked, turn on power to unlock room." << endl << endl;
 		}
@@ -922,7 +926,7 @@ void investigate(int id)
 	}
 	case(12)://Weapons
 	{
-		if (roomPower(Electrical) == false)
+		if (isShipPowered() == false)
 		{
 			cout << "Room is locked, turn on power to unlock room." << endl << endl;
 		}
@@ -947,7 +951,7 @@ void investigate(int id)
 	}
 	case(13)://Navigation
 	{
-		if (roomPower(Electrical) == false)
+		if (isShipPowered() == false)
 		{
 			cout << "Room is locked, turn on power to unlock room." << endl << endl;
 		}
