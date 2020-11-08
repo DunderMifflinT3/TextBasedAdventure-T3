@@ -389,7 +389,6 @@ int main()
 }
 void enterRoomMessage(Room newRoom)		//Message that plays when room is entered
 {
-	cout << "-------------------------------------------------------------------------------------------------------------" << endl << endl;	//Separates screen when entering a new room.
 	cout << yellow << "You have entered the ";
 	cout << blue << newRoom.getRoomName() << "." << endl << endl; //Room names in blue
 	settextcolor(yellow);
