@@ -351,6 +351,7 @@ void difficultLevel() //User picks the difficulty level
 		break;
 	}
 	}
+	system("CLS"); //Clears the console
 }
 void playGame()
 {
@@ -374,6 +375,8 @@ void playGame()
 	cout << "repair the ship by fixing parts in each room so you can return home safely, and ultimately SURVIVE!" << endl << endl;
 	Sleep(3000); //Gives user time to read script
 	
+	system("CLS"); //Clears the console
+
 	currentRoom = Start; //Sets the room that the player is in
 
 	enterRoomMessage(currentRoom);
@@ -417,6 +420,8 @@ void changeRooms(Room oldRoom)		//Test for changing rooms
 	//Input Validation
 	input(currentRoom.getNumOfAdjacentRooms());
 
+	system("CLS"); //Clears the console
+
 	currentRoom = mapRooms[adjacentIDArray[choice - 1]];	//Sets the new current room to the chosen value
 
 	if (turnCount > imposterReleaseTurn)	//Imposter starts moving after imposter release turn
@@ -455,6 +460,8 @@ void getRoomActions(Room newRoom)
 	//Input Validation
 	input(6);
 
+	system("CLS"); //Clears the console
+
 	switch (choice)
 	{
 	case(1): 
@@ -469,6 +476,8 @@ void getRoomActions(Room newRoom)
 
 			//Input Validation
 			input(4);
+
+			system("CLS"); //Clears the console
 
 			if (questionArray[currentRoom.getRoomQuestion()].isCorrectAnswer(choice))
 			{
@@ -566,6 +575,8 @@ void escape()
 		int code;
 		cout << "The escape pod is "<< green <<"online!"<< yellow <<" Please enter 4 digit code to enter pod: " << endl;
 		cin >> code;
+
+		system("CLS"); //Clears the console
 
 		if (code == randomCode)
 		{
@@ -990,6 +1001,9 @@ void gameOver()
 	cout << "1. Yes" << endl;
 	cout << "2. No" << endl;
 	input(2);
+
+	system("CLS"); //Clears the console
+
 	switch (choice)
 	{
 	case(1):

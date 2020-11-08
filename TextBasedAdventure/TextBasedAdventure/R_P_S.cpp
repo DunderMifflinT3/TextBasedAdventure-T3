@@ -99,6 +99,8 @@ void startRPS()
 	//Input Validation
 	input(3);
 
+	system("CLS"); //Clears the console
+
 	test_win(choice);
 
 	cout << winning_saying << endl << endl;
