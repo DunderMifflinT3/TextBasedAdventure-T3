@@ -32,7 +32,7 @@ void imposterEncounter();
 int roomsCompleted();
 
 int playerHP = 100;
-Player player1("Player 1", playerHP);
+Player player1("Player 1", playerHP, 0);
 Imposter imposter(7);
 
 //Initialize all questions
@@ -89,7 +89,7 @@ int maxTurnCount;
 int imposterReleaseTurn;
 //int completedRooms;
 
-Room currentRoom;	//Room that the player is in
+//Room currentRoom;	//Room that the player is in
 
 //Initialize Rooms (ID, name, adjacent rooms, amount of adjacent rooms, question ID, item)
 Room Start(0, "Bedroom", startAdj, 5, 0, "Flashlight");
@@ -199,7 +199,7 @@ void displayRoomMessage(int id) //Displays message when room is not complete. Ca
 		else if (player1.searchInventory("Wrench") == false)
 		{
 			cout << "You need a specific tool to be able to complete this task." << endl << endl;
-			getRoomActions(currentRoom);
+			getRoomActions(mapRooms[player1.getcurrentRoom()]);
 		}
 		//else
 		//{
@@ -213,7 +213,7 @@ void displayRoomMessage(int id) //Displays message when room is not complete. Ca
 			if (player1.searchInventory("Wrench") == false)
 			{
 			cout << "You need a specific tool to be able to complete this task." << endl << endl;
-			getRoomActions(currentRoom);
+			getRoomActions(mapRooms[player1.getcurrentRoom()]);
 			}
 			else 
 			{
@@ -324,12 +324,11 @@ void difficultLevel() //User picks the difficulty level
 	cout << "Please choose 1-3 for difficulty level:" << endl << endl;
 	cout << "1. Amatuer Explorer (40 turns)" << endl;
 	cout << "2. Skilled Adventurer (25 turns)" << endl;
-	cout << "3. ";
-	cout << red << "Veteran Pioneer (15 turns)" << endl; // This line is red
-	settextcolor(yellow); // Turn color back
-	input(3);
+	cout << "3. Veteran Pioneer (15 turns)" << endl;
+
+	int difficultyChoice = input(3);
 	
-	switch (choice)
+	switch (difficultyChoice)
 	{
 	case(1):
 	{
@@ -356,8 +355,8 @@ void playGame()
 {
 	//Resets everything before selecting difficulty
 	turnCount = 0;
-	randomCode = currentRoom.noteCode();
-	player1.resetPlayer(playerHP);
+	randomCode = Start.noteCode();
+	player1.resetPlayer(playerHP, 0);
 
 	for (int i = 0; i < 14; i++)
 	{
@@ -374,11 +373,9 @@ void playGame()
 	cout << "repair the ship by fixing parts in each room so you can return home safely, and ultimately SURVIVE!" << endl << endl;
 	Sleep(3000); //Gives user time to read script
 	
-	system("CLS"); //Clears the console
+	//currentRoom = Start; //Sets the room that the player is in
 
-	currentRoom = Start; //Sets the room that the player is in
-
-	enterRoomMessage(currentRoom);
+	enterRoomMessage(mapRooms[player1.getcurrentRoom()]);
 
 }
 int main()
@@ -408,24 +405,23 @@ void enterRoomMessage(Room newRoom)		//Message that plays when room is entered
 }
 void changeRooms(Room oldRoom)		//Test for changing rooms
 {
+	int choice;
 	int adjacentIDArray[MAXADJACENTROOMS];	//Array that holds the ids of adjacent rooms
 
 	cout << "You can enter the following rooms:" << endl << endl;
 
 	int roomCount = 1;
-	for (int i = 0; i < currentRoom.getNumOfAdjacentRooms(); i++)
+	for (int i = 0; i < mapRooms[player1.getcurrentRoom()].getNumOfAdjacentRooms(); i++)
 	{
-		int tempAdjacentID = currentRoom.getAdjacentRooms(i);
+		int tempAdjacentID = mapRooms[player1.getcurrentRoom()].getAdjacentRooms(i);
 		cout << i + 1 << ": " << mapRooms[tempAdjacentID].getRoomName() << endl;
-		adjacentIDArray[i] = currentRoom.getAdjacentRooms(i);
+		adjacentIDArray[i] = mapRooms[player1.getcurrentRoom()].getAdjacentRooms(i);
 	}
 	
 	//Input Validation
-	input(currentRoom.getNumOfAdjacentRooms());
+	choice = input(mapRooms[player1.getcurrentRoom()].getNumOfAdjacentRooms());
 
-	system("CLS"); //Clears the console
-
-	currentRoom = mapRooms[adjacentIDArray[choice - 1]];	//Sets the new current room to the chosen value
+	player1.setCurrentRoom(mapRooms[adjacentIDArray[choice - 1]].getRoomID());	//Sets the new current room to the chosen value
 
 	if (turnCount > imposterReleaseTurn)	//Imposter starts moving after imposter release turn
 	{
@@ -434,13 +430,13 @@ void changeRooms(Room oldRoom)		//Test for changing rooms
 
 	turnCounter();
 
-	enterRoomMessage(currentRoom);
+	enterRoomMessage(mapRooms[player1.getcurrentRoom()]);
 }
 void getRoomActions(Room newRoom)
 {	
 	if (turnCount == imposterReleaseTurn)	//Mentions imposter release. Make Red Text
 	{
-		if (currentRoom.getRoomID() == 7)	//If player is in the jail on the turn the imposter breaks out
+		if (player1.getcurrentRoom() == 7)	//If player is in the jail on the turn the imposter breaks out
 		{
 			cout << "You look around the room for a bit until you notice that one of the cells has been breached." << endl;
 			cout << "What happened here, and are you really safe ?" << endl << endl;
@@ -461,30 +457,26 @@ void getRoomActions(Room newRoom)
 	cout << "6. Help" << endl;
 	settextcolor(yellow);
 	//Input Validation
-	input(6);
+	int actionChoice = input(6);
 
-	system("CLS"); //Clears the console
-
-	switch (choice)
+	switch (actionChoice)
 	{
 	case(1): 
 		{
 		//Displays room message if room is not completed
-		if (currentRoom.getIsCompleted() == false)
+		if (mapRooms[player1.getcurrentRoom()].getIsCompleted() == false)
 		{
-			displayRoomMessage(currentRoom.getRoomID());
+			displayRoomMessage(player1.getcurrentRoom());
 
 			//Displays room question based on questionArray
-			questionArray[currentRoom.getRoomQuestion()].display();
+			questionArray[mapRooms[player1.getcurrentRoom()].getRoomQuestion()].display();
 
 			//Input Validation
-			input(4);
+			int questionChoice = input(4);
 
-			system("CLS"); //Clears the console
-
-			if (questionArray[currentRoom.getRoomQuestion()].isCorrectAnswer(choice))
+			if (questionArray[mapRooms[player1.getcurrentRoom()].getRoomQuestion()].isCorrectAnswer(questionChoice))
 			{
-				mapRooms[currentRoom.getRoomID()].completeRoom(true);
+				mapRooms[player1.getcurrentRoom()].completeRoom();
 				cout << "You have completed everything in this room." << endl << endl;
 
 			}
@@ -500,14 +492,14 @@ void getRoomActions(Room newRoom)
 			cout << "There is nothing else for you to do in this room." << endl;
 			cout << endl;
 		}
-		currentRoom = mapRooms[newRoom.getRoomID()];
-		getRoomActions(currentRoom);
+		player1.setCurrentRoom(newRoom.getRoomID());
+		getRoomActions(mapRooms[player1.getcurrentRoom()]);
 		break;
 		}
 	case(2):
 		{
-		investigate(currentRoom.getRoomID());
-		getRoomActions(currentRoom);
+		investigate(player1.getcurrentRoom());
+		getRoomActions(mapRooms[player1.getcurrentRoom()]);
 		break;
 		}
 	case(3):
@@ -527,19 +519,19 @@ void getRoomActions(Room newRoom)
 			player1.showInventory();
 			cout << endl;
 		}
-		getRoomActions(currentRoom);
+		getRoomActions(mapRooms[player1.getcurrentRoom()]);
 		break;
 	}
 	case(5):
 		{
 		map();
-		getRoomActions(currentRoom);
+		getRoomActions(mapRooms[player1.getcurrentRoom()]);
 		break;	
 		}	
 	case(6):
 		{
 		help();
-		getRoomActions(currentRoom);
+		getRoomActions(mapRooms[player1.getcurrentRoom()]);
 		break;
 		}
 	}
@@ -590,15 +582,15 @@ void escape()
 		}
 		else
 		{
-			cout << red << "Access Denied!" << endl << endl;
-			cout << yellow <<"Maybe the code can found in one of the rooms" << endl;
-			getRoomActions(currentRoom);
+			cout << "Access Denied" << endl << endl;
+			cout << "Maybe the code can found in one of the rooms" << endl;
+			getRoomActions(mapRooms[player1.getcurrentRoom()]);
 		}
 	}
 	else
 	{
 		cout << "You found an escape pod. You need to complete the task and have the keycard to activate the Pod" << endl;
-		getRoomActions(currentRoom);
+		getRoomActions(mapRooms[player1.getcurrentRoom()]);
 	}
 }
 void rightEngineComplete()
@@ -611,7 +603,7 @@ void rightEngineComplete()
 	{
 		cout << "You notice a leak in the Right engine and the fuel levels dropping." << endl;
 		cout << "You need to repair the engine." << endl << endl;
-		getRoomActions(currentRoom);
+		getRoomActions(mapRooms[player1.getcurrentRoom()]);
 	}
 
 }
@@ -625,7 +617,7 @@ void leftEngineComplete()
 	{
 		cout << "You notice a leak in the Left engine and the fuel levels dropping." << endl;
 		cout << "You need to repair the engine." << endl << endl;
-		getRoomActions(currentRoom);
+		getRoomActions(mapRooms[player1.getcurrentRoom()]);
 	}
 
 }
@@ -641,11 +633,12 @@ void investigate(int id)
 			cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a ";
 			cout << green << "Flashlight" << endl << endl;
 			settextcolor(yellow);
+			cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", you have found a Flashlight" << endl << endl;
 			player1.addToInventory("Flashlight");
 		}
 		else
 		{
-			cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing left to be found here." << endl << endl;
+			cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", there is nothing to be found here." << endl << endl;
 		}
 		break;
 	}
@@ -663,13 +656,14 @@ void investigate(int id)
 				cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a ";
 				cout << green << "Oxygen Tank" << endl;
 				settextcolor(yellow);
+				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", you have found a Oxygen Tank" << endl;
 				player1.increaseMaxHP(20);
 				player1.healDamage(20);
 				player1.setCollectedOxygenTanks(id);
 			}
 			else
 			{
-				cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
+				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", there is nothing to be found here." << endl << endl;
 			}
 		}
 		break;
@@ -685,6 +679,8 @@ void investigate(int id)
 				cout << "You notice that the main transmitter is destroyed. Fixing communications could" << endl;
 				cout << "allow you to get in touch with your team at home and tell them about the situation." << endl << endl;
 				cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
+				cout << "Room is too dark, you turned on your Flashlight" << endl;
+				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", there is nothing to be found here." << endl << endl;
 			}
 			else
 			{
@@ -697,6 +693,7 @@ void investigate(int id)
 			cout << "You notice that the main transmitter is destroyed. Fixing communications could" << endl;
 			cout << "allow you to get in touch with your team at home and tell them about the situation." << endl << endl;
 			cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
+			cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", there is nothing to be found here." << endl << endl;
 		}
 		break;
 	}
@@ -715,6 +712,8 @@ void investigate(int id)
 				cout << green << randomCode;
 				settextcolor(yellow);
 				cout << " ... the rest of the note is not legible." << endl << endl;
+				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", you have found a Note." << endl;
+				cout << "The note says IN CASE OF EMERGENCY " << randomCode << " ... the rest of the note is not legible." << endl << endl;
 				player1.addToInventory("Note");
 			}
 			else
@@ -733,6 +732,8 @@ void investigate(int id)
 		cout << green << randomCode;
 		settextcolor(yellow);
 		cout << " ... the rest of the note is not legible." << endl << endl;
+		cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", you have found a Note." << endl;
+		cout << "The note says IN CASE OF EMERGENCY " << randomCode << " ... the rest of the note is not legible." << endl << endl;
 		player1.addToInventory("Note");
 	}
 		break;
@@ -784,6 +785,7 @@ void investigate(int id)
 				cout << "systems online right now is the backup generator. The power box has the wires ripped out " << endl;
 				cout << "you need to find some way to connect the wires again and get the power back online. " << endl << endl;
 				cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
+				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", there is nothing to be found here." << endl << endl;
 			}
 			else
 			{
@@ -797,6 +799,7 @@ void investigate(int id)
 			cout << red << "BE CAREFUL!" << endl;
 			settextcolor(yellow);
 			cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
+			cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", there is nothing to be found here." << endl << endl;
 		}
 		break;
 	}
@@ -811,6 +814,7 @@ void investigate(int id)
 				cout << "captured and are transporting back home. Unfortunately you notice that the cell has " << endl;
 				cout << "been opened by force and the alien captive is missing." << endl << endl;
 				cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
+				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", there is nothing to be found here." << endl << endl;
 			}
 			else
 			{
@@ -823,6 +827,7 @@ void investigate(int id)
 			cout << "captured and are transporting back home. Unfortunately you notice that the cell has " << endl;
 			cout << "been opened by force and the alien captive is missing." << endl << endl;
 			cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
+			cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", there is nothing to be found here." << endl << endl;
 		}
 		break;
 	}
@@ -850,6 +855,7 @@ void investigate(int id)
 					cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a ";
 					cout << green << "Oxygen Tank" << endl;
 					settextcolor(yellow);
+					cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", you have found a Oxygen Tank" << endl;
 					player1.increaseMaxHP(20);
 					player1.healDamage(20);
 					player1.setCollectedOxygenTanks(id);
@@ -858,6 +864,7 @@ void investigate(int id)
 				{
 					cout << "There isn" << "\'" << "t much in the lounge except some couches and playing cards from the day before." << endl << endl;
 					cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
+					cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", there is nothing to be found here." << endl << endl;
 				}
 			}
 			else
@@ -873,6 +880,7 @@ void investigate(int id)
 				cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a ";
 				cout << green << "Oxygen Tank" << endl;
 				settextcolor(yellow);
+				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", you have found a Oxygen Tank" << endl;
 				player1.increaseMaxHP(20);
 				player1.healDamage(20);
 				player1.setCollectedOxygenTanks(id);
@@ -881,6 +889,7 @@ void investigate(int id)
 			{
 				cout << "There isn" << "\'" << "t much in the lounge except some couches and playing cards from the day before." << endl << endl;
 				cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
+				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", there is nothing to be found here." << endl << endl;
 			}
 		}
 		break;
@@ -899,11 +908,12 @@ void investigate(int id)
 				cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a ";
 				cout << green << "Wrench" << endl << endl;
 				settextcolor(yellow);
+				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", you have found a Wrench" << endl << endl;
 				player1.addToInventory("Wrench");
 			}
 			else
 			{
-				cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing left to be found here." << endl << endl;
+				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", there is nothing to be found here." << endl << endl;
 			}
 		}
 		break;
@@ -921,6 +931,7 @@ void investigate(int id)
 			settextcolor(yellow);
 			cout << "written on the wall in what seems to be blood." << endl << endl;
 			cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
+			cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", there is nothing to be found here." << endl << endl;
 		}
 		break;
 	}
@@ -939,12 +950,14 @@ void investigate(int id)
 				cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a ";
 				cout << green << "Weapon" << endl << endl;
 				settextcolor(yellow);
+				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", you have found a Weapon" << endl << endl;
 				player1.addToInventory("Weapon");
 			}
 			else
 			{
 				cout << "There is an empty container from where you retrieved your gun." << endl;
 				cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
+				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", there is nothing to be found here." << endl << endl;
 			}
 		}
 		break;
@@ -965,6 +978,7 @@ void investigate(int id)
 				cout << roomsCompleted() << " of the systems are online out of 13." << endl << endl;
 				cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a ";
 				cout << green << "Key-card" << endl << endl;
+				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", you have found a Key-card" << endl << endl;
 				player1.addToInventory("Key Card");
 			}
 			else
@@ -974,6 +988,7 @@ void investigate(int id)
 				cout << "repairs you have made to the ship. It appears you have made progress on repairing vital components of the ship." << endl;
 				cout << roomsCompleted() << " of the systems are online out of 13." << endl << endl;
 				cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
+				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", there is nothing to be found here." << endl << endl;
 			}
 		}
 		break;
@@ -1003,11 +1018,8 @@ void gameOver()
 	cout << "Would you like to play again? Select 1 or 2" << endl; //Still not complete needs restart and end game function
 	cout << "1. Yes" << endl;
 	cout << "2. No" << endl;
-	input(2);
-
-	system("CLS"); //Clears the console
-
-	switch (choice)
+	int playAgainChoice = input(2);
+	switch (playAgainChoice)
 	{
 	case(1):
 	{	
@@ -1021,7 +1033,7 @@ void gameOver()
 }
 void playerDeath()	//Plays a death message
 {
-	if (player1.getCurrentHP() <= 0)
+	if (!player1.getIsAlive())
 	{
 		cout << endl;
 		cout << red << "You have died!" << endl << endl;	//Make more descriptive later
@@ -1035,23 +1047,22 @@ void playerDeath()	//Plays a death message
 void imposterEncounter()
 {
 	cout << "You feel another presence near you..." << endl;
-	cout << red << "You're being attacked!" << endl << endl;
-	settextcolor(yellow);
-	while (win == false)	//Imposter keeps attacking until the player wins
-	{
-		startRPS();
+	cout << "You're being attacked!" << endl << endl;
 
-		if (win == false && tie == false)	//Takes damage when player loses, does nothing when player ties
+	int RPSResult = startRPS();		//0=tie, 1=loss, 2=win
+
+	while (RPSResult != 2)	//Checks if player has not won RPS. Imposter keeps attacking until the player wins
+	{
+		if (RPSResult == 1)	//Checks if RPS was lost. Take damage on loss. Continue playing on tie
 		{
 			player1.takeDamage(10);
 			playerDeath();
 			cout << "Current Oxygen: " << green << player1.getCurrentHP() << yellow << " / " << player1.getMaxHP() << endl << endl;
 		}
+
+		RPSResult = startRPS();
 	}
 
-	win = false;
-	tie == false;
-	settextcolor(yellow);
 	cout << "Phew... The attacker fled. It looks like you made it out of there alive somehow." << endl;
 	cout << "Let's continue exploring." << endl << endl;;
 }

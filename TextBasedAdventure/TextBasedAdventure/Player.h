@@ -15,6 +15,8 @@ private:
 	int maxHP;
 	int currentHP;
 	bool collectedOxygenTanks[14] = { 0,0,0,0,0,0,0,0,0,0,0,0,0,0 };
+	int currentRoomID;
+	bool isAlive = true;
 
 public:
 	vector<string> inventory;
@@ -24,12 +26,22 @@ public:
 	{
 	}
 
-	Player(string name, int hp)
+	Player(string name, int hp, int startingRoom)
 	{
 		setPlayerName(name);
 		setMaxHP(hp);
 		currentHP = maxHP;	//Start at Max HP
 		inventory = {};		//Resets Inventory
+		currentRoomID = startingRoom;
+	}
+	int getcurrentRoom()
+	{
+		return currentRoomID;
+	}
+
+	bool getIsAlive()
+	{
+		return isAlive;
 	}
 
 	int getCurrentHP()
@@ -42,6 +54,10 @@ public:
 		return maxHP;
 	}
 
+	void setCurrentRoom(int ID)
+	{
+		currentRoomID = ID;
+	}
 	void setPlayerName(string name)
 	{
 		playerName = name;
@@ -90,8 +106,12 @@ public:
 	void takeDamage(int amount)	//Lowers current HP
 	{		
 		currentHP -= amount;
-		cout << red << "You took " << amount << " damage!" << endl;	//Damage red
-		settextcolor(yellow);
+		cout << "You took " << amount << " damage!" << endl;	
+
+		if (currentHP <= 0)
+		{
+			isAlive = false;
+		}
 	}
 
 	void healDamage(int amount)	//Increases current HP
@@ -118,11 +138,12 @@ public:
 		return collectedOxygenTanks[room];
 	}
 
-	void resetPlayer(int hp)
+	void resetPlayer(int hp, int startRoom)
 	{
 		maxHP = hp;
 		currentHP = maxHP;
 		inventory.clear();
+		currentRoomID = startRoom;
 		
 		for (int n = 0; n < 14; n++)
 		{

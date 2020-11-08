@@ -5,9 +5,6 @@
 #undef max
 using namespace std;
 
-int choice;
-double choiceCopy;
-
 bool inputValidation(int choice, double choiceCopy, int numOfChoices)	//Checks if input is valid
 {
 	if (floor(choiceCopy) != choiceCopy)
@@ -24,17 +21,22 @@ bool inputValidation(int choice, double choiceCopy, int numOfChoices)	//Checks i
 	return true;
 }
 
-void input(int numOfChoices)	//Allows for an input to happen
+int input(int numOfChoices)	//Allows for an input to happen
 {
+	int inputChoice;
+	double inputChoiceCopy;
+
 	cout << endl;
-	cin >> choiceCopy;
-	choice = choiceCopy;
-	while (inputValidation(choice, choiceCopy, numOfChoices) == false)
+	cin >> inputChoiceCopy;
+	inputChoice = inputChoiceCopy;
+	while (inputValidation(inputChoice, inputChoiceCopy, numOfChoices) == false)
 	{
-		cin >> choiceCopy;
-		choice = choiceCopy;
+		cin >> inputChoiceCopy;
+		inputChoice = inputChoiceCopy;
 		cin.clear();
 		cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	}
+
+	return inputChoice;
 }
 
