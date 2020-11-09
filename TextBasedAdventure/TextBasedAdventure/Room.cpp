@@ -30,6 +30,7 @@ void gameOver();
 void playGame();
 void playerDeath();
 void imposterEncounter();
+void quit();
 int roomsCompleted();
 
 int playerHP = 100;
@@ -122,7 +123,7 @@ int roomsCompleted()//Counter for completed tasks
 		{
 			complete = complete; //Doesn't count Hangar, Hangar task for escape scenario
 		}
-		else if(mapRooms[i].getIsCompleted() == true)
+		else if (mapRooms[i].getIsCompleted() == true)
 		{
 			complete++;
 		}
@@ -170,7 +171,7 @@ void displayRoomMessage(int id) //Displays message when room is not complete. Ca
 		}
 		else
 		{
-		
+
 		}
 		break;
 	}
@@ -205,37 +206,37 @@ void displayRoomMessage(int id) //Displays message when room is not complete. Ca
 		//	cout << "You see a fuel container next to the fuel tank." << endl << endl;*/
 		//}
 		break;
-		}
+	}
 	case(5):
+	{
+		if (player1.searchInventory("Wrench") == false)
 		{
-			if (player1.searchInventory("Wrench") == false)
-			{
 			cout << "You need a specific tool to be able to complete this task." << endl << endl;
 			getRoomActions(mapRooms[player1.getcurrentRoom()]);
-			}
-			else 
-			{
-				/*cout << "You notice a leak in the engine and the fuel levels dropping. Complete the task at hand to fix the leak." << endl << endl;*/
-			}
-			break;
 		}
+		else
+		{
+			/*cout << "You notice a leak in the engine and the fuel levels dropping. Complete the task at hand to fix the leak." << endl << endl;*/
+		}
+		break;
+	}
 	case(6):
-		{
-			/*cout << "The power is off throughout most of the ship, the only thing keeping the " << endl;
-			cout << "systems online right now is the backup generator. The power box has the wires ripped out " << endl;
-			cout <<	"you need to find some way to connect the wires again and get the power back online. " << endl << endl;*/
-			cout << "Complete the following task correctly to turn power online: " << endl;
+	{
+		/*cout << "The power is off throughout most of the ship, the only thing keeping the " << endl;
+		cout << "systems online right now is the backup generator. The power box has the wires ripped out " << endl;
+		cout <<	"you need to find some way to connect the wires again and get the power back online. " << endl << endl;*/
+		cout << "Complete the following task correctly to turn power online: " << endl;
 		break;
-		}
+	}
 	case(7):
-		{
-			/*cout << "You have entered the cell where you expect to find the alien you and your crew have " << endl;
-			cout << "captured and are transporting back home. Unfortunately you notice that the cell has " << endl;
-			cout << "been opened by force and the alien captive is missing." << endl << endl;*/
+	{
+		/*cout << "You have entered the cell where you expect to find the alien you and your crew have " << endl;
+		cout << "captured and are transporting back home. Unfortunately you notice that the cell has " << endl;
+		cout << "been opened by force and the alien captive is missing." << endl << endl;*/
 		break;
-		}
+	}
 	case(8):
-		{
+	{
 		if (isShipPowered() == false)
 		{
 			cout << "Room is locked, turn on power to unlock room." << endl << endl;
@@ -247,26 +248,26 @@ void displayRoomMessage(int id) //Displays message when room is not complete. Ca
 			cout << "Complete the task to activate the pods." << endl;
 		}
 		break;
-		}
+	}
 	case(9):
-		{
-			/*cout << "There isn" << "\'" << "t much in the lounge except some couches and playing cards from the day before." << endl << endl;*/
+	{
+		/*cout << "There isn" << "\'" << "t much in the lounge except some couches and playing cards from the day before." << endl << endl;*/
 		break;
-		}
+	}
 	case(10):
-		{
+	{
 		if (isShipPowered() == false)
 		{
 			cout << "Room is locked, turn on power to unlock room." << endl << endl;
 			changeRooms(Storage);
 		}
 		else
-		cout << " ";
+			cout << " ";
 		cout << endl;
-			break;
-		}
+		break;
+	}
 	case(11):
-		{
+	{
 		if (isShipPowered() == false)
 		{
 			cout << "Room is locked, turn on power to unlock room." << endl << endl;
@@ -277,9 +278,9 @@ void displayRoomMessage(int id) //Displays message when room is not complete. Ca
 			//cout << "The shower is running and the mirror is broken. You see the word HELP written on the wall in what seems to be blood." << endl;
 		}
 		break;
-		}
+	}
 	case(12):
-		{
+	{
 		if (isShipPowered() == false)
 		{
 			cout << "Room is locked, turn on power to unlock room." << endl << endl;
@@ -291,9 +292,9 @@ void displayRoomMessage(int id) //Displays message when room is not complete. Ca
 			cout << "(Power needs to be restored from the electrical room in order to open this container)" << endl << endl;*/
 		}
 		break;
-		}
+	}
 	case(13):
-		{
+	{
 		if (isShipPowered() == false)
 		{
 			cout << "Room is locked, turn on power to unlock room." << endl << endl;
@@ -307,12 +308,12 @@ void displayRoomMessage(int id) //Displays message when room is not complete. Ca
 			cout << "x amount of systems are online out of x." << endl << endl;*/
 		}
 		break;
-		}
+	}
 	default:
-		{
+	{
 		cout << "Error" << endl;
 		cout << endl;
-		}
+	}
 	}
 }
 void difficultLevel() //User picks the difficulty level
@@ -325,7 +326,7 @@ void difficultLevel() //User picks the difficulty level
 	cout << "3. Veteran Pioneer (15 turns)" << endl;
 
 	int difficultyChoice = input(3);
-	
+
 	switch (difficultyChoice)
 	{
 	case(1):
@@ -372,14 +373,14 @@ void playGame()
 	cout << "and your oxygen is dropping quickly. Your mission is to find your crew, " << endl;
 	cout << "repair the ship by fixing parts in each room so you can return home safely, and ultimately SURVIVE!" << endl << endl;
 	Sleep(3000); //Gives user time to read script
-	
+
 	//currentRoom = Start; //Sets the room that the player is in
 
 	enterRoomMessage(mapRooms[player1.getcurrentRoom()]);
 
 }
 int main()
-{   
+{
 	playGame();
 	return 0;
 }
@@ -399,7 +400,7 @@ void enterRoomMessage(Room newRoom)		//Message that plays when room is entered
 		cout << "It seems like the power tripped again. You may have to go back and fix it to proceed." << endl << endl;
 		mapRooms[6].completeRoom(false);
 	}
-	
+
 	cout << "Turns until nuclear meltdown: " << maxTurnCount - turnCount << endl << endl;
 	getRoomActions(newRoom);
 }
@@ -417,7 +418,7 @@ void changeRooms(Room oldRoom)		//Test for changing rooms
 		cout << i + 1 << ": " << mapRooms[tempAdjacentID].getRoomName() << endl;
 		adjacentIDArray[i] = mapRooms[player1.getcurrentRoom()].getAdjacentRooms(i);
 	}
-	
+
 	//Input Validation
 	choice = input(mapRooms[player1.getcurrentRoom()].getNumOfAdjacentRooms());
 
@@ -435,7 +436,7 @@ void changeRooms(Room oldRoom)		//Test for changing rooms
 	enterRoomMessage(mapRooms[player1.getcurrentRoom()]);
 }
 void getRoomActions(Room newRoom)
-{	
+{
 	if (turnCount == imposterReleaseTurn)	//Mentions imposter release. Make Red Text
 	{
 		if (player1.getcurrentRoom() == 7)	//If player is in the jail on the turn the imposter breaks out
@@ -457,15 +458,16 @@ void getRoomActions(Room newRoom)
 	cout << "4. Inventory" << endl;
 	cout << "5. Map" << endl;
 	cout << "6. Help" << endl;
+	cout << "7. Quit" << endl;
 	settextcolor(yellow);
 	//Input Validation
-	int actionChoice = input(6);
+	int actionChoice = input(7);
 	system("CLS"); //Clears the console
 
 	switch (actionChoice)
 	{
-	case(1): 
-		{
+	case(1):
+	{
 		//Displays room message if room is not completed
 		if (mapRooms[player1.getcurrentRoom()].getIsCompleted() == false)
 		{
@@ -488,7 +490,7 @@ void getRoomActions(Room newRoom)
 			{
 				player1.takeDamage(10);		//Player Takes damage if answer is wrong
 				playerDeath();	//Plays a death message
-				cout << "Current Oxygen: " << green << player1.getCurrentHP() << yellow << " / " <<player1.getMaxHP() << endl << endl;
+				cout << "Current Oxygen: " << green << player1.getCurrentHP() << yellow << " / " << player1.getMaxHP() << endl << endl;
 			}
 		}
 		else
@@ -499,18 +501,18 @@ void getRoomActions(Room newRoom)
 		player1.setCurrentRoom(newRoom.getRoomID());
 		getRoomActions(mapRooms[player1.getcurrentRoom()]);
 		break;
-		}
+	}
 	case(2):
-		{
+	{
 		investigate(player1.getcurrentRoom());
 		getRoomActions(mapRooms[player1.getcurrentRoom()]);
 		break;
-		}
+	}
 	case(3):
-		{
+	{
 		changeRooms(newRoom);
 		break;
-		}
+	}
 	case(4):
 	{
 		if (player1.inventory.empty())
@@ -527,17 +529,22 @@ void getRoomActions(Room newRoom)
 		break;
 	}
 	case(5):
-		{
+	{
 		map();
 		getRoomActions(mapRooms[player1.getcurrentRoom()]);
-		break;	
-		}	
+		break;
+	}
 	case(6):
-		{
+	{
 		help();
 		getRoomActions(mapRooms[player1.getcurrentRoom()]);
 		break;
-		}
+	}
+	case(7):
+	{
+		quit();
+		break;
+	}
 	}
 }
 void help()
@@ -551,19 +558,19 @@ void help()
 void map()
 {
 	settextcolor(dark_purple);
-	cout << "  ----------" << blue <<"Navigation" << dark_purple << "-------------"<< blue <<"Weapons" << dark_purple << endl;
+	cout << "  ----------" << blue << "Navigation" << dark_purple << "-------------" << blue << "Weapons" << dark_purple << endl;
 	cout << "  |                                 |" << endl;
-	cout << "  | "<< blue <<"MedBay"<< dark_purple <<"------|                "<< blue << "Bathroom" << dark_purple <<endl;
-	cout << "  |  |          |---"<< blue <<"Communication" << dark_purple <<"    |" << endl;
-	cout << blue <<"Storage" << dark_purple <<"         |                    |" << endl;
+	cout << "  | " << blue << "MedBay" << dark_purple << "------|                " << blue << "Bathroom" << dark_purple << endl;
+	cout << "  |  |          |---" << blue << "Communication" << dark_purple << "    |" << endl;
+	cout << blue << "Storage" << dark_purple << "         |                    |" << endl;
 	cout << "  |             |                    |" << endl;
-	cout << blue <<"LEngine"<< dark_purple <<"-------"<< blue <<"Bedroom"<< dark_purple <<"-------------"<< blue <<"REngine" << dark_purple << endl;
+	cout << blue << "LEngine" << dark_purple << "-------" << blue << "Bedroom" << dark_purple << "-------------" << blue << "REngine" << dark_purple << endl;
 	cout << "  |            |              " << endl;
-	cout << "  |     -----"<< blue <<"Kitchen"<< dark_purple <<"----------      " << endl;
+	cout << "  |     -----" << blue << "Kitchen" << dark_purple << "----------      " << endl;
 	cout << "  |     |                    |     " << endl;
-	cout << "  |  "<< blue <<"Electric              Lounge    " << dark_purple << endl;
+	cout << "  |  " << blue << "Electric              Lounge    " << dark_purple << endl;
 	cout << "  |     |                    |     " << endl;
-	cout << blue <<" Jail"<< dark_purple <<"---|                  "<< blue <<"Hanger     " << dark_purple <<endl;
+	cout << blue << " Jail" << dark_purple << "---|                  " << blue << "Hanger     " << dark_purple << endl;
 	cout << "  |__________________________|     " << endl;
 	settextcolor(yellow);
 }
@@ -572,14 +579,14 @@ void escape()
 	if (mapRooms[8].getIsCompleted() == true && player1.searchInventory("Key Card") == true)
 	{
 		int code;
-		cout << "The escape pod is "<< green <<"online!"<< yellow <<" Please enter 4 digit code to enter pod: " << endl;
+		cout << "The escape pod is " << green << "online!" << yellow << " Please enter 4 digit code to enter pod: " << endl;
 		cin >> code;
 
 		system("CLS"); //Clears the console
 
 		if (code == randomCode)
 		{
-			cout << green <<"Access Granted!" << endl << endl;
+			cout << green << "Access Granted!" << endl << endl;
 			cout << "Congratulations! You have succesfully escaped the ship and are safely headed back to Earth!" << endl << endl;
 			settextcolor(yellow);
 			gameOver();
@@ -699,33 +706,33 @@ void investigate(int id)
 	}
 	case(3)://Kitchen
 	{   if (isShipPowered() == false)
+	{
+		if (player1.searchInventory("Flashlight"))
 		{
-			if (player1.searchInventory("Flashlight"))
+			if (!player1.searchInventory("Note: " + randomCodeString))
 			{
-				if (!player1.searchInventory("Note: " + randomCodeString))
-				{
-					cout << "Room is too dark, you turned on your Flashlight" << endl;
-					cout << "The kitchen knives are missing and the room is a mess. Food is all over the floor, " << endl;
-					cout << "cabinets have been left open. Seems like someone was really hungry." << endl << endl;
-					cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", you have found a ";
-					cout << green << "Note." << endl;
-					settextcolor(yellow);
-					cout << "The note says IN CASE OF EMERGENCY ";
-					cout << green << randomCode;
-					settextcolor(yellow);
-					cout << " ... the rest of the note is not legible." << endl << endl;
-					player1.addToInventory("Note: " + randomCodeString);
-				}
-				else
-				{
-					cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", there is nothing to be found here." << endl << endl;
-				}
+				cout << "Room is too dark, you turned on your Flashlight" << endl;
+				cout << "The kitchen knives are missing and the room is a mess. Food is all over the floor, " << endl;
+				cout << "cabinets have been left open. Seems like someone was really hungry." << endl << endl;
+				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", you have found a ";
+				cout << green << "Note." << endl;
+				settextcolor(yellow);
+				cout << "The note says IN CASE OF EMERGENCY ";
+				cout << green << randomCode;
+				settextcolor(yellow);
+				cout << " ... the rest of the note is not legible." << endl << endl;
+				player1.addToInventory("Note: " + randomCodeString);
 			}
 			else
 			{
-				cout << "It is too dark to see anything please turn on power first." << endl << endl;
+				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", there is nothing to be found here." << endl << endl;
 			}
 		}
+		else
+		{
+			cout << "It is too dark to see anything please turn on power first." << endl << endl;
+		}
+	}
 	else
 	{
 		if (!player1.searchInventory("Note: " + randomCodeString))
@@ -747,7 +754,7 @@ void investigate(int id)
 			cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", there is nothing to be found here." << endl << endl;
 		}
 	}
-		break;
+	break;
 	}
 	case(4)://R Engine
 	{
@@ -755,7 +762,7 @@ void investigate(int id)
 		{
 			cout << "Room is locked, turn on power to unlock room." << endl << endl;
 		}
-		else 
+		else
 		{
 			cout << "The ship" << "\'" << "s fuel levels are low, you need to refill the ship" << "\'" << "s fuel" << endl;
 			cout << "You see a fuel container next to the fuel tank." << endl << endl;
@@ -764,7 +771,7 @@ void investigate(int id)
 		break;
 	}
 	case(5)://L Engine
-	{		
+	{
 		if (isShipPowered() == false)
 		{
 			if (player1.searchInventory("Flashlight"))
@@ -775,7 +782,7 @@ void investigate(int id)
 			}
 			else
 			{
-				cout << "It is too dark to see anything please turn on power first." << endl << endl;				
+				cout << "It is too dark to see anything please turn on power first." << endl << endl;
 			}
 		}
 		else
@@ -783,7 +790,7 @@ void investigate(int id)
 			cout << "You notice a leak in the engine and the fuel levels dropping. Complete the task at hand to fix the leak." << endl << endl;
 			leftEngineComplete();
 		}
-		break;	
+		break;
 	}
 	case(6)://Electircal
 	{
@@ -1019,12 +1026,33 @@ void gameOver()
 	switch (playAgainChoice)
 	{
 	case(1):
-	{	
+	{
 		playGame();
 	}
 	case(2):
 	{
 		exit(0);
+	}
+	}
+}
+void quit()
+{
+	cout << red << "You are about to quit" << endl << endl;
+	settextcolor(yellow);
+	cout << "Are you sure you would like to quit?" << endl; //Still not complete needs restart and end game function
+	cout << "1. Yes" << endl;
+	cout << "2. No" << endl;
+	int playAgainChoice = input(2);
+	system("CLS"); //Clears the console
+	switch (playAgainChoice)
+	{
+	case(1):
+	{
+		exit(0);
+	}
+	case(2):
+	{
+		getRoomActions(mapRooms[player1.getcurrentRoom()]);
 	}
 	}
 }
