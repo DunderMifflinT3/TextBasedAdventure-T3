@@ -31,6 +31,7 @@ void playGame();
 void playerDeath();
 void imposterEncounter();
 void quit();
+void restart();
 int roomsCompleted();
 
 int playerHP = 100;
@@ -374,6 +375,7 @@ void playGame()
 	cout << "repair the ship by fixing parts in each room so you can return home safely, and ultimately SURVIVE!" << endl << endl;
 	Sleep(3000); //Gives user time to read script
 
+	system("CLS"); //Clears the console
 	//currentRoom = Start; //Sets the room that the player is in
 
 	enterRoomMessage(mapRooms[player1.getcurrentRoom()]);
@@ -459,9 +461,10 @@ void getRoomActions(Room newRoom)
 	cout << "5. Map" << endl;
 	cout << "6. Help" << endl;
 	cout << "7. Quit" << endl;
+	cout << "8. Restart" << endl;
 	settextcolor(yellow);
 	//Input Validation
-	int actionChoice = input(7);
+	int actionChoice = input(8);
 	system("CLS"); //Clears the console
 
 	switch (actionChoice)
@@ -543,6 +546,11 @@ void getRoomActions(Room newRoom)
 	case(7):
 	{
 		quit();
+		break;
+	}
+	case(8):
+	{
+		restart();
 		break;
 	}
 	}
@@ -1037,9 +1045,9 @@ void gameOver()
 }
 void quit()
 {
-	cout << red << "You are about to quit" << endl << endl;
+	cout << red << "You are about to quit the game" << endl << endl;
 	settextcolor(yellow);
-	cout << "Are you sure you would like to quit?" << endl; //Still not complete needs restart and end game function
+	cout << "Are you sure you want to quit?" << endl; //Still not complete needs restart and end game function
 	cout << "1. Yes" << endl;
 	cout << "2. No" << endl;
 	int playAgainChoice = input(2);
@@ -1049,6 +1057,27 @@ void quit()
 	case(1):
 	{
 		exit(0);
+	}
+	case(2):
+	{
+		getRoomActions(mapRooms[player1.getcurrentRoom()]);
+	}
+	}
+}
+void restart()
+{
+	cout << purple << "You are about to restart the game" << endl << endl;
+	settextcolor(yellow);
+	cout << "Are you sure you want to restart?" << endl; //Still not complete needs restart and end game function
+	cout << "1. Yes" << endl;
+	cout << "2. No" << endl;
+	int playAgainChoice = input(2);
+	system("CLS"); //Clears the console
+	switch (playAgainChoice)
+	{
+	case(1):
+	{
+		playGame();
 	}
 	case(2):
 	{
