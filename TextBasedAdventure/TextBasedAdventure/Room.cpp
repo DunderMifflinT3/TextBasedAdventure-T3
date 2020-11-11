@@ -370,11 +370,11 @@ void playGame()
 	difficultLevel();
 	settextcolor(yellow);
 	cout << "You have just woken up on a spaceship that is part of a space bounty expedition" << endl;
-	cout << "to capture a most wanted alien and the ship is quickly spiraling out of control towards Earth." << endl;
-	cout << "You realize your crewmates are missing, the power is out and the ships gadgets" << endl;
+	cout << "to capture a most wanted alien, but the ship is quickly spiraling out of control towards Earth." << endl;
+	cout << "You realize your crewmates are missing, the power is out, and the ships gadgets" << endl;
 	cout << "seem to have been tampered with. You also realize there is a hole in the ship" << endl;
-	cout << "and your oxygen is dropping quickly. Your mission is to find your crew, " << endl;
-	cout << "repair the ship by fixing parts in each room so you can return home safely, and ultimately SURVIVE!" << endl << endl;
+	cout << "and your oxygen is dropping quickly. Your mission is to turn the power on and repair the" << endl;
+	cout << "ship room by room, so you can return home safely. Ultimately, your goal is to SURVIVE!" << endl << endl;
 	Sleep(3000); //Gives user time to read script
 
 	system("CLS"); //Clears the console
@@ -408,8 +408,8 @@ void enterRoomMessage(Room newRoom)		//Message that plays when room is entered
 		cout << "It seems like the power tripped again. You may have to go back and fix it to proceed." << endl << endl;
 		mapRooms[6].completeRoom(false);
 	}
-
-	cout << "Turns until nuclear meltdown: " << maxTurnCount - turnCount << endl << endl;
+	
+	cout << "Turns until crash landing: " << maxTurnCount - turnCount << endl << endl;
 	getRoomActions(newRoom);
 }
 void changeRooms(Room oldRoom)		//Test for changing rooms

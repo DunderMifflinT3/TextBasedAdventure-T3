@@ -143,6 +143,7 @@ public:
 		currentHP = maxHP;
 		inventory.clear();
 		currentRoomID = startRoom;
+		isAlive = true;
 		
 		for (int n = 0; n < 14; n++)
 		{
