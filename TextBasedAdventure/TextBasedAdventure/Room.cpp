@@ -112,6 +112,8 @@ Room Navigation(13, "Nagivation Room", navAdj, 3, 13, "Key Card");
 
 Room mapRooms[] = { Start, Medical, Communication, Kitchen, RightEngine, LeftEngine, Electrical, Jail, Hangar, Lounge, Storage, Bathroom, Weapons, Navigation };	//Array of all rooms
 
+
+
 int randomCode; //Stores Generated Random Code Every Game For Hanger
 string randomCodeString;
 
@@ -381,11 +383,15 @@ void playGame()
 	enterRoomMessage(mapRooms[player1.getcurrentRoom()]);
 
 }
+
+
 int main()
 {
 	playGame();
 	return 0;
 }
+
+
 void enterRoomMessage(Room newRoom)		//Message that plays when room is entered
 {
 	cout << yellow << "You have entered the ";
@@ -1118,5 +1124,5 @@ void imposterEncounter()
 		RPSResult = startRPS();
 	}
 	cout << "Phew... The attacker fled. It looks like you made it out of there alive somehow." << endl;
-	cout << "Let's continue exploring." << endl << endl;;
+	cout << "Let's continue exploring." << endl << endl;
 }
