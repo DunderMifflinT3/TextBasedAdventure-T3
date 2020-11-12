@@ -30,6 +30,7 @@ void playGame();
 void playerDeath();
 void imposterEncounter();
 int roomsCompleted();
+void roomWin();
 
 int playerHP = 100;
 Player player1("Player 1", playerHP);
@@ -961,6 +962,15 @@ void investigate(int id)
 				cout << roomsCompleted() << " of the systems are online out of 13." << endl << endl;
 				cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
 			}
+			roomWin();
+			/*if (roomsCompleted() == 13)
+			{
+				cout << green << "All vital systems online!" << endl << endl;
+				cout << yellow << "Calculating route to Home Station.... Fuel levels optimal..." << endl;
+				cout << red << "Defense systems detecting intruder on board..." << green << " Lockdown Measures Activated" << endl;
+				cout << "Intruder successfully trapped in "<< blue << "Lounge " << yellow << "Cutting off Oxygen flow to room." << endl << endl;
+				cout << green << "Initating autopilot. ETA: " << purple << "620 days" << endl;
+			}*/
 		}
 		break;
 	}
@@ -1000,6 +1010,22 @@ void gameOver()
 	{
 		exit(0);
 	}
+	}
+}
+void roomWin()
+{
+	if (roomsCompleted() == 13)// If all room tasks completed except Hangar, display Win Senario
+	{
+		cout << green << "All vital systems online!" << endl << endl;
+		cout << "Calculating route to Home Station.... Fuel levels optimal..." << endl;
+		cout << red << "Defense systems detecting intruder on board..." << green << " Lockdown Measures Activated" << endl;
+		cout << "Intruder successfully trapped in " << blue << "Lounge " << green << "Cutting off Oxygen flow to room." << endl << endl;
+		cout << "Initating autopilot. ETA: " << purple << "620 days" << endl << endl;
+		cout << green << "Congratulations! You have completed the game by completing all the tasks" << endl;
+		cout << dark_green << "You are a true gamer, thank you for playing!" << endl;
+		settextcolor(yellow);
+		
+		gameOver(); //Play Again Option
 	}
 }
 void playerDeath()	//Plays a death message
