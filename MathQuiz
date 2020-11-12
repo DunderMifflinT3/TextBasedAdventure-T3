@@ -4,8 +4,7 @@
 #include <string>
 using namespace std;
 
-// MATH QUIZ MINI GAME
-int main()
+bool playMath()
 {
 	// generate random numbers for equations
 	srand(time(0));
@@ -20,7 +19,7 @@ int main()
 	// question 1
 	int answer1 = (a * b) - (c * d);
 	// question 2
-	int answer2 = (-a * (c - d)) + pow(b,2);
+	int answer2 = (-a * (c - d)) + pow(b, 2);
 	// question 3
 	int answer3 = ((d * a) - pow((c * -b), 2));
 
@@ -29,10 +28,10 @@ int main()
 
 	// Gameplay sentence
 	cout << "This is the math quiz. There are 3 questions. You have one chance to get them all correct. Don't mess up!" << endl << endl;
-	
+
 	//Question 1
 	cout << "This is question 1. Enter your answer." << endl;
-	cout << "What is (" << a << " * " << b << ") - (" << c << " * " << d <<")?" << endl;
+	cout << "What is (" << a << " * " << b << ") - (" << c << " * " << d << ")?" << endl;
 	cin >> answer;
 	if (answer == answer1)
 	{
@@ -43,7 +42,7 @@ int main()
 		cout << "You lose!" << endl;
 		return false;
 	}
-	
+
 	// Q2
 	cout << "This is question 2. Enter your answer." << endl;
 	cout << "What is (" << -a << " * (" << c << " - " << d << ")) + " << b << "^2 ?" << endl;
@@ -70,4 +69,11 @@ int main()
 		cout << "You lose!" << endl;
 		return false;
 	}
+}
+
+// MATH QUIZ MINI GAME
+int main()
+{
+	playMath();
+	return 0;
 }
