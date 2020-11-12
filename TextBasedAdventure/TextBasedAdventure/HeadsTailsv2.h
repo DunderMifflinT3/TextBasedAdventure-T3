@@ -42,7 +42,7 @@ bool playHT()
 	}
 }
 
-int main()
-{
-	playHT();
-}
+//int main()
+//{
+//	playHT();
+//}

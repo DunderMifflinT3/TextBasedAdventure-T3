@@ -8,6 +8,7 @@
 #include "Room.h"
 #include "Question.h"
 #include "Player.h"
+#include "HeadsTailsv2.h"
 #undef max
 
 void enterRoomMessage(Room);
@@ -399,32 +400,34 @@ void getRoomActions(Room newRoom)
 		if (currentRoom.getIsCompleted() == false)
 		{
 			displayRoomMessage(currentRoom.getRoomID());
-
+			
+			playHT();
+			
 			//Displays room question based on questionArray
-			questionArray[currentRoom.getRoomQuestion()].display();
-			int ansChoice;
-			double ansChoiceCopy;
-			cin >> ansChoiceCopy; //send for input validation
-			ansChoice = ansChoiceCopy;
-			while (inputQuestion(ansChoice, ansChoiceCopy) == false)
-			{
-				cin >> ansChoiceCopy;
-				ansChoice = ansChoiceCopy;
-				cin.clear();
-				cin.ignore(numeric_limits<streamsize>::max(), '\n');
-				cout << endl;
-			}
-			if (questionArray[currentRoom.getRoomQuestion()].isCorrectAnswer(ansChoice))
-			{
-				mapRooms[currentRoom.getRoomID()].completeRoom();
-				cout << "You have completed everything in this room." << endl << endl;
+			//questionArray[currentRoom.getRoomQuestion()].display();
+			//int ansChoice;
+			//double ansChoiceCopy;
+			//cin >> ansChoiceCopy; //send for input validation
+			//ansChoice = ansChoiceCopy;
+			//while (inputQuestion(ansChoice, ansChoiceCopy) == false)
+			//{
+			//	cin >> ansChoiceCopy;
+			//	ansChoice = ansChoiceCopy;
+			//	cin.clear();
+			//	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			//	cout << endl;
+			//}
+			//if (questionArray[currentRoom.getRoomQuestion()].isCorrectAnswer(ansChoice))
+			//{
+			//	mapRooms[currentRoom.getRoomID()].completeRoom();
+			//	cout << "You have completed everything in this room." << endl << endl;
 
-			}
-			else
-			{
-				player1.takeDamage(10);		//Player Takes damage if answer is wrong
-				cout << "Current Oxygen: " << player1.getCurrentHP() << endl;
-			}
+			//}
+			//else
+			//{
+			//	player1.takeDamage(10);		//Player Takes damage if answer is wrong
+			//	cout << "Current Oxygen: " << player1.getCurrentHP() << endl;
+			//}
 		}
 		else
 		{
