@@ -1,4 +1,4 @@
-//Version 4.2
+//Version 4.3
 #include <cmath>
 #include <math.h>
 #include <algorithm>
@@ -14,6 +14,10 @@
 #include "R_P_S.cpp"
 #include "InputValidation.h"
 #include "Color.h"
+#include "HeadsTails.h"
+#include "HighLow.h"
+#include "PlayMath.h"
+#include "RollDice.h"
 
 void enterRoomMessage(Room);
 void changeRooms(Room);
@@ -465,24 +469,29 @@ void getRoomActions(Room newRoom)
 		{
 			displayRoomMessage(currentRoom.getRoomID());
 
-			//Displays room question based on questionArray
-			questionArray[currentRoom.getRoomQuestion()].display();
+			//playRD(); //Roll Dice  //All games need input val
+			//playMath(); //Math Game
+			//playHL(); //High Low
+			playHT(); //Heads Tails
 
-			//Input Validation
-			input(4);
+			////Displays room question based on questionArray
+			//questionArray[currentRoom.getRoomQuestion()].display();
 
-			if (questionArray[currentRoom.getRoomQuestion()].isCorrectAnswer(choice))
-			{
-				mapRooms[currentRoom.getRoomID()].completeRoom();
-				cout << "You have completed everything in this room." << endl << endl;
+			////Input Validation
+			//input(4);
 
-			}
-			else
-			{
-				player1.takeDamage(10);		//Player Takes damage if answer is wrong
-				playerDeath();	//Plays a death message
-				cout << "Current Oxygen: " << green << player1.getCurrentHP() << yellow << " / " <<player1.getMaxHP() << endl << endl;
-			}
+			//if (questionArray[currentRoom.getRoomQuestion()].isCorrectAnswer(choice))
+			//{
+			//	mapRooms[currentRoom.getRoomID()].completeRoom();
+			//	cout << "You have completed everything in this room." << endl << endl;
+
+			//}
+			//else
+			//{
+			//	player1.takeDamage(10);		//Player Takes damage if answer is wrong
+			//	playerDeath();	//Plays a death message
+			//	cout << "Current Oxygen: " << green << player1.getCurrentHP() << yellow << " / " <<player1.getMaxHP() << endl << endl;
+			//}
 		}
 		else
 		{
