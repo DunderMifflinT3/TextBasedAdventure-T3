@@ -4,8 +4,7 @@
 #include <string>
 using namespace std;
 
-// ROLL THE DICE
-int main()
+bool playRD()
 {
 	// You have 3 turns
 	int maxturns = 3;
@@ -65,4 +64,11 @@ int main()
 
 		}
 	}
+}
+
+// ROLL THE DICE
+int main()
+{
+	playRD();
+	return 0;
 }
