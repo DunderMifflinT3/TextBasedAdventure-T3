@@ -116,6 +116,17 @@ Room mapRooms[] = { Start, Medical, Communication, Kitchen, RightEngine, LeftEng
 
 int randomCode; //Stores Generated Random Code Every Game For Hanger
 
+void slowprint(char* intro) //Makes the text appear as if spoken
+{
+	int sizeT = strlen(intro); //Gets the length of the text
+	system("cls");
+	for (int i = 0; i < sizeT; i++) //loops till array complete
+	{
+		Sleep(40); //Gives slight delay before displaying next char
+		cout << intro[i];
+	}
+	cout << endl;
+}
 int roomsCompleted()//Counter for completed tasks
 {
 	int complete = 0;
@@ -344,13 +355,22 @@ void playGame()
 
 	difficultLevel();
 	settextcolor(yellow);
-	cout << "You have just woken up on a spaceship that is part of a space bounty expedition" << endl;
-	cout << "to capture a most wanted alien and the ship is quickly spiraling out of control towards Earth." << endl;
-	cout << "You realize your crewmates are missing, the power is out and the ships gadgets" << endl;
-	cout << "seem to have been tampered with. You also realize there is a hole in the ship" << endl;
-	cout << "and your oxygen is dropping quickly. Your mission is to find your crew, " << endl;
-	cout << "repair the ship by fixing parts in each room so you can return home safely, and ultimately SURVIVE!" << endl << endl;
-	Sleep(3000); //Gives user time to read script
+	//placed intro text into char array to delay the speed it is displayed, so player has time to read 
+	char introtext[] = "You have just woken up on a spaceship that is part of a space bounty expedition to \n" 
+						"capture a most wanted alien and the ship is quickly spiraling out of control towards Earth. \n"
+						"You realize your crewmates are missing, the power is out and the ships gadgets \n"
+						"seem to have been tampered with. You also realize there is a hole in the ship \n"
+						"and your oxygen is dropping quickly. Your mission is to find your crew, \n"
+						"repair the ship by fixing parts in each room so you can return home safely, and ultimately SURVIVE! \n";
+	slowprint(introtext); //Send text that needs to be slowed
+	
+	//cout << "You have just woken up on a spaceship that is part of a space bounty expedition" << endl;
+	//cout << "to capture a most wanted alien and the ship is quickly spiraling out of control towards Earth." << endl;
+	//cout << "You realize your crewmates are missing, the power is out and the ships gadgets" << endl;
+	//cout << "seem to have been tampered with. You also realize there is a hole in the ship" << endl;
+	//cout << "and your oxygen is dropping quickly. Your mission is to find your crew, " << endl;
+	//cout << "repair the ship by fixing parts in each room so you can return home safely, and ultimately SURVIVE!" << endl << endl;
+	//Sleep(3000); //Gives user time to read script
 	
 	currentRoom = Start; //Sets the room that the player is in
 
@@ -1075,7 +1095,7 @@ void roomWin()
 		cout << "Calculating route to Home Station.... Fuel levels optimal..." << endl;
 		cout << red << "Defense systems detecting intruder on board..." << green << " Lockdown Measures Activated" << endl;
 		cout << "Intruder successfully trapped in " << blue << "Lounge " << green << "Cutting off Oxygen flow to room." << endl << endl;
-		cout << "Initating autopilot. ETA: " << purple << "620 days" << endl << endl;
+		cout << "Initating autopilot. ETA: " << purple << "21 days" << endl << endl;
 		cout << green << "Congratulations! You have completed the game by completing all the tasks" << endl;
 		cout << dark_green << "You are a true gamer, thank you for playing!" << endl;
 		settextcolor(yellow);
