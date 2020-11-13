@@ -55,13 +55,12 @@ bool playRD()
 		if (usertotal > computertotal)
 		{
 			cout << "You win! The task is complete." << endl;
-
-			exit(0);
+			return true;
 		}
 		else
 		{
 			cout << "You lose, try again!" << endl;
-
 		}
 	}
+	return false;
 }

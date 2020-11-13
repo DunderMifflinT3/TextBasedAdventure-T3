@@ -33,6 +33,8 @@ bool playHT()
 		else if (guess == randnumber)
 		{
 			cout << "You got it right. You need " << 1 - i << " more to win!" << endl;
+			if (1 - i == 0)
+				return true;
 		}
 		else
 		{

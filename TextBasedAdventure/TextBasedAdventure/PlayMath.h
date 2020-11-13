@@ -63,6 +63,7 @@ bool playMath()
 	if (answer == answer3)
 	{
 		cout << "Goodjob! You have completed this task." << endl;
+		return true;
 	}
 	else
 	{

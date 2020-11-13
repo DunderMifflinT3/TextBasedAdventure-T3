@@ -472,9 +472,112 @@ void getRoomActions(Room newRoom)
 			//playRD(); //Roll Dice  //All games need input val
 			//playMath(); //Math Game
 			//playHL(); //High Low
-			playHT(); //Heads Tails
+			//playHT(); //Heads Tails (Coin Flip)
 
-			////Displays room question based on questionArray
+			//Displays room question based on questionArray
+			int room;
+			room = currentRoom.getRoomID();
+			switch (room)
+			{
+			case(4): //REngine task
+			{
+				//Roll Dice
+				if (playMath() == true)
+				{
+					mapRooms[currentRoom.getRoomID()].completeRoom();
+				}
+				else
+				{
+					player1.takeDamage(10);		//Player Takes damage if answer is wrong
+					playerDeath();	//Plays a death message
+					cout << "Current Oxygen: " << green << player1.getCurrentHP() << yellow << " / " << player1.getMaxHP() << endl << endl;
+				}
+				break;
+			}
+			case(5): //LEngine task
+			{
+				//Roll Dice
+				if (playMath() == true)
+				{
+					mapRooms[currentRoom.getRoomID()].completeRoom();
+				}
+				else
+				{
+					player1.takeDamage(10);		//Player Takes damage if answer is wrong
+					playerDeath();	//Plays a death message
+					cout << "Current Oxygen: " << green << player1.getCurrentHP() << yellow << " / " << player1.getMaxHP() << endl << endl;
+				}
+				break;
+			}
+				case(6): //Electric task
+				{
+					 //Roll Dice
+					if (playRD() == true)
+					{
+						mapRooms[currentRoom.getRoomID()].completeRoom();
+					}
+					else
+					{
+						player1.takeDamage(10);		//Player Takes damage if answer is wrong
+						playerDeath();	//Plays a death message
+						cout << "Current Oxygen: " << green << player1.getCurrentHP() << yellow << " / " << player1.getMaxHP() << endl << endl;
+					}
+					break;
+				}
+				case(8): //Hangar task
+				{
+					 //Heads or Tails (Coin Flip)
+					if (playHT() == true)
+					{
+						mapRooms[currentRoom.getRoomID()].completeRoom();
+						cout << "You have completed everything in this room." << endl << endl;
+					}
+					else
+					{
+						player1.takeDamage(10);		//Player Takes damage if answer is wrong
+						playerDeath();	//Plays a death message
+						cout << "Current Oxygen: " << green << player1.getCurrentHP() << yellow << " / " << player1.getMaxHP() << endl << endl;
+					}
+					break;
+				}
+				case(13): //Nav task
+				{
+					 //High Low
+					if (playHL() == true)
+					{
+						mapRooms[currentRoom.getRoomID()].completeRoom();
+						cout << "You have completed everything in this room." << endl << endl;
+					}
+					else
+					{
+						player1.takeDamage(10);		//Player Takes damage if answer is wrong
+						playerDeath();	//Plays a death message
+						cout << "Current Oxygen: " << green << player1.getCurrentHP() << yellow << " / " << player1.getMaxHP() << endl << endl;
+					}
+					break;
+				}
+				default:
+				{
+					questionArray[currentRoom.getRoomQuestion()].display();
+
+					//Input Validation
+					input(4);
+
+					if (questionArray[currentRoom.getRoomQuestion()].isCorrectAnswer(choice))
+					{
+						mapRooms[currentRoom.getRoomID()].completeRoom();
+						cout << "You have completed everything in this room." << endl << endl;
+
+					}
+					else
+					{
+						player1.takeDamage(10);		//Player Takes damage if answer is wrong
+						playerDeath();	//Plays a death message
+						cout << "Current Oxygen: " << green << player1.getCurrentHP() << yellow << " / " << player1.getMaxHP() << endl << endl;
+					}
+					break;
+				}
+			}
 			//questionArray[currentRoom.getRoomQuestion()].display();
 
 			////Input Validation
