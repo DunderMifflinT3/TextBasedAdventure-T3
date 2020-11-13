@@ -375,13 +375,18 @@ void playGame()
 	cout << "seem to have been tampered with. You also realize there is a hole in the ship" << endl;
 	cout << "and your oxygen is dropping quickly. Your mission is to turn the power on and repair the" << endl;
 	cout << "ship room by room, so you can return home safely. Ultimately, your goal is to SURVIVE!" << endl << endl;
-	Sleep(3000); //Gives user time to read script
 
-	system("CLS"); //Clears the console
-	//currentRoom = Start; //Sets the room that the player is in
+	cout << "Press 1 to start the game";
+	cout << endl;
+	if (input(1) == 1)
+	{
+		system("CLS"); //Clears the console
+		enterRoomMessage(mapRooms[player1.getcurrentRoom()]);
+	}
+	else
+	{
 
-	enterRoomMessage(mapRooms[player1.getcurrentRoom()]);
-
+	}
 }
 
 
@@ -408,7 +413,7 @@ void enterRoomMessage(Room newRoom)		//Message that plays when room is entered
 		cout << "It seems like the power tripped again. You may have to go back and fix it to proceed." << endl << endl;
 		mapRooms[6].completeRoom(false);
 	}
-	
+
 	cout << "Turns until crash landing: " << maxTurnCount - turnCount << endl << endl;
 	getRoomActions(newRoom);
 }
@@ -662,7 +667,7 @@ void investigate(int id)
 		}
 		else
 		{
-			cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", there is nothing to be found here." << endl << endl;
+			cout << "You have already investigated the " << mapRooms[player1.getcurrentRoom()].getRoomName() << " and found everything there is to find." << endl << endl;
 		}
 		break;
 	}
@@ -677,7 +682,7 @@ void investigate(int id)
 			if (!player1.getCollectedOxygenTank(id))
 			{
 				cout << "It seems like someone has broken into the medical supplies" << endl << endl;
-				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", you have found a ";
+				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", you have found an ";
 				cout << green << "Oxygen Tank" << endl;
 				settextcolor(yellow);
 				player1.increaseMaxHP(20);
@@ -686,7 +691,7 @@ void investigate(int id)
 			}
 			else
 			{
-				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", there is nothing to be found here." << endl << endl;
+				cout << "You have already investigated the " << mapRooms[player1.getcurrentRoom()].getRoomName() << " and found everything there is to find." << endl << endl;
 			}
 		}
 		break;
@@ -698,11 +703,19 @@ void investigate(int id)
 			if (player1.searchInventory("Flashlight"))
 			{
 				cout << "Room is too dark, you turned on your Flashlight" << endl << endl;
-				cout << "Communication throughout the ship and any external communication seems to be down." << endl;
-				cout << "You notice that the main transmitter is destroyed. Fixing communications could" << endl;
-				cout << "allow you to get in touch with your team at home and tell them about the situation." << endl << endl;
-				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", there is nothing to be found here." << endl << endl;
-				cout << "Room is too dark, you turned on your Flashlight" << endl;
+				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", you have found a ";
+				cout << green << "Digital Note." << endl;
+				settextcolor(yellow);
+				cout << "The note reads: " << endl << endl;
+				cout << purple << "Year 2100" << endl << endl;
+				cout << purple << "Hey Boss!" << endl;
+				cout << "Things are looking pretty smooth up here as of now." << endl;
+				cout << "The crew and I are bringing the package back home in once piece." << endl;
+				cout << "Once we get back we can start running more tests on the captive to figure out how to create this 'Miracle Vaccine'." << endl;
+				cout << "Some nutrient in their body has a special type of plasma that will help cure the apocolypse back home." << endl;
+				cout << "We should be arrivng soon, only a couple more days now." << endl;
+				cout << "See you soon!" << endl << endl;
+				settextcolor(yellow);
 			}
 			else
 			{
@@ -711,10 +724,20 @@ void investigate(int id)
 		}
 		else
 		{
-			cout << "Communication throughout the ship and any external communication seems to be down." << endl;
-			cout << "You notice that the main transmitter is destroyed. Fixing communications could" << endl;
-			cout << "allow you to get in touch with your team at home and tell them about the situation." << endl << endl;
-			cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", there is nothing to be found here." << endl << endl;
+			cout << "Room is too dark, you turned on your Flashlight" << endl << endl;
+			cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", you have found a ";
+			cout << green << "Digital Note." << endl;
+			settextcolor(yellow);
+			cout << "The note reads: " << endl << endl;
+			cout << purple << "Year 2100" << endl;
+			cout << purple << "Hey Boss!" << endl;
+			cout << "Things are looking pretty smooth up here as of now." << endl;
+			cout << "The crew and I are bringing the package back home in once piece." << endl;
+			cout << "Once we get back we can start running more tests on the captive to figure out how to create this 'Miracle Vaccine'." << endl;
+			cout << "Some nutrient in their body has a special type of plasma that will help cure the apocolypse back home." << endl;
+			cout << "We should be arrivng soon, only a couple more days now." << endl;
+			cout << "See you soon!" << endl << endl;
+			settextcolor(yellow);
 		}
 		break;
 	}
@@ -739,7 +762,7 @@ void investigate(int id)
 			}
 			else
 			{
-				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", there is nothing to be found here." << endl << endl;
+				cout << "You have already investigated the " << mapRooms[player1.getcurrentRoom()].getRoomName() << " and found everything there is to find." << endl << endl;
 			}
 		}
 		else
@@ -765,7 +788,7 @@ void investigate(int id)
 		}
 		else
 		{
-			cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", there is nothing to be found here." << endl << endl;
+			cout << "You have already investigated the " << mapRooms[player1.getcurrentRoom()].getRoomName() << " and found everything there is to find." << endl << endl;
 		}
 	}
 	break;
@@ -778,7 +801,7 @@ void investigate(int id)
 		}
 		else
 		{
-			cout << "The ship" << "\'" << "s fuel levels are low, you need to refill the ship" << "\'" << "s fuel" << endl;
+			cout << "The ship" << "\'" << "s fuel levels are low, you need to refill the ship" << "\'" << "s fuel tank." << endl;
 			cout << "You see a fuel container next to the fuel tank." << endl << endl;
 			rightEngineComplete();
 		}
@@ -812,11 +835,9 @@ void investigate(int id)
 		{
 			if (player1.searchInventory("Flashlight"))
 			{
-				cout << "Room is too dark, you turned on your Flashlight" << endl;
-				cout << "The power is off throughout most of the ship, the only thing keeping the " << endl;
-				cout << "systems online right now is the backup generator. The power box has the wires ripped out " << endl;
-				cout << "you need to find some way to connect the wires again and get the power back online. " << endl << endl;
-				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", there is nothing to be found here." << endl << endl;
+				cout << "Room is too dark, you turned on your Flashlight" << endl << endl;
+				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", you notice that the power box has been tampered with which is causing " << endl;
+				cout << "the power to be down throughout the ship." << endl << endl;
 			}
 			else
 			{
@@ -825,11 +846,10 @@ void investigate(int id)
 		}
 		else
 		{
-			cout << "The power box is connected to the backup generator via the spare wires you have found laying around the room." << endl;
+			cout << "You have repaired the power box with the spare wires you found lying around the room." << endl;
 			cout << "It appears that the wires were ripped out intentionally, ";
 			cout << red << "BE CAREFUL!" << endl;
 			settextcolor(yellow);
-			cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", there is nothing to be found here." << endl << endl;
 		}
 		break;
 	}
@@ -843,7 +863,17 @@ void investigate(int id)
 				cout << "You have entered the cell where you expect to find the alien you and your crew have " << endl;
 				cout << "captured and are transporting back home. Unfortunately you notice that the cell has " << endl;
 				cout << "been opened by force and the alien captive is missing." << endl << endl;
-				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", there is nothing to be found here." << endl << endl;
+				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", you have found a ";
+				cout << green << "Digital Note." << endl;
+				settextcolor(yellow);
+				cout << "The note reads: " << endl << endl;
+				cout << purple << "Dear Iqioweha," << endl;
+				cout << "I seem to have woken up on a strange aircraft." << endl;
+				cout << "I have been trapped in what seems like a jail cell for days now." << endl;
+				cout << "I will do everything in my power to make it back to you." << endl;
+				cout << "If you are receiving this message, there is a good chance I have not made it out alive." << endl;
+				cout << "Love Yoqiwrlo" << endl << endl;
+				settextcolor(yellow);
 			}
 			else
 			{
@@ -855,7 +885,17 @@ void investigate(int id)
 			cout << "You have entered the cell where you expect to find the alien you and your crew have " << endl;
 			cout << "captured and are transporting back home. Unfortunately you notice that the cell has " << endl;
 			cout << "been opened by force and the alien captive is missing." << endl << endl;
-			cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", there is nothing to be found here." << endl << endl;
+			cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", you have found a ";
+			cout << green << "Digital Note." << endl;
+			settextcolor(yellow);
+			cout << "The note reads: " << endl << endl;
+			cout << purple << "Iqioweha," << endl;
+			cout << "I seem to have woken up on a strange aircraft." << endl;
+			cout << "I have been trapped in what seems like a jail cell for days now." << endl;
+			cout << "I will do everything in my power to make it back to you." << endl;
+			cout << "If you are receiving this message, there is a good chance I have not made it out alive." << endl;
+			cout << "Love Yoqiwrlo" << endl << endl;
+			settextcolor(yellow);
 		}
 		break;
 	}
@@ -880,7 +920,7 @@ void investigate(int id)
 				if (!player1.getCollectedOxygenTank(id))
 				{
 					cout << "There isn" << "\'" << "t much in the lounge except some couches and playing cards from the day before." << endl << endl;
-					cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", you have found a ";
+					cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", you have found an ";
 					cout << green << "Oxygen Tank" << endl;
 					settextcolor(yellow);
 					player1.increaseMaxHP(20);
@@ -889,8 +929,7 @@ void investigate(int id)
 				}
 				else
 				{
-					cout << "There isn" << "\'" << "t much in the lounge except some couches and playing cards from the day before." << endl << endl;
-					cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", there is nothing to be found here." << endl << endl;
+					cout << "You have already investigated the " << mapRooms[player1.getcurrentRoom()].getRoomName() << " and found everything there is to find." << endl << endl;
 				}
 			}
 			else
@@ -903,7 +942,7 @@ void investigate(int id)
 			if (!player1.getCollectedOxygenTank(id))
 			{
 				cout << "There isn" << "\'" << "t much in the lounge except some couches and playing cards from the day before." << endl << endl;
-				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", you have found a ";
+				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", you have found an ";
 				cout << green << "Oxygen Tank" << endl;
 				settextcolor(yellow);
 				player1.increaseMaxHP(20);
@@ -912,8 +951,7 @@ void investigate(int id)
 			}
 			else
 			{
-				cout << "There isn" << "\'" << "t much in the lounge except some couches and playing cards from the day before." << endl << endl;
-				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", there is nothing to be found here." << endl << endl;
+				cout << "You have already investigated the " << mapRooms[player1.getcurrentRoom()].getRoomName() << " and found everything there is to find." << endl << endl;
 			}
 		}
 		break;
@@ -936,7 +974,7 @@ void investigate(int id)
 			}
 			else
 			{
-				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", there is nothing to be found here." << endl << endl;
+				cout << "You have already investigated the " << mapRooms[player1.getcurrentRoom()].getRoomName() << " and found everything there is to find." << endl << endl;
 			}
 		}
 		break;
@@ -953,7 +991,16 @@ void investigate(int id)
 			cout << red << "HELP ";
 			settextcolor(yellow);
 			cout << "written on the wall in what seems to be blood." << endl << endl;
-			cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", there is nothing to be found here." << endl << endl;
+			cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", you have found a ";
+			cout << green << "Digital Note." << endl;
+			settextcolor(yellow);
+			cout << "The note reads: " << endl << endl;
+			cout << purple << "Dear Quinn," << endl;
+			cout << "This journey has been absolutley incredible so far. You need to come up here once everything at home settles down." << endl;
+			cout << "The crew and I managed to get what we came for and I can't wait to come back home and see you." << endl;
+			cout << "Returning with the captive should calm everyone on our planet down. Hopefully the riots and chaos have calmed down a bit." << endl;
+			cout << "I hope you are staying safe. Talk to you soon." << endl << endl;
+			settextcolor(yellow);
 		}
 		break;
 	}
