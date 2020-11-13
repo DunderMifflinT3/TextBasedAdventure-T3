@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <string>
+#include "InputValidation.h"
 using namespace std;
 
 bool playRD()
@@ -36,12 +37,12 @@ bool playRD()
 		int computertotal = computer1 + computer2;
 		//user enters first dice
 		cout << "Enter 1 to roll dice 1." << endl;
-		cin >> roll1;
+		input(1);
 		cout << "You rolled a " << user1 << "." << endl;
 
 		//user enters second dice
-		cout << "Enter 2 to roll dice 2." << endl;
-		cin >> roll2;
+		cout << "Enter 1 to roll dice 2." << endl;
+		input(1);
 		cout << "You rolled a " << user2 << "." << endl;
 
 		//user total

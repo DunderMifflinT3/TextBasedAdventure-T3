@@ -58,7 +58,7 @@ bool playMath()
 	}
 	// Q3 = 1
 	cout << "This is question 3. Enter your answer." << endl;
-	cout << "((" << d << " * " << a << ") - (" << c << " * " << -b << ")^2 ?" << endl;
+	cout << "((" << d << " * " << a << ") - (" << c << " * " << -b << ")^2) ?" << endl;
 	cin >> answer;
 	if (answer == answer3)
 	{

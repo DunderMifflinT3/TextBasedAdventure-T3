@@ -2,12 +2,13 @@
 #include <cstdlib>
 #include <ctime>
 #include <string>
+#include "InputValidation.h"
 using namespace std;
 
 bool playHL()
 {
 	int randnumber;
-	int guess;
+	
 	int tries = 0;
 	int attemptnumber = 10;
 	char playagain;
@@ -22,12 +23,12 @@ bool playHL()
 	for (int i = 0; i < attemptnumber; i++)
 	{
 		cout << "Enter a number from 1-100:" << endl;
-		cin >> guess;
-		if (guess > randnumber)
+		input(100);
+		if (choice > randnumber)
 		{
 			cout << "Nope, too high." << endl;
 		}
-		else if (guess < randnumber) {
+		else if (choice < randnumber) {
 			cout << "Nope, too low." << endl;
 		}
 		else {
