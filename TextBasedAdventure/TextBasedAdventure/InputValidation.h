@@ -7,13 +7,21 @@ using namespace std;
 
 bool inputValidation(string choice, int numOfChoices)	//Checks if input is valid
 {
-	if (choice.size() > 1 || stoi(choice) < 1 || stoi(choice) > numOfChoices)
+	if (stoi(choice) < 1 || stoi(choice) > numOfChoices)
 	{
 		cout << "Invalid Input" << endl;
 		return false;
 	}
 	else
 	{
+		for (int i = 0; i < choice.size(); i++)
+		{
+			if (!isdigit(choice[i]))
+			{
+				cout << "Invalid Input" << endl;
+				return false;
+			}
+		}
 		return true;
 	}
 }
