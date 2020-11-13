@@ -1,4 +1,4 @@
-//Version 4.3
+//Version 4.4
 #include <cmath>
 #include <math.h>
 #include <algorithm>
@@ -172,10 +172,6 @@ void displayRoomMessage(int id) //Displays message when room is not complete. Ca
 			cout << "Room is locked, turn on power to unlock room." << endl << endl;
 			changeRooms(Medical); //if locked change rooms
 		}
-		/*if (roomPower(Electrical) == true)
-		{
-			cout << "It seems like someone has broken into the medical supplies" << endl << endl;
-		}*/
 		else
 		{
 		
@@ -184,15 +180,10 @@ void displayRoomMessage(int id) //Displays message when room is not complete. Ca
 	}
 	case(2):
 	{
-		/*cout << "Communication throughout the ship and any external communication seems to be down." << endl;
-		cout << "You notice that the main transmitter is destroyed. Fixing communications could" << endl;
-		cout << "allow you to get in touch with your team at home and tell them about the situation." << endl << endl;*/
 		break;
 	}
 	case(3):
 	{
-		/*cout << "The kitchen knives are missing and the room is a mess. Food is all over the floor, " << endl;
-		cout << "cabinets have been left open. Seems like someone was really hungry." << endl << endl;*/
 		break;
 	}
 	case(4):
@@ -207,11 +198,6 @@ void displayRoomMessage(int id) //Displays message when room is not complete. Ca
 			cout << "You need a specific tool to be able to complete this task." << endl << endl;
 			getRoomActions(currentRoom);
 		}
-		//else
-		//{
-		//	/*cout << "The ship" << "\'" << "s fuel levels are low, you need to refill the ship" << "\'" << "s fuel" << endl;
-		//	cout << "You see a fuel container next to the fuel tank." << endl << endl;*/
-		//}
 		break;
 		}
 	case(5):
@@ -223,23 +209,17 @@ void displayRoomMessage(int id) //Displays message when room is not complete. Ca
 			}
 			else 
 			{
-				/*cout << "You notice a leak in the engine and the fuel levels dropping. Complete the task at hand to fix the leak." << endl << endl;*/
+		
 			}
 			break;
 		}
 	case(6):
 		{
-			/*cout << "The power is off throughout most of the ship, the only thing keeping the " << endl;
-			cout << "systems online right now is the backup generator. The power box has the wires ripped out " << endl;
-			cout <<	"you need to find some way to connect the wires again and get the power back online. " << endl << endl;*/
 			cout << "Complete the following task correctly to turn power online: " << endl;
 		break;
 		}
 	case(7):
 		{
-			/*cout << "You have entered the cell where you expect to find the alien you and your crew have " << endl;
-			cout << "captured and are transporting back home. Unfortunately you notice that the cell has " << endl;
-			cout << "been opened by force and the alien captive is missing." << endl << endl;*/
 		break;
 		}
 	case(8):
@@ -258,7 +238,6 @@ void displayRoomMessage(int id) //Displays message when room is not complete. Ca
 		}
 	case(9):
 		{
-			/*cout << "There isn" << "\'" << "t much in the lounge except some couches and playing cards from the day before." << endl << endl;*/
 		break;
 		}
 	case(10):
@@ -282,7 +261,6 @@ void displayRoomMessage(int id) //Displays message when room is not complete. Ca
 		}
 		else
 		{
-			//cout << "The shower is running and the mirror is broken. You see the word HELP written on the wall in what seems to be blood." << endl;
 		}
 		break;
 		}
@@ -295,8 +273,6 @@ void displayRoomMessage(int id) //Displays message when room is not complete. Ca
 		}
 		else
 		{
-			/*cout << "There is a container with one gun in it for emergencies. " << endl;
-			cout << "(Power needs to be restored from the electrical room in order to open this container)" << endl << endl;*/
 		}
 		break;
 		}
@@ -309,10 +285,6 @@ void displayRoomMessage(int id) //Displays message when room is not complete. Ca
 		}
 		else
 		{
-			/*cout << "You find the pilot murdered in their chair and the command console is flashing red with " << endl;
-			cout << "the word " << "\"" << "WARNING!" << "\" " << "on the screen. Here you can check the console for progress on completed " << endl;
-			cout << "repairs you have made to the ship. " << "\"" << "Check Console" << "\"" << " to check progress of repaired systems. " << endl;
-			cout << "x amount of systems are online out of x." << endl << endl;*/
 		}
 		break;
 		}
@@ -320,6 +292,7 @@ void displayRoomMessage(int id) //Displays message when room is not complete. Ca
 		{
 		cout << "Error" << endl;
 		cout << endl;
+		break;
 		}
 	}
 }
@@ -469,46 +442,41 @@ void getRoomActions(Room newRoom)
 		{
 			displayRoomMessage(currentRoom.getRoomID());
 
-			//playRD(); //Roll Dice  //All games need input val
-			//playMath(); //Math Game
-			//playHL(); //High Low
-			//playHT(); //Heads Tails (Coin Flip)
-
 			//Displays room question based on questionArray
 			int room;
 			room = currentRoom.getRoomID();
 			switch (room)
 			{
-			case(4): //REngine task
-			{
-				//Roll Dice
-				if (playMath() == true)
+				case(4): //REngine task
 				{
-					mapRooms[currentRoom.getRoomID()].completeRoom();
+					//Math Game
+					if (playMath() == true)
+					{
+						mapRooms[currentRoom.getRoomID()].completeRoom();
+					}
+					else
+					{
+						player1.takeDamage(10);		//Player Takes damage if answer is wrong
+						playerDeath();	//Plays a death message
+						cout << "Current Oxygen: " << green << player1.getCurrentHP() << yellow << " / " << player1.getMaxHP() << endl << endl;
+					}
+					break;
 				}
-				else
+				case(5): //LEngine task
 				{
-					player1.takeDamage(10);		//Player Takes damage if answer is wrong
-					playerDeath();	//Plays a death message
-					cout << "Current Oxygen: " << green << player1.getCurrentHP() << yellow << " / " << player1.getMaxHP() << endl << endl;
+					//Math Game
+					if (playMath() == true)
+					{
+						mapRooms[currentRoom.getRoomID()].completeRoom();
+					}
+					else
+					{
+						player1.takeDamage(10);		//Player Takes damage if answer is wrong
+						playerDeath();	//Plays a death message
+						cout << "Current Oxygen: " << green << player1.getCurrentHP() << yellow << " / " << player1.getMaxHP() << endl << endl;
+					}
+					break;
 				}
-				break;
-			}
-			case(5): //LEngine task
-			{
-				//Roll Dice
-				if (playMath() == true)
-				{
-					mapRooms[currentRoom.getRoomID()].completeRoom();
-				}
-				else
-				{
-					player1.takeDamage(10);		//Player Takes damage if answer is wrong
-					playerDeath();	//Plays a death message
-					cout << "Current Oxygen: " << green << player1.getCurrentHP() << yellow << " / " << player1.getMaxHP() << endl << endl;
-				}
-				break;
-			}
 				case(6): //Electric task
 				{
 					 //Roll Dice
@@ -578,23 +546,6 @@ void getRoomActions(Room newRoom)
 					break;
 				}
 			}
-			//questionArray[currentRoom.getRoomQuestion()].display();
-
-			////Input Validation
-			//input(4);
-
-			//if (questionArray[currentRoom.getRoomQuestion()].isCorrectAnswer(choice))
-			//{
-			//	mapRooms[currentRoom.getRoomID()].completeRoom();
-			//	cout << "You have completed everything in this room." << endl << endl;
-
-			//}
-			//else
-			//{
-			//	player1.takeDamage(10);		//Player Takes damage if answer is wrong
-			//	playerDeath();	//Plays a death message
-			//	cout << "Current Oxygen: " << green << player1.getCurrentHP() << yellow << " / " <<player1.getMaxHP() << endl << endl;
-			//}
 		}
 		else
 		{
@@ -1034,7 +985,6 @@ void investigate(int id)
 			if (!player1.searchInventory("Weapon"))
 			{
 				cout << "There is a container with a gun in it for emergencies. " << endl;
-				//cout << "(Power needs to be restored from the electrical room in order to open this container)" << endl << endl;
 				cout << "After carefully investigating " << currentRoom.getRoomName() << ", you have found a ";
 				cout << green << "Weapon" << endl << endl;
 				settextcolor(yellow);
@@ -1075,14 +1025,6 @@ void investigate(int id)
 				cout << "After carefully investigating " << currentRoom.getRoomName() << ", there is nothing to be found here." << endl << endl;
 			}
 			roomWin();
-			/*if (roomsCompleted() == 13)
-			{
-				cout << green << "All vital systems online!" << endl << endl;
-				cout << yellow << "Calculating route to Home Station.... Fuel levels optimal..." << endl;
-				cout << red << "Defense systems detecting intruder on board..." << green << " Lockdown Measures Activated" << endl;
-				cout << "Intruder successfully trapped in "<< blue << "Lounge " << yellow << "Cutting off Oxygen flow to room." << endl << endl;
-				cout << green << "Initating autopilot. ETA: " << purple << "620 days" << endl;
-			}*/
 		}
 		break;
 	}
@@ -1090,6 +1032,7 @@ void investigate(int id)
 	{
 		cout << "Error" << endl;
 		cout << endl;
+		break;
 	}
 	}
 }
