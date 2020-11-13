@@ -5,38 +5,31 @@
 #undef max
 using namespace std;
 
-bool inputValidation(int choice, double choiceCopy, int numOfChoices)	//Checks if input is valid
+bool inputValidation(string choice, int numOfChoices)	//Checks if input is valid
 {
-	if (floor(choiceCopy) != choiceCopy)
-	{
-		cout << "Invalid Input" << endl;
-
-		return false;
-	}
-	else if (choice > numOfChoices || choice < 1)
+	if (choice.size() > 1 || stoi(choice) < 1 || stoi(choice) > numOfChoices)
 	{
 		cout << "Invalid Input" << endl;
 		return false;
 	}
-	return true;
+	else
+	{
+		return true;
+	}
 }
 
 int input(int numOfChoices)	//Allows for an input to happen
 {
-	int inputChoice;
-	double inputChoiceCopy;
+	string inputString;
 
 	cout << endl;
-	cin >> inputChoiceCopy;
-	inputChoice = inputChoiceCopy;
-	while (inputValidation(inputChoice, inputChoiceCopy, numOfChoices) == false)
-	{
-		cin >> inputChoiceCopy;
-		inputChoice = inputChoiceCopy;
-		cin.clear();
-		cin.ignore(numeric_limits<streamsize>::max(), '\n');
-	}
 
-	return inputChoice;
+	do 
+	{
+		getline(cin, inputString);
+
+	} while (!inputValidation(inputString, numOfChoices));
+
+	return stoi(inputString);
 }
 
