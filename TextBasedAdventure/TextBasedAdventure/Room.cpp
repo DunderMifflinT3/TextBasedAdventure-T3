@@ -1,4 +1,4 @@
-//Version 4.4
+//Version 4.5
 #include <cmath>
 #include <math.h>
 #include <algorithm>
@@ -18,6 +18,7 @@
 #include "HighLow.h"
 #include "PlayMath.h"
 #include "RollDice.h"
+#include "BlackJack.cpp"
 
 void enterRoomMessage(Room);
 void changeRooms(Room);
@@ -527,6 +528,22 @@ void getRoomActions(Room newRoom)
 						cout << "Current Oxygen: " << green << player1.getCurrentHP() << yellow << " / " << player1.getMaxHP() << endl << endl;
 					}
 					break;
+				}
+				case(9): //Lounge task
+				{
+					//Black Jack
+					if(playBlackJack() == 1)
+					{
+						mapRooms[currentRoom.getRoomID()].completeRoom();
+						cout << "You have completed everything in this room." << endl << endl;
+					}
+					else
+					{
+						player1.takeDamage(10);		//Player Takes damage if answer is wrong
+						playerDeath();	//Plays a death message
+						cout << "Current Oxygen: " << green << player1.getCurrentHP() << yellow << " / " << player1.getMaxHP() << endl << endl;
+					}
+					break;				
 				}
 				case(13): //Nav task
 				{
