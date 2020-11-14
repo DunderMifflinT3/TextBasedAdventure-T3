@@ -64,7 +64,7 @@ int playBlackJack()
 	else if (obj.bustDealer(obj.getDealerHand() + holdDealerCard, holdDealerCard) == true)// if dealer busts 
 	{
 		cout << "The dealer busted with " << obj.getDealerHand() + holdDealerCard << endl;
-		return 0;
+		return 1;
 	}
 	else if (obj.checkDealerWin(holdDealerCard) == true)// if dealer wins 
 	{
