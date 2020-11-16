@@ -371,13 +371,13 @@ void playGame()
 	difficultLevel();
 	settextcolor(yellow);
 	//placed intro text into char array to delay the speed it is displayed, so player has time to read
-	//char introtext[] = "You have just woken up on a spaceship that is part of a space bounty expedition to \n"
-	//	"capture a most wanted alien and the ship is quickly spiraling out of control towards Earth. \n"
-	//	"You realize your crewmates are missing, the power is out and the ships gadgets \n"
-	//	"seem to have been tampered with. You also realize there is a hole in the ship \n"
-	//	"and your oxygen is dropping quickly. Your mission is to find your crew, \n"
-	//	"repair the ship by fixing parts in each room so you can return home safely, and ultimately SURVIVE! \n";
-	//slowprint(introtext); //Send text that needs to be slowed
+	char introtext[] = "You have just woken up on a spaceship that is part of a space bounty expedition to \n"
+		"capture a most wanted alien and the ship is quickly spiraling out of control towards Earth. \n"
+		"You realize your crewmates are missing, the power is out and the ships gadgets \n"
+		"seem to have been tampered with. You also realize there is a hole in the ship \n"
+		"and your oxygen is dropping quickly. Your mission is to find your crew, \n"
+		"repair the ship by fixing parts in each room so you can return home safely, and ultimately SURVIVE! \n";
+	slowprint(introtext); //Send text that needs to be slowed
 
 	cout << "Press 1 to start the game";
 	cout << endl;
@@ -888,8 +888,7 @@ void investigate(int id)
 			cout << green << randomCode;
 			settextcolor(yellow);
 			cout << " ... the rest of the note is not legible." << endl << endl;
-			cout << "The note says IN CASE OF EMERGENCY " << randomCode << " ... the rest of the note is not legible." << endl << endl;
-			player1.addToInventory("Note");
+			player1.addToInventory("Note: " + randomCodeString);
 		}
 		else
 		{
