@@ -1,4 +1,4 @@
-//Version 4.5
+//Version 5 (Final Version)
 #include <cmath>
 #include <math.h>
 #include <algorithm>
@@ -327,7 +327,7 @@ void difficultLevel() //User picks the difficulty level
 	cout << "Please choose 1-3 for difficulty level:" << endl << endl;
 	cout << "1. Amatuer Explorer (40 turns)" << endl;
 	cout << "2. Skilled Adventurer (25 turns)" << endl;
-	cout << "3. Veteran Pioneer (15 turns)" << endl;
+	cout << red <<"3. Veteran Pioneer (15 turns)" << yellow << endl;
 
 	int difficultyChoice = input(3);
 
@@ -396,6 +396,7 @@ void playGame()
 
 int main()
 {
+	cout << red << "Welcome to STRANDED" << yellow << endl << endl;
 	playGame();
 	return 0;
 }
@@ -418,7 +419,7 @@ void enterRoomMessage(Room newRoom)		//Message that plays when room is entered
 		mapRooms[6].completeRoom(false);
 	}
 
-	cout << "Turns until crash landing: " << maxTurnCount - turnCount << endl << endl;
+	cout << red << "Turns until crash landing: " << maxTurnCount - turnCount << yellow <<endl << endl;
 	getRoomActions(newRoom);
 }
 void changeRooms(Room oldRoom)		//Test for changing rooms

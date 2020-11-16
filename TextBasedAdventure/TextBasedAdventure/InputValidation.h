@@ -20,7 +20,7 @@ bool checkIfDigit(string choice)
 
 bool inputValidation(string choice, int numOfChoices)	//Checks if input is valid
 {
-	if (choice.size() > 4)	//Prevents large inputs from causinng problems
+	if (choice.size() > 4 || choice.size() < 1)	//Prevents large inputs from causinng problems
 	{
 		cout << "Invalid Input" << endl;
 		return false;
