@@ -12,11 +12,11 @@ bool playHT()
 	srand(time(NULL));
 	randnumber = (rand() % 2) + 1;
 	cout << "This is heads or tails. Guess two in a row correctly to win." << endl;
-
+	
 	for (int i = 0; i < 2; i++)
 	{
 		cout << "Enter 1 for HEADS. Enter 2 for TAILS.";
-		input(2);
+		int choice = input(2);
 
 		if (i == 2)
 		{

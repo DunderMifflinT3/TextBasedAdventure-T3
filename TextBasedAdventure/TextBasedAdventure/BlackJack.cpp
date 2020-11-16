@@ -5,7 +5,7 @@ using namespace std;
 
 int playBlackJack()
 {
-	double userInput = 1;// to tell if the user will hit or stay 
+	int userInput = 1;// to tell if the user will hit or stay 
 	int holdDealerCard;// holds the dealers hidden card 
 	cout << "Welcome to the BlackJack mini game!" << endl;// couts starting messages 
 	cout << "In order to win this ganme get as close to 21 as you can" << endl;
@@ -22,8 +22,11 @@ int playBlackJack()
 	holdDealerCard = obj.holdcard();// Sets the hidden card for dealer 
 	while (userInput == 1 && obj.bustUser(obj.getUserHand()) == false)// loop for user playing 
 	{
-		cout << "Would you like to hit or stay(1=hit, 0=stay)" << endl;
-		cin >> userInput;
+		cout << "Would you like to hit or stay?" << endl;
+		cout << "1. Hit" << endl;
+		cout << "2. Stay" << endl;
+		userInput = input(2);
+		system("CLS");
 		if (userInput == 1 && obj.bustUser(obj.getUserHand()) == false)// checks if user hits n
 		{
 			obj.hitUser();

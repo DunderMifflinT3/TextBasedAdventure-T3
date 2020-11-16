@@ -33,6 +33,7 @@ bool playMath()
 	cout << "This is question 1. Enter your answer." << endl;
 	cout << "What is (" << a << " * " << b << ") - (" << c << " * " << d << ")?" << endl;
 	cin >> answer;
+	system("CLS");
 	if (answer == answer1)
 	{
 		cout << "Correct, move on to the next question." << endl;
@@ -47,6 +48,7 @@ bool playMath()
 	cout << "This is question 2. Enter your answer." << endl;
 	cout << "What is (" << -a << " * (" << c << " - " << d << ")) + " << b << "^2 ?" << endl;
 	cin >> answer;
+	system("CLS");
 	if (answer == answer2)
 	{
 		cout << "Correct, move on to the next question." << endl;
@@ -60,6 +62,7 @@ bool playMath()
 	cout << "This is question 3. Enter your answer." << endl;
 	cout << "((" << d << " * " << a << ") - (" << c << " * " << -b << ")^2) ?" << endl;
 	cin >> answer;
+	system("CLS");
 	if (answer == answer3)
 	{
 		cout << "Goodjob! You have completed this task." << endl;

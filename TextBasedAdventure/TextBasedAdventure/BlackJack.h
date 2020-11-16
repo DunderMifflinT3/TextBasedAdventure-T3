@@ -4,6 +4,7 @@
 #include <random>       // std::default_random_engine
 #include <chrono>       // std::chrono::system_clock
 #include<stack>
+#include "InputValidation.h"
 using namespace std;
 
 bool userturn = false;
@@ -53,17 +54,19 @@ public:
 
 	void hitUser()
 	{
-		int userInput;
 		if (cards.top() == 1)// checks if aces has been drawn
 		{
+
 			cout << "Would you like the ace to be a 1 or a 11? Right now you have " << userhand << endl;
-			cin >> userInput;
+			cout << "1. Choose 1" << endl;
+			cout << "2. Choose 11" << endl;
+			int userInput = input(2);
 			if (userInput == 1)// if user picks one it will be set to one
 			{
 				userhand += 1;
 				cards.pop();
 			}
-			else if (userInput == 11)// if user picks 11 it will be set to 11
+			else if (userInput == 2)// if user picks 11 it will be set to 11
 			{
 				userhand += 11;
 				acesUser.push(1);// tells stack that the user has a ace registered as a 11

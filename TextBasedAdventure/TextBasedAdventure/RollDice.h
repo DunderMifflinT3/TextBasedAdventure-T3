@@ -38,11 +38,13 @@ bool playRD()
 		//user enters first dice
 		cout << "Enter 1 to roll dice 1." << endl;
 		input(1);
+		system("CLS");
 		cout << "You rolled a " << user1 << "." << endl;
 
 		//user enters second dice
 		cout << "Enter 1 to roll dice 2." << endl;
 		input(1);
+		system("CLS");
 		cout << "You rolled a " << user2 << "." << endl;
 
 		//user total

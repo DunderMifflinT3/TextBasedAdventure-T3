@@ -23,7 +23,7 @@ bool playHL()
 	for (int i = 0; i < attemptnumber; i++)
 	{
 		cout << "Enter a number from 1-100:" << endl;
-		input(100);
+		int choice = input(100);
 		if (choice > randnumber)
 		{
 			cout << "Nope, too high." << endl;
