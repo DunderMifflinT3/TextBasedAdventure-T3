@@ -14,6 +14,11 @@
 #include "R_P_S.cpp"
 #include "InputValidation.h"
 #include "Color.h"
+#include "HeadsTails.h"
+#include "HighLow.h"
+#include "PlayMath.h"
+#include "RollDice.h"
+#include "BlackJack.cpp"
 #include <string>
 
 void enterRoomMessage(Room);
@@ -33,6 +38,7 @@ void imposterEncounter();
 void quit();
 void restart();
 int roomsCompleted();
+void roomWin();
 
 int playerHP = 100;
 Player player1("Player 1", playerHP, 0);
@@ -117,6 +123,17 @@ Room mapRooms[] = { Start, Medical, Communication, Kitchen, RightEngine, LeftEng
 int randomCode; //Stores Generated Random Code Every Game For Hanger
 string randomCodeString;
 
+void slowprint(char* intro) //Makes the text appear as if spoken
+{
+	int sizeT = strlen(intro); //Gets the length of the text
+	system("cls");
+	for (int i = 0; i < sizeT; i++) //loops till array complete
+	{
+		Sleep(40); //Gives slight delay before displaying next char
+		cout << intro[i];
+	}
+	cout << endl;
+}
 int roomsCompleted()//Counter for completed tasks
 {
 	int complete = 0;
@@ -180,15 +197,10 @@ void displayRoomMessage(int id) //Displays message when room is not complete. Ca
 	}
 	case(2):
 	{
-		/*cout << "Communication throughout the ship and any external communication seems to be down." << endl;
-		cout << "You notice that the main transmitter is destroyed. Fixing communications could" << endl;
-		cout << "allow you to get in touch with your team at home and tell them about the situation." << endl << endl;*/
 		break;
 	}
 	case(3):
 	{
-		/*cout << "The kitchen knives are missing and the room is a mess. Food is all over the floor, " << endl;
-		cout << "cabinets have been left open. Seems like someone was really hungry." << endl << endl;*/
 		break;
 	}
 	case(4):
@@ -203,11 +215,6 @@ void displayRoomMessage(int id) //Displays message when room is not complete. Ca
 			cout << "You need a specific tool to be able to complete this task." << endl << endl;
 			getRoomActions(mapRooms[player1.getcurrentRoom()]);
 		}
-		//else
-		//{
-		//	/*cout << "The ship" << "\'" << "s fuel levels are low, you need to refill the ship" << "\'" << "s fuel" << endl;
-		//	cout << "You see a fuel container next to the fuel tank." << endl << endl;*/
-		//}
 		break;
 	}
 	case(5):
@@ -278,7 +285,6 @@ void displayRoomMessage(int id) //Displays message when room is not complete. Ca
 		}
 		else
 		{
-			//cout << "The shower is running and the mirror is broken. You see the word HELP written on the wall in what seems to be blood." << endl;
 		}
 		break;
 	}
@@ -291,8 +297,6 @@ void displayRoomMessage(int id) //Displays message when room is not complete. Ca
 		}
 		else
 		{
-			/*cout << "There is a container with one gun in it for emergencies. " << endl;
-			cout << "(Power needs to be restored from the electrical room in order to open this container)" << endl << endl;*/
 		}
 		break;
 	}
@@ -305,10 +309,6 @@ void displayRoomMessage(int id) //Displays message when room is not complete. Ca
 		}
 		else
 		{
-			/*cout << "You find the pilot murdered in their chair and the command console is flashing red with " << endl;
-			cout << "the word " << "\"" << "WARNING!" << "\" " << "on the screen. Here you can check the console for progress on completed " << endl;
-			cout << "repairs you have made to the ship. " << "\"" << "Check Console" << "\"" << " to check progress of repaired systems. " << endl;
-			cout << "x amount of systems are online out of x." << endl << endl;*/
 		}
 		break;
 	}
@@ -316,7 +316,8 @@ void displayRoomMessage(int id) //Displays message when room is not complete. Ca
 	{
 		cout << "Error" << endl;
 		cout << endl;
-	}
+		break;
+		}
 	}
 }
 void difficultLevel() //User picks the difficulty level
@@ -385,6 +386,24 @@ void playGame()
 	}
 	else
 	{
+	//placed intro text into char array to delay the speed it is displayed, so player has time to read 
+	char introtext[] = "You have just woken up on a spaceship that is part of a space bounty expedition to \n" 
+						"capture a most wanted alien and the ship is quickly spiraling out of control towards Earth. \n"
+						"You realize your crewmates are missing, the power is out and the ships gadgets \n"
+						"seem to have been tampered with. You also realize there is a hole in the ship \n"
+						"and your oxygen is dropping quickly. Your mission is to find your crew, \n"
+						"repair the ship by fixing parts in each room so you can return home safely, and ultimately SURVIVE! \n";
+	slowprint(introtext); //Send text that needs to be slowed
+	
+	//cout << "You have just woken up on a spaceship that is part of a space bounty expedition" << endl;
+	//cout << "to capture a most wanted alien and the ship is quickly spiraling out of control towards Earth." << endl;
+	//cout << "You realize your crewmates are missing, the power is out and the ships gadgets" << endl;
+	//cout << "seem to have been tampered with. You also realize there is a hole in the ship" << endl;
+	//cout << "and your oxygen is dropping quickly. Your mission is to find your crew, " << endl;
+	//cout << "repair the ship by fixing parts in each room so you can return home safely, and ultimately SURVIVE!" << endl << endl;
+	//Sleep(3000); //Gives user time to read script
+	
+	currentRoom = Start; //Sets the room that the player is in
 
 	}
 }
@@ -488,7 +507,106 @@ void getRoomActions(Room newRoom)
 			displayRoomMessage(player1.getcurrentRoom());
 
 			//Displays room question based on questionArray
-			questionArray[mapRooms[player1.getcurrentRoom()].getRoomQuestion()].display();
+			int room;
+			room = currentRoom.getRoomID();
+			switch (room)
+			{
+				case(4): //REngine task
+				{
+					//Math Game
+					if (playMath() == true)
+					{
+						mapRooms[currentRoom.getRoomID()].completeRoom();
+					}
+					else
+					{
+						player1.takeDamage(10);		//Player Takes damage if answer is wrong
+						playerDeath();	//Plays a death message
+						cout << "Current Oxygen: " << green << player1.getCurrentHP() << yellow << " / " << player1.getMaxHP() << endl << endl;
+					}
+					break;
+				}
+				case(5): //LEngine task
+				{
+					//Math Game
+					if (playMath() == true)
+					{
+						mapRooms[currentRoom.getRoomID()].completeRoom();
+					}
+					else
+					{
+						player1.takeDamage(10);		//Player Takes damage if answer is wrong
+						playerDeath();	//Plays a death message
+						cout << "Current Oxygen: " << green << player1.getCurrentHP() << yellow << " / " << player1.getMaxHP() << endl << endl;
+					}
+					break;
+				}
+				case(6): //Electric task
+				{
+					 //Roll Dice
+					if (playRD() == true)
+					{
+						mapRooms[currentRoom.getRoomID()].completeRoom();
+					}
+					else
+					{
+						player1.takeDamage(10);		//Player Takes damage if answer is wrong
+						playerDeath();	//Plays a death message
+						cout << "Current Oxygen: " << green << player1.getCurrentHP() << yellow << " / " << player1.getMaxHP() << endl << endl;
+					}
+					break;
+				}
+				case(8): //Hangar task
+				{
+					 //Heads or Tails (Coin Flip)
+					if (playHT() == true)
+					{
+						mapRooms[currentRoom.getRoomID()].completeRoom();
+						cout << "You have completed everything in this room." << endl << endl;
+					}
+					else
+					{
+						player1.takeDamage(10);		//Player Takes damage if answer is wrong
+						playerDeath();	//Plays a death message
+						cout << "Current Oxygen: " << green << player1.getCurrentHP() << yellow << " / " << player1.getMaxHP() << endl << endl;
+					}
+					break;
+				}
+				case(9): //Lounge task
+				{
+					//Black Jack
+					if(playBlackJack() == 1)
+					{
+						mapRooms[currentRoom.getRoomID()].completeRoom();
+						cout << "You have completed everything in this room." << endl << endl;
+					}
+					else
+					{
+						player1.takeDamage(10);		//Player Takes damage if answer is wrong
+						playerDeath();	//Plays a death message
+						cout << "Current Oxygen: " << green << player1.getCurrentHP() << yellow << " / " << player1.getMaxHP() << endl << endl;
+					}
+					break;				
+				}
+				case(13): //Nav task
+				{
+					 //High Low
+					if (playHL() == true)
+					{
+						mapRooms[currentRoom.getRoomID()].completeRoom();
+						cout << "You have completed everything in this room." << endl << endl;
+					}
+					else
+					{
+						player1.takeDamage(10);		//Player Takes damage if answer is wrong
+						playerDeath();	//Plays a death message
+						cout << "Current Oxygen: " << green << player1.getCurrentHP() << yellow << " / " << player1.getMaxHP() << endl << endl;
+					}
+					break;
+				}
+				default:
+				{
+					questionArray[currentRoom.getRoomQuestion()].display();
 
 			//Input Validation
 			int questionChoice = input(4);
@@ -1055,6 +1173,7 @@ void investigate(int id)
 				cout << roomsCompleted() << " of the systems are online out of 13." << endl << endl;
 				cout << "After carefully investigating " << mapRooms[player1.getcurrentRoom()].getRoomName() << ", there is nothing to be found here." << endl << endl;
 			}
+			roomWin();
 		}
 		break;
 	}
@@ -1062,6 +1181,7 @@ void investigate(int id)
 	{
 		cout << "Error" << endl;
 		cout << endl;
+		break;
 	}
 	}
 }
@@ -1136,6 +1256,22 @@ void restart()
 	{
 		getRoomActions(mapRooms[player1.getcurrentRoom()]);
 	}
+	}
+}
+void roomWin()
+{
+	if (roomsCompleted() == 13)// If all room tasks completed except Hangar, display Win Senario
+	{
+		cout << green << "All vital systems online!" << endl << endl;
+		cout << "Calculating route to Home Station.... Fuel levels optimal..." << endl;
+		cout << red << "Defense systems detecting intruder on board..." << green << " Lockdown Measures Activated" << endl;
+		cout << "Intruder successfully trapped in " << blue << "Lounge " << green << "Cutting off Oxygen flow to room." << endl << endl;
+		cout << "Initating autopilot. ETA: " << purple << "21 days" << endl << endl;
+		cout << green << "Congratulations! You have completed the game by completing all the tasks" << endl;
+		cout << dark_green << "You are a true gamer, thank you for playing!" << endl;
+		settextcolor(yellow);
+		
+		gameOver(); //Play Again Option
 	}
 }
 void playerDeath()	//Plays a death message
